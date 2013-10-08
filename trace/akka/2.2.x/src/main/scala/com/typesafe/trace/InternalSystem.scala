@@ -6,16 +6,16 @@ package com.typesafe.trace
 
 import akka.actor.{ Actor, ActorRef, ActorSystem, Props }
 import akka.pattern.gracefulStop
-import com.typesafe.trace.util.OnDemand
 import com.typesafe.config.ConfigFactory
+import com.typesafe.trace.util.OnDemand
 import java.util.concurrent.atomic.AtomicInteger
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
 /**
- * Wrapper for creating atmos actors in a separate untraceable actor system.
+ * Wrapper for creating actors in a separate untraceable actor system.
  */
-object AtmosSystem {
+object InternalSystem {
   val StopTimeout = 10.seconds
 
   private val counter = new AtomicInteger(0)
@@ -61,7 +61,7 @@ object AtmosSystem {
   def stop(actor: ActorRef): Unit = {
     actorSystem { system ⇒
       try {
-        Await.ready(gracefulStop(actor, StopTimeout)(system), StopTimeout)
+        Await.ready(gracefulStop(actor, StopTimeout), StopTimeout)
       } catch {
         case e: Exception ⇒ system.log.error(e, "Failed to gracefully stop atmos actor [" + actor.path + "]")
       }

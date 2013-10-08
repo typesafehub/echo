@@ -18,7 +18,7 @@ class DispatcherTrace(trace: Trace) {
 
   val monitor: Option[ActorRef] = {
     if (trace.settings.useDispatcherMonitor)
-      Some(AtmosSystem.create(Props(new DispatcherMonitor(trace)).withDispatcher(Trace.DispatcherId), "DispatcherMonitor"))
+      Some(InternalSystem.create(Props(new DispatcherMonitor(trace)).withDispatcher(Trace.DispatcherId), "DispatcherMonitor"))
     else None
   }
 

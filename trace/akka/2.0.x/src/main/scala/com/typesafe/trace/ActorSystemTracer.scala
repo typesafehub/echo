@@ -67,7 +67,7 @@ class DefaultActorSystemTracer(settings: Trace.Settings) extends ActorSystemTrac
 
   val systemMetricsMonitor: Option[ActorRef] = {
     if (settings.useSystemMetricsMonitor)
-      Some(AtmosSystem.create(Props(new SystemMetricsMonitor(trace)).withDispatcher(Trace.DispatcherId), "SystemMetricsMonitor"))
+      Some(InternalSystem.create(Props(new SystemMetricsMonitor(trace)).withDispatcher(Trace.DispatcherId), "SystemMetricsMonitor"))
     else None
   }
 
@@ -77,8 +77,8 @@ class DefaultActorSystemTracer(settings: Trace.Settings) extends ActorSystemTrac
     system.awaitTermination(Duration(settings.shutdownTimeout, TimeUnit.MILLISECONDS))
     actor.systemShutdown(System.currentTimeMillis)
     trace.local.flush()
-    systemMetricsMonitor foreach AtmosSystem.stop
-    dispatcher.monitor foreach AtmosSystem.stop
+    systemMetricsMonitor foreach InternalSystem.stop
+    dispatcher.monitor foreach InternalSystem.stop
     trace.sender.shutdown()
     shutdownLatch.countDown()
   }

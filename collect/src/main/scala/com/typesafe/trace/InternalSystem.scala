@@ -6,16 +6,16 @@ package com.typesafe.trace
 
 import akka.actor.{ Actor, ActorRef, ActorSystem, Props }
 import akka.pattern.gracefulStop
-import com.typesafe.trace.util.OnDemand
 import com.typesafe.config.ConfigFactory
+import com.typesafe.trace.util.OnDemand
 import java.util.concurrent.atomic.AtomicInteger
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
 /**
- * Wrapper for creating atmos actors in a separate untraceable actor system.
+ * Wrapper for creating actors in a separate untraceable actor system.
  */
-object AtmosActor {
+object InternalSystem {
   val StopTimeout = 10.seconds
 
   val RemoteHandlerName = "com.typesafe.trace.store.remote.RemoteTraceEventListener"

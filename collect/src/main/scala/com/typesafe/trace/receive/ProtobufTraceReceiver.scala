@@ -4,7 +4,7 @@
 package com.typesafe.trace.receive
 
 import com.google.protobuf.CodedInputStream
-import com.typesafe.trace.{ AtmosActor, Batch, TraceEventHandler, TraceProtocol, TraceReceiver }
+import com.typesafe.trace.{ InternalSystem, Batch, TraceEventHandler, TraceProtocol, TraceReceiver }
 import com.typesafe.trace.util.ProtobufConverter
 import java.net.{ ServerSocket, Socket }
 import java.util.concurrent.{ Executors, TimeUnit }
@@ -42,7 +42,7 @@ class ProtobufTraceReceiver(val eventHandler: TraceEventHandler, port: Int, maxC
       })
     } else {
       socket.close()
-      AtmosActor.enabled { system ⇒
+      InternalSystem.enabled { system ⇒
         system.log.warning("Couldn't accept new trace receiver connection - already at max connections")
       }
     }

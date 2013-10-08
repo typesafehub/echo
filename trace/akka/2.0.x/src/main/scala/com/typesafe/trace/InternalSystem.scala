@@ -8,14 +8,14 @@ import akka.actor.{ Actor, ActorRef, ActorSystem, Props }
 import akka.dispatch.Await
 import akka.pattern.gracefulStop
 import akka.util.duration._
-import com.typesafe.trace.util.OnDemand
 import com.typesafe.config.ConfigFactory
+import com.typesafe.trace.util.OnDemand
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
- * Wrapper for creating atmos actors in a separate untraceable actor system.
+ * Wrapper for creating actors in a separate untraceable actor system.
  */
-object AtmosSystem {
+object InternalSystem {
   val StopTimeout = 10 seconds
 
   private val counter = new AtomicInteger(0)

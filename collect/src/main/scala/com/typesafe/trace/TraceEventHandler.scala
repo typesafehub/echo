@@ -33,15 +33,15 @@ class TraceEventHandler(val config: Config) {
   }
 
   def shutdown(): Unit = {
-    AtmosActor.enabled { system ⇒
-      listeners foreach AtmosActor.stop
+    InternalSystem.enabled { system ⇒
+      listeners foreach InternalSystem.stop
       system.log.debug("Stopping trace event handlers")
     }
   }
 
   def createListeners: Seq[ActorRef] = {
 
-    AtmosActor.enabled { system ⇒
+    InternalSystem.enabled { system ⇒
       system.log.debug("Starting trace event handlers")
       listenerNames flatMap { name ⇒
         try {
@@ -63,7 +63,7 @@ class TraceEventHandler(val config: Config) {
         case Success(listenerClass) ⇒ listenerClass
         case Failure(exception)     ⇒ throw exception
       }).withDispatcher(TraceEventHandler.DispatcherId)
-    AtmosActor.create(props, fqcn)
+    InternalSystem.create(props, fqcn)
   }
 }
 
