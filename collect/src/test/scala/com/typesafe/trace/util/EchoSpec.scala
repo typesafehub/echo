@@ -35,13 +35,6 @@ object EchoSpec {
       }
 
       atmos {
-        trace {
-          mongo {
-            db-connection-uri = "mongodb://localhost"
-            db-name = "test-atmos-monitoring"
-          }
-        }
-
         analytics {
           ignore-span-types = []
           ignore-span-time-series = []
@@ -53,21 +46,9 @@ object EchoSpec {
           store-use-duplicates-cache = true
           store-flush-delay = 2
           actor-path-time-ranges = ["minutes", "hours", "days", "months", "all"]
-
           save-spans = on
-          mongo {
-            db-connection-uri = "mongodb://localhost"
-            db-name = "test-atmos-monitoring"
-          }
-        }
-        trace-tree {
-          mongo {
-            db-connection-uri = "mongodb://localhost"
-            db-name = "test-atmos-trace-tree"
-          }
         }
         subscribe.notification-event-log-size = 500000
-
         test.time-factor = 1
       }""")
 

@@ -19,7 +19,6 @@ object InternalSystem {
   val StopTimeout = 10.seconds
 
   val RemoteHandlerName = "com.typesafe.trace.store.remote.RemoteTraceEventListener"
-  val MongoHandlerName = "com.typesafe.trace.store.mongo.MongoTraceEventListener"
 
   private val counter = new AtomicInteger(0)
 
@@ -30,12 +29,11 @@ object InternalSystem {
     // use the loglevel and event-handlers from the appConfig as default
     val loglevel = appConfig.getString("akka.loglevel")
     val eventHandlers = appConfig.getStringList("akka.event-handlers")
-    val useMongo = appConfig.getStringList("atmos.trace.event-handlers").contains(MongoHandlerName)
     val useRemoteProvider = appConfig.getStringList("atmos.trace.event-handlers").contains(RemoteHandlerName)
     val defaultConfigMap = Map(
       "akka.loglevel" -> loglevel,
-      "akka.event-handlers" -> eventHandlers) ++
-      (if (useMongo) Map("atmos.mode" -> "mongo") else Map("atmos.mode" -> appConfig.getString("atmos.mode"))) ++
+      "akka.event-handlers" -> eventHandlers,
+      "atmos.mode" -> appConfig.getString("atmos.mode")) ++
       (if (useRemoteProvider) Map("akka.actor.provider" -> "akka.remote.RemoteActorRefProvider") else Map.empty)
 
     val config =
