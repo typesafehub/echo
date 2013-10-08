@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" debug="false">
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%date{ISO8601} %-5level [%logger{36}] [%X{akkaSource}] [%X{sourceThread}] [%X{traceId}] : %m%n</pattern>
+    </encoder>
+  </appender>
+  <root level="ERROR">
+    <appender-ref ref="stdout"/>
+  </root>
+</configuration>

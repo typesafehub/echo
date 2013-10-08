@@ -1,0 +1,5 @@
+<configuration>
+  <logger name="root" level="OFF" />
+  <logger name="play" level="OFF" />
+  <logger name="application" level="OFF" />
+</configuration>

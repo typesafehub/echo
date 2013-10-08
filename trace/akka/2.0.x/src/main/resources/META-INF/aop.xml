@@ -1,0 +1,7 @@
+<aspectj>
+  <weaver options="">
+    <include within="akka..*"/>
+    <include within="com.typesafe.atmos..*"/>
+    <include within="org.jboss.netty.akka..*"/>
+  </weaver>
+</aspectj>

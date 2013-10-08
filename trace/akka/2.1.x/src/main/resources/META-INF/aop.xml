@@ -1,0 +1,8 @@
+<aspectj>
+  <weaver options="">
+    <include within="akka..*"/>
+    <!-- Weaving with ByteString included throws a VerifyError -->
+    <exclude within="akka.util.ByteString"/>
+    <include within="com.typesafe.atmos..*"/>
+  </weaver>
+</aspectj>

@@ -1,0 +1,346 @@
+/**
+ *  Copyright (C) 2011-2013 Typesafe <http://typesafe.com/>
+ */
+package com.typesafe.atmos.trace;
+
+/******************************************
+  Compile with:
+  cd atmos/monitor/trace/event/src/main/protocol
+  protoc TraceProtocol.proto --java_out ../java
+*******************************************/
+
+message ProtoBatch {
+    repeated ProtoTraceEvents traceEvents = 1;
+}
+
+message ProtoTraceEvents {
+    repeated ProtoTraceEvent event = 1;
+}
+
+message ProtoTraceEvent {
+    optional ProtoAnnotation annotation = 1;
+    optional ProtoUuid id               = 2;
+    optional ProtoUuid trace            = 3;
+    optional ProtoUuid local            = 4;
+    optional ProtoUuid parent           = 5;
+    optional uint32 sampled             = 6;
+    optional string node                = 7;
+    optional string host                = 8;
+    optional uint64 timestamp           = 9;
+    optional uint64 nanoTime            = 10;
+    optional string actorSystem         = 11;
+}
+
+message ProtoAnnotation {
+    optional ProtoAnnotationType type = 1;
+    optional ProtoAnnotationData data = 2;
+}
+
+enum ProtoAnnotationType {
+    GROUP_STARTED                  = 1;
+    GROUP_ENDED                    = 2;
+
+    MARKER_STARTED                 = 3;
+    MARKER                         = 4;
+    MARKER_ENDED                   = 5;
+
+    SYSTEM_STARTED                 = 6;
+    SYSTEM_SHUTDOWN                = 7;
+
+    TOP_LEVEL_ACTOR_REQUESTED      = 8;
+    TOP_LEVEL_ACTOR_CREATED        = 9;
+
+    SYSTEM_MESSAGE_DISPATCHED      = 10;
+    SYSTEM_MESSAGE_RECEIVED        = 11;
+    SYSTEM_MESSAGE_COMPLETED       = 12;
+
+    ACTOR_REQUESTED                = 13;
+    ACTOR_CREATED                  = 14;
+    ACTOR_TOLD                     = 15;
+    ACTOR_AUTO_RECEIVED            = 16;
+    ACTOR_AUTO_COMPLETED           = 17;
+    ACTOR_RECEIVED                 = 18;
+    ACTOR_COMPLETED                = 19;
+    ACTOR_ASKED                    = 20;
+    ACTOR_FAILED                   = 21;
+    TEMP_ACTOR_CREATED             = 22;
+    TEMP_ACTOR_STOPPED             = 23;
+
+    ACTOR_SELECTION_TOLD           = 24;
+    ACTOR_SELECTION_ASKED          = 25;
+
+    FUTURE_CREATED                 = 30;
+    FUTURE_SCHEDULED               = 31;
+    FUTURE_SUCCEEDED               = 32;
+    FUTURE_FAILED                  = 33;
+    FUTURE_CALLBACK_ADDED          = 34;
+    FUTURE_CALLBACK_STARTED        = 35;
+    FUTURE_CALLBACK_COMPLETED      = 36;
+    FUTURE_AWAITED                 = 37;
+    FUTURE_AWAIT_TIMED_OUT         = 38;
+
+    RUNNABLE_SCHEDULED             = 40;
+    RUNNABLE_STARTED               = 41;
+    RUNNABLE_COMPELETED            = 42;
+
+    SCHEDULED_ONCE                 = 50;
+    SCHEDULED_STARTED              = 51;
+    SCHEDULED_COMPLETED            = 52;
+    SCHEDULED_CANCELLED            = 53;
+
+    REMOTE_MESSAGE_SENT            = 60;
+    REMOTE_MESSAGE_RECEIVED        = 61;
+    REMOTE_MESSAGE_COMPLETED       = 62;
+
+    REMOTE_STATUS                  = 63;
+    REMOTING_LIFECYCLE             = 64;
+
+    EVENT_STREAM_ERROR             = 70;
+    EVENT_STREAM_WARNING           = 71;
+    EVENT_STREAM_DEAD_LETTER       = 72;
+    EVENT_STREAM_UNHANDLED_MESSAGE = 73;
+
+    DISPATCHER_STATUS              = 74;
+    SYSTEM_METRICS                 = 75;
+    DEADLOCKED_THREADS             = 76;
+
+    ACTION_INVOKED                 = 80;
+    ACTION_SIMPLE_RESULT           = 81;
+    ACTION_CHUNKED_RESULT          = 82;
+    ACTION_ASYNC_RESULT            = 83;
+    ACTION_RESULT_GENERATION_START = 84;
+    ACTION_RESULT_GENERATION_END   = 85;
+    ACTION_RESOLVED                = 86;
+    ACTION_ROUTE_REQUEST           = 87;
+    ACTION_ERROR                   = 88;
+    ACTION_HANDLER_NOT_FOUND       = 89;
+    ACTION_BAD_REQUEST             = 90;
+    ACTION_CHUNKED_INPUT_START     = 91;
+    ACTION_CHUNKED_INPUT_END       = 92;
+
+    ITERATEE_CREATED               = 100;
+    ITERATEE_FOLDED                = 101;
+    ITERATEE_DONE                  = 102;
+    ITERATEE_CONTINUED             = 103;
+    ITERATEE_ERROR                 = 104;
+
+    NETTY_HTTP_RECEIVED_START      = 110;
+    NETTY_HTTP_RECEIVED_END        = 111;
+    NETTY_PLAY_RECEIVED_START      = 112;
+    NETTY_PLAY_RECEIVED_END        = 113;
+    NETTY_RESPONSE_HEADER          = 114;
+    NETTY_RESPONSE_BODY            = 115;
+    NETTY_WRITE_CHUNK              = 116;
+    NETTY_READ_BYTES               = 117;
+}
+
+enum ProtoActionRouteRequestResult {
+    NO_HANDLER           = 0;
+    ESSENTIAL_ACTION     = 1;
+    WEB_SOCKET           = 2;
+}
+
+enum ProtoInfoType {
+    NO_INFO              = 0;
+    ACTOR_INFO           = 1;
+    ACTOR_SELECTION_INFO = 2;
+    FUTURE_INFO          = 3;
+    TASK_INFO            = 4;
+    ACTION_INFO          = 5;
+    ITERATEE_INFO        = 6;
+    NETTY_INFO           = 7;
+}
+
+enum ProtoSystemMessageType {
+    SYS_MSG_CREATE           = 1;
+    SYS_MSG_SUSPEND          = 2;
+    SYS_MSG_RESUME           = 3;
+    SYS_MSG_TERMINATE        = 4;
+    SYS_MSG_RECREATE         = 5;
+    SYS_MSG_SUPERVISE        = 6;
+    SYS_MSG_CHILD_TERMINATED = 7;
+    SYS_MSG_LINK             = 8;
+    SYS_MSG_UNLINK           = 9;
+    SYS_MSG_WATCH            = 10;
+    SYS_MSG_UNWATCH          = 11;
+    SYS_MSG_NO_MESSAGE       = 12;
+    SYS_MSG_FAILED           = 13;
+    SYS_MSG_DEATH_WATCH      = 14;
+}
+
+message ProtoAnnotationData {
+    optional bool bool1                                  = 1;
+    optional bool bool2                                  = 2;
+    optional string string1                              = 3;
+    optional string string2                              = 4;
+    optional string string3                              = 5;
+    optional string string4                              = 6;
+    optional uint64 number                               = 7;
+    optional ProtoInfo info1                             = 8;
+    optional ProtoInfo info2                             = 9;
+    optional ProtoInfo info3                             = 10;
+    optional ProtoSystemMessageType sysMsg               = 11;
+    optional ProtoDispatcherMetrics dispatcherMetrics    = 12;
+    optional ProtoSystemMetrics systemMetrics            = 13;
+    optional ProtoDeadlockedThreads deadlockedThreads    = 14;
+    optional ProtoPlayActionInfo playActionInfo          = 15;
+    optional ProtoPlayIterateeInfo playIterateeInfo      = 16;
+    optional ProtoPlayNettyInfo playNettyInfo            = 17;
+    repeated string strings                              = 18;
+}
+
+message ProtoInfo {
+    required ProtoInfoType type = 1;
+    optional ProtoUuid uuid     = 2;
+    optional string path        = 3;
+    optional string dispatcher  = 4;
+    optional bool remote        = 5;
+    optional bool router        = 6;
+    repeated string tags        = 7;
+    optional string path2       = 8;
+}
+
+message ProtoStringStringMapEntry {
+    optional string key   = 1;
+    optional string value = 2;
+}
+
+message ProtoStringSeqStringMapEntry {
+    optional string key    = 1;
+    repeated string values = 2;
+}
+
+message ProtoPlayActionInvocationInfo {
+    optional string controller                 = 1;
+    optional string method                     = 2;
+    optional string pattern                    = 3;
+    optional uint64 id                         = 4;
+    optional string uri                        = 5;
+    optional string path                       = 6;
+    optional string httpMethod                 = 7;
+    optional string version                    = 8;
+    optional string remoteAddress              = 9;
+    optional string host                       = 10;
+    optional string domain                     = 11;
+    repeated ProtoStringStringMapEntry session = 12;
+}
+
+message ProtoPlayActionResolvedInfo {
+    optional string controller      = 1;
+    optional string method          = 2;
+    repeated string parameterTypes  = 3;
+    optional string verb            = 4;
+    optional string comments        = 5;
+    optional string path            = 6;
+}
+
+message ProtoPlayActionRequestInfo {
+    optional uint64 id                                 = 1;
+    repeated ProtoStringStringMapEntry tags            = 2;
+    optional string uri                                = 3;
+    optional string path                               = 4;
+    optional string method                             = 5;
+    optional string version                            = 6;
+    repeated ProtoStringSeqStringMapEntry queryString  = 7;
+    repeated ProtoStringSeqStringMapEntry headers      = 8;
+}
+
+message ProtoPlayActionResultInfo {
+    optional uint32 httpResponseCode = 1;
+}
+
+message ProtoPlayActionResult {
+    optional ProtoAnnotationType type               = 1;
+    optional ProtoPlayActionResultInfo resultInfo   = 2;
+}
+
+message ProtoPlayActionInfo {
+    optional ProtoPlayActionInvocationInfo invocationInfo     = 1;
+    optional ProtoPlayActionResultInfo resultInfo             = 2;
+    optional ProtoPlayActionResolvedInfo resolvedInfo         = 3;
+    optional ProtoPlayActionRequestInfo requestInfo           = 4;
+    optional ProtoActionRouteRequestResult routeRequestResult = 5;
+    repeated string stackTrace                                = 6;
+}
+
+message ProtoPlayIterateeInfo {
+    optional ProtoUuid uuid                               = 1;
+    optional uint32 tag                                   = 2;
+    optional string value                                 = 3;
+    optional ProtoUuid nextUuid                           = 4;
+}
+
+message ProtoPlayNettyInfo {
+    optional uint32 size                                 = 1;
+    optional uint32 overhead                             = 2;
+}
+
+message ProtoDispatcherMetrics {
+    required uint32 corePoolSize       = 1;
+    required uint32 maximumPoolSize    = 2;
+    required uint64 keepAliveTime      = 3;
+    required string rejectedHandler    = 4;
+    required uint32 activeThreadCount  = 5;
+    required uint64 taskCount          = 6;
+    required uint64 completedTaskCount = 7;
+    required uint64 largestPoolSize    = 8;
+    required uint64 poolSize           = 9;
+    required uint64 queueSize          = 10;
+}
+
+message ProtoSystemMetrics {
+    required uint64 runningActors                    = 1;
+    required uint64 startTime                        = 2;
+    required uint64 upTime                           = 3;
+    required uint32 availableProcessors              = 4;
+    required uint32 daemonThreadCount                = 5;
+    required uint32 threadCount                      = 6;
+    required uint32 peakThreadCount                  = 7;
+    required uint64 committedHeap                    = 8;
+    required uint64 maxHeap                          = 9;
+    required uint64 usedHeap                         = 10;
+    required uint64 committedNonHeap                 = 11;
+    required uint64 maxNonHeap                       = 12;
+    required uint64 usedNonHeap                      = 13;
+    required double gcCountPerMinute                 = 14;
+    required double gcTimePercent                    = 15;
+    required double systemLoadAverage                = 16;
+    optional ProtoAdditionalSystemMetrics additional = 17;
+}
+
+message ProtoAdditionalSystemMetrics {
+    required double cpuUser          = 1;
+    required double cpuSys           = 2;
+    required double cpuCombined      = 3;
+    required double pidCpu           = 4;
+    required double loadAverage1min  = 5;
+    required double loadAverage5min  = 6;
+    required double loadAverage15min = 7;
+    required uint64 contextSwitches  = 8;
+    required double memUsage         = 9;
+    required uint64 memSwapPageIn    = 10;
+    required uint64 memSwapPageOut   = 11;
+    required uint64 tcpCurrEstab     = 12;
+    required uint64 tcpEstabResets   = 13;
+    required uint64 netRxBytesRate   = 14;
+    required uint64 netTxBytesRate   = 15;
+    required uint64 netRxErrors      = 16;
+    required uint64 netTxErrors      = 17;
+}
+
+message ProtoDeadlockedThreads {
+    required string message   = 1;
+    repeated string deadlocks = 2;
+}
+
+message ProtoUuid {
+  required uint64 high = 1;
+  required uint64 low = 2;
+}
+
+// use optional and higher numbers as this is appended to Akka remote messages
+message ProtoTraceContext {
+  optional ProtoUuid trace  = 11;
+  optional ProtoUuid parent = 12;
+  optional uint32 sampled   = 13;
+}
