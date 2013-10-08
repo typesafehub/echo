@@ -2,7 +2,7 @@
  *  Copyright (C) 2011-2013 Typesafe, Inc <http://typesafe.com>
  */
 
-package com.typesafe.atmos.trace;
+package com.typesafe.trace;
 
 import akka.actor.ActorCell;
 import akka.actor.ActorPath;
@@ -33,7 +33,7 @@ import akka.pattern.PromiseActorRef;
 import akka.routing.NoRouter;
 import akka.routing.RoutedActorCell;
 import akka.util.Timeout;
-import com.typesafe.atmos.util.Uuid;
+import com.typesafe.trace.util.Uuid;
 import com.typesafe.config.Config;
 import scala.concurrent.duration.FiniteDuration;
 import scala.concurrent.ExecutionContext;

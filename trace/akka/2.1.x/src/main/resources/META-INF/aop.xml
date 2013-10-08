@@ -3,6 +3,6 @@
     <include within="akka..*"/>
     <!-- Weaving with ByteString included throws a VerifyError -->
     <exclude within="akka.util.ByteString"/>
-    <include within="com.typesafe.atmos..*"/>
+    <include within="com.typesafe.trace..*"/>
   </weaver>
 </aspectj>

@@ -2,7 +2,7 @@
  *  Copyright (C) 2011-2013 Typesafe, Inc <http://typesafe.com>
  */
 
-package com.typesafe.atmos.trace;
+package com.typesafe.trace;
 
 import akka.actor.ActorPath;
 import akka.actor.ActorRef;
@@ -19,7 +19,7 @@ import akka.remote.RemoteMessage;
 import akka.remote.RemoteProtocol.RemoteMessageProtocol;
 import akka.remote.RemoteSettings;
 import akka.remote.RemoteTransport;
-import com.typesafe.atmos.util.Uuid;
+import com.typesafe.trace.util.Uuid;
 
 privileged public aspect RemoteTraceAspect {
 

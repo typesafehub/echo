@@ -2,7 +2,7 @@
  *  Copyright (C) 2011-2013 Typesafe, Inc <http://typesafe.com>
  */
 
-package com.typesafe.atmos.trace;
+package com.typesafe.trace;
 
 import java.lang.System;
 import play.api.libs.iteratee.Iteratee;

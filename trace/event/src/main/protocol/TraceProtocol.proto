@@ -1,11 +1,11 @@
 /**
  *  Copyright (C) 2011-2013 Typesafe <http://typesafe.com/>
  */
-package com.typesafe.atmos.trace;
+package com.typesafe.trace;
 
 /******************************************
   Compile with:
-  cd atmos/monitor/trace/event/src/main/protocol
+  cd trace/event/src/main/protocol
   protoc TraceProtocol.proto --java_out ../java
 *******************************************/
 

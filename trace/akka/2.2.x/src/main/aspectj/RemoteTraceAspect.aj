@@ -2,7 +2,7 @@
  *  Copyright (C) 2011-2013 Typesafe, Inc <http://typesafe.com>
  */
 
-package com.typesafe.atmos.trace;
+package com.typesafe.trace;
 
 import akka.actor.ActorPath;
 import akka.actor.ActorRef;
@@ -25,7 +25,7 @@ import akka.remote.transport.AkkaPduCodec.Message;
 import akka.remote.transport.AkkaPduCodec;
 import akka.remote.WireFormats.SerializedMessage;
 import akka.util.ByteString;
-import com.typesafe.atmos.util.Uuid;
+import com.typesafe.trace.util.Uuid;
 import scala.Option;
 import scala.Tuple2;
 

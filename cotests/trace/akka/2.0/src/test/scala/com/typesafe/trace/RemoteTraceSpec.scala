@@ -1,0 +1,140 @@
+/**
+ *  Copyright (C) 2009-2012 Typesafe Inc. <http://www.typesafe.com>
+ */
+
+package com.typesafe.trace
+
+import akka.actor._
+import akka.dispatch.Await
+import akka.pattern.ask
+import akka.util.duration._
+import akka.util.Timeout
+import com.typesafe.trace.test.{ TimeoutHandler, AtmosTraceSpec }
+import com.typesafe.trace.uuid.UUID
+import java.util.concurrent.CountDownLatch
+
+object RemoteTraceTest {
+  val Host = "localhost"
+  val Port1 = 9901
+  val Port2 = 9902
+
+  val config1 = config(Host, Port1)
+  val config2 = config(Host, Port2)
+
+  def config(host: String, port: Int): String = """
+    akka {
+      loglevel = WARNING
+      event-handler-startup-timeout = 10s
+      actor {
+        provider = "akka.remote.RemoteActorRefProvider"
+      }
+      remote.netty {
+        hostname = "%s"
+        port = %s
+      }
+    }
+    atmos.trace.remote-life-cycle = off
+  """.format(host, port)
+
+  case class Message(n: Int, trace: Option[UUID])
+  case class Question(n: Int)
+  case object GetTraces
+
+  class ActorA(actorB: ActorRef) extends Actor {
+    var latch: Option[CountDownLatch] = None
+    var trace1: Option[UUID] = None
+    var trace2: Option[UUID] = None
+    var trace4: Option[UUID] = None
+
+    val timeoutHandler = TimeoutHandler(context.system.settings.config.getInt("atmos.test.time-factor"))
+
+    def receive = {
+      case cdl: CountDownLatch ⇒
+        latch = Some(cdl)
+      case Message(n, sentTrace) ⇒
+        if (n == 1) {
+          trace1 = sentTrace
+          trace2 = currentTrace(context.system)
+          implicit val timeout = Timeout(timeoutHandler.duration)
+          Await.ready(actorB ? Question(n), timeout.duration)
+          actorB ! Message(2, trace2)
+        } else {
+          trace4 = sentTrace
+          latch.foreach(_.countDown)
+        }
+      case GetTraces ⇒ sender ! List(trace1, trace2, trace4).flatten.toSet
+    }
+  }
+
+  class ActorB extends Actor {
+    var trace2: Option[UUID] = None
+    var trace3: Option[UUID] = None
+
+    def receive = {
+      case Message(n, sentTrace) ⇒
+        trace2 = sentTrace
+        trace3 = currentTrace(context.system)
+        val actorC = context.actorOf(Props[ActorC], "c")
+        actorC forward Message(3, trace3)
+        actorC ! PoisonPill
+      case Question(n) ⇒ sender ! ("Answer: " + n * 2)
+      case GetTraces   ⇒ sender ! List(trace2, trace3).flatten.toSet
+    }
+  }
+
+  class ActorC extends Actor {
+    def receive = {
+      case Message(n, sentTrace) ⇒ sender ! Message(4, currentTrace(context.system))
+    }
+  }
+
+  def currentTrace(system: ActorSystem): Option[UUID] = {
+    ActorSystemTracer(system).trace.local.current.map(_.context.trace)
+  }
+}
+
+class Akka20RemoteTraceSpec extends AtmosTraceSpec(RemoteTraceTest.config1) {
+  import RemoteTraceTest._
+
+  override def cotestNodes = 3
+
+  "Remote tracing" must {
+
+    "trace across nodes" in {
+      barrier("setup")
+
+      val remoteAddress = "akka://Akka20RemoteTraceSpec@%s:%s/user/%s".format(Host, Port2, "b")
+      val actorB = system.actorFor(remoteAddress)
+      val actorA = system.actorOf(Props(new ActorA(actorB)), "a")
+
+      barrier("start")
+
+      Tracer(system).startGroup("test")
+      val trace = currentTrace(system)
+      val latch = new CountDownLatch(1)
+      actorA ! latch
+      actorA ! Message(1, trace)
+      latch.await()
+      Tracer(system).endGroup("test")
+
+      barrier("check-trace")
+
+      implicit val timeout = Timeout(timeoutHandler.duration)
+      val traces = Await.result(actorA ? GetTraces, timeout.duration).asInstanceOf[Set[UUID]]
+
+      traces.size must be(1)
+      trace foreach { _ must be(traces.head) }
+
+      eventCheck("1")
+
+      barrier("stop")
+
+      // check remote system messages by stopping actorB
+      Tracer(system).group("remote-stop") {
+        system.stop(actorB)
+      }
+
+      eventCheck("2")
+    }
+  }
+}
