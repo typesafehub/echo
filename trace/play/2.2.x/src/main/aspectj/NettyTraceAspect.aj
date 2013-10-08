@@ -26,24 +26,24 @@ import scala.concurrent.Future;
 
 privileged aspect NettyTraceAspect {
 
-  private volatile TraceContext Channel._atmos$context;
+  private volatile TraceContext Channel._echo$context;
 
-  public TraceContext Channel.atmos$context() {
-    return _atmos$context;
+  public TraceContext Channel.echo$context() {
+    return _echo$context;
   }
 
-  public void Channel.atmos$context(TraceContext context) {
-    _atmos$context = context;
+  public void Channel.echo$context(TraceContext context) {
+    _echo$context = context;
   }
 
-  private volatile NettyTrace.DeferredData HttpRequestDecoder._atmos$deferredData;
+  private volatile NettyTrace.DeferredData HttpRequestDecoder._echo$deferredData;
 
-  public NettyTrace.DeferredData HttpRequestDecoder.atmos$deferredData() {
-    return _atmos$deferredData;
+  public NettyTrace.DeferredData HttpRequestDecoder.echo$deferredData() {
+    return _echo$deferredData;
   }
 
-  public void HttpRequestDecoder.atmos$deferredData(NettyTrace.DeferredData deferred) {
-    _atmos$deferredData = deferred;
+  public void HttpRequestDecoder.echo$deferredData(NettyTrace.DeferredData deferred) {
+    _echo$deferredData = deferred;
   }
 
   public boolean enabled(ActionTracer tracer) {
@@ -125,14 +125,14 @@ privileged aspect NettyTraceAspect {
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
       HttpRequest req = (HttpRequest) message;
-      NettyTrace.DeferredData deferred = decoder.atmos$deferredData();
+      NettyTrace.DeferredData deferred = decoder.echo$deferredData();
       String reqUri = req.getUri();
       TraceContext context = tracer.netty().traceUriContext(reqUri);
       if (context == null) {
         context = tracer.netty().httpReceivedStart();
-        deferred.channel().atmos$context(context);
+        deferred.channel().echo$context(context);
       } else {
-        deferred.channel().atmos$context(null);
+        deferred.channel().echo$context(null);
       }
       tracer.trace().local().start(context);
       tracer.netty().readBytes(deferred.readBytes);
@@ -156,10 +156,10 @@ privileged aspect NettyTraceAspect {
         ActionTrace.SimpleChannelUpstreamHandlerProxy proxy = (ActionTrace.SimpleChannelUpstreamHandlerProxy) ch;
         context = proxy.context();
       } else {
-        if (channel.atmos$context() == null) {
-          decoder.atmos$deferredData(NettyTrace.deferredData(channel,(int) cb.readableBytes()));
+        if (channel.echo$context() == null) {
+          decoder.echo$deferredData(NettyTrace.deferredData(channel,(int) cb.readableBytes()));
         } else {
-          context = channel.atmos$context();
+          context = channel.echo$context();
           writeEnd = false;
         }
       }
@@ -168,7 +168,7 @@ privileged aspect NettyTraceAspect {
         tracer.netty().readBytes((int) cb.readableBytes());
       }
       proceed(decoder,ctx,event);
-      decoder.atmos$deferredData(null);
+      decoder.echo$deferredData(null);
       if (!isSimpleChannelUpstreamHandlerProxy && writeEnd) {
         tracer.netty().httpReceivedEnd();
       }

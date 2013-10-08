@@ -33,14 +33,14 @@ import org.jboss.netty.channel.MessageEvent;
 
 privileged aspect ActionTraceAspect {
 
-  private volatile boolean RequestHeader._atmos$generationStartSent = false;
+  private volatile boolean RequestHeader._echo$generationStartSent = false;
 
-  public boolean RequestHeader.atmos$generationStartSent() {
-    return _atmos$generationStartSent;
+  public boolean RequestHeader.echo$generationStartSent() {
+    return _echo$generationStartSent;
   }
 
-  public void RequestHeader.atmos$generationStartSent(boolean generationStartSent) {
-    _atmos$generationStartSent = generationStartSent;
+  public void RequestHeader.echo$generationStartSent(boolean generationStartSent) {
+    _echo$generationStartSent = generationStartSent;
   }
 
   public boolean enabled(ActionTracer tracer) {
@@ -75,7 +75,7 @@ privileged aspect ActionTraceAspect {
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
       Channel channel = ctx.getChannel();
-      channel.atmos$context(null);
+      channel.echo$context(null);
     }
   }
 
@@ -97,9 +97,9 @@ privileged aspect ActionTraceAspect {
   {
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
-      request.atmos$generationStartSent(true);
+      request.echo$generationStartSent(true);
       Request r = proceed(self,request,arg);
-      r.atmos$generationStartSent(true);
+      r.echo$generationStartSent(true);
       return r;
     } else
       return proceed(self,request,arg);
@@ -131,9 +131,9 @@ privileged aspect ActionTraceAspect {
   {
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
-      if (!request.atmos$generationStartSent()) {
+      if (!request.echo$generationStartSent()) {
         tracer.action().resultGenerationStart();
-        request.atmos$generationStartSent(true);
+        request.echo$generationStartSent(true);
       }
       tracer.action().badRequest(request,error);
     }

@@ -37,18 +37,18 @@ privileged public aspect RemoteTraceAspect {
 
   declare parents: RemoteActorRefProvider implements WithTracer;
 
-  private volatile ActorSystemTracer RemoteActorRefProvider._atmos$tracer;
+  private volatile ActorSystemTracer RemoteActorRefProvider._echo$tracer;
 
-  private ActorSystemTracer RemoteActorRefProvider.atmos$tracer() {
-    return _atmos$tracer;
+  private ActorSystemTracer RemoteActorRefProvider.echo$tracer() {
+    return _echo$tracer;
   }
 
-  private void RemoteActorRefProvider.atmos$tracer(ActorSystemTracer tracer) {
-    _atmos$tracer = tracer;
+  private void RemoteActorRefProvider.echo$tracer(ActorSystemTracer tracer) {
+    _echo$tracer = tracer;
   }
 
   public Tracer RemoteActorRefProvider.tracer() {
-    return (Tracer) _atmos$tracer;
+    return (Tracer) _echo$tracer;
   }
 
   public boolean enabled(ActorSystemTracer tracer) {
@@ -66,21 +66,21 @@ privileged public aspect RemoteTraceAspect {
     this(provider) &&
     args(system)
   {
-    provider.atmos$tracer((ActorSystemTracer) system.tracer());
+    provider.echo$tracer((ActorSystemTracer) system.tracer());
   }
 
   // ----------------------------------------------------
   // Tracer attached to remote transport
   // ----------------------------------------------------
 
-  private volatile ActorSystemTracer RemoteTransport._atmos$tracer;
+  private volatile ActorSystemTracer RemoteTransport._echo$tracer;
 
-  private ActorSystemTracer RemoteTransport.atmos$tracer() {
-    return _atmos$tracer;
+  private ActorSystemTracer RemoteTransport.echo$tracer() {
+    return _echo$tracer;
   }
 
-  private void RemoteTransport.atmos$tracer(ActorSystemTracer tracer) {
-    _atmos$tracer = tracer;
+  private void RemoteTransport.echo$tracer(ActorSystemTracer tracer) {
+    _echo$tracer = tracer;
   }
 
   // attach the tracer to remote transport
@@ -90,7 +90,7 @@ privileged public aspect RemoteTraceAspect {
     this(transport) &&
     args(system, provider)
   {
-    transport.atmos$tracer((ActorSystemTracer) system.tracer());
+    transport.echo$tracer((ActorSystemTracer) system.tracer());
   }
 
   // ----------------------------------------------------
@@ -102,16 +102,16 @@ privileged public aspect RemoteTraceAspect {
     this(actorRef) &&
     args(remote, localAddressToUse, path, ..)
   {
-    ActorSystemTracer tracer = remote.atmos$tracer();
-    actorRef.atmos$tracer(tracer);
+    ActorSystemTracer tracer = remote.echo$tracer();
+    actorRef.echo$tracer(tracer);
     if (enabled(tracer)) {
       String identifier = tracer.actor().identifier(path);
-      actorRef.atmos$identifier(identifier);
+      actorRef.echo$identifier(identifier);
       boolean traceable = tracer.actor().traceable(identifier);
-      actorRef.atmos$traceable(traceable);
+      actorRef.echo$traceable(traceable);
       if (traceable) {
         ActorInfo info = tracer.actor().info(path, null, true, false);
-        actorRef.atmos$info(info);
+        actorRef.echo$info(info);
       }
     }
   }
@@ -120,14 +120,14 @@ privileged public aspect RemoteTraceAspect {
   // Transfer trace context with remote send
   // ----------------------------------------------------
 
-  private volatile TraceContext Send._atmos$trace = TraceContext.ZeroTrace();
+  private volatile TraceContext Send._echo$trace = TraceContext.ZeroTrace();
 
-  private TraceContext Send.atmos$trace() {
-    return _atmos$trace;
+  private TraceContext Send.echo$trace() {
+    return _echo$trace;
   }
 
-  private void Send.atmos$trace(TraceContext context) {
-    _atmos$trace = context;
+  private void Send.echo$trace(TraceContext context) {
+    _echo$trace = context;
   }
 
   // ----------------------------------------------------
@@ -138,7 +138,7 @@ privileged public aspect RemoteTraceAspect {
     execution(* akka.remote.EndpointManager.Send.copy(..)) &&
     this(send)
   {
-    newSend.atmos$trace(send.atmos$trace());
+    newSend.echo$trace(send.echo$trace());
   }
 
   // ----------------------------------------------------
@@ -151,19 +151,19 @@ privileged public aspect RemoteTraceAspect {
     args(messageObject, senderOption, recipient, ..) &&
     cflow(execution(* akka.remote.RemoteActorRef.sendSystemMessage(..)))
   {
-    ActorSystemTracer tracer = recipient.atmos$tracer();
+    ActorSystemTracer tracer = recipient.echo$tracer();
     if (enabled(tracer) && messageObject instanceof SystemMessage) {
       SystemMessage message = (SystemMessage) messageObject;
       if (message instanceof Failed) {
         Failed failed = (Failed) message;
         ActorRef child = failed.child();
-        if (child != null && child.atmos$traceable()) {
-          TraceContext context = tracer.actor().failed(child.atmos$info(), failed.cause(), recipient.atmos$info());
-          send.atmos$trace(context);
+        if (child != null && child.echo$traceable()) {
+          TraceContext context = tracer.actor().failed(child.echo$info(), failed.cause(), recipient.echo$info());
+          send.echo$trace(context);
         }
-      } else if (recipient.atmos$traceable()) {
-        TraceContext context = tracer.actor().message().sysMsgDispatched(recipient.atmos$info(), message);
-        send.atmos$trace(context);
+      } else if (recipient.echo$traceable()) {
+        TraceContext context = tracer.actor().message().sysMsgDispatched(recipient.echo$info(), message);
+        send.echo$trace(context);
       }
     }
   }
@@ -178,11 +178,11 @@ privileged public aspect RemoteTraceAspect {
     args(message, senderOption, recipient, ..) &&
     cflow(execution(* akka.remote.RemoteActorRef.$bang(..)))
   {
-    ActorSystemTracer tracer = recipient.atmos$tracer();
-    if (enabled(tracer) && recipient.atmos$traceable()) {
-      ActorInfo senderInfo = (senderOption.isDefined() && senderOption.get().atmos$traceable()) ? senderOption.get().atmos$info() : null;
-      TraceContext context = tracer.actor().told(recipient.atmos$identifier(), recipient.atmos$info(), message, senderInfo);
-      send.atmos$trace(context);
+    ActorSystemTracer tracer = recipient.echo$tracer();
+    if (enabled(tracer) && recipient.echo$traceable()) {
+      ActorInfo senderInfo = (senderOption.isDefined() && senderOption.get().echo$traceable()) ? senderOption.get().echo$info() : null;
+      TraceContext context = tracer.actor().told(recipient.echo$identifier(), recipient.echo$info(), message, senderInfo);
+      send.echo$trace(context);
     }
   }
 
@@ -196,12 +196,12 @@ privileged public aspect RemoteTraceAspect {
     args(localAddress, recipient, serializedMessage, ..) &&
     cflow(execution (* akka.remote.EndpointWriter.processEvent(..)) && args(fsmEvent, ..))
   {
-    ActorSystemTracer tracer = recipient.atmos$tracer();
+    ActorSystemTracer tracer = recipient.echo$tracer();
     Object event = fsmEvent.event();
-    if (enabled(tracer) && recipient.atmos$traceable() && event instanceof Send) {
+    if (enabled(tracer) && recipient.echo$traceable() && event instanceof Send) {
       Send send = (Send) event;
-      tracer.trace().local().start(send.atmos$trace());
-      TraceContext context = tracer.remote().sent(recipient.atmos$info(), send.message(), serializedMessage.getSerializedSize());
+      tracer.trace().local().start(send.echo$trace());
+      TraceContext context = tracer.remote().sent(recipient.echo$info(), send.message(), serializedMessage.getSerializedSize());
       tracer.trace().local().end();
       ByteString bytes = proceed(codec, localAddress, recipient, serializedMessage, fsmEvent);
       return RemoteTrace.attachTraceContext(bytes, context);
@@ -214,14 +214,14 @@ privileged public aspect RemoteTraceAspect {
   // Extract trace context in remote message
   // ----------------------------------------------------
 
-  private volatile TraceContext SerializedMessage._atmos$trace = TraceContext.ZeroTrace();
+  private volatile TraceContext SerializedMessage._echo$trace = TraceContext.ZeroTrace();
 
-  private TraceContext SerializedMessage.atmos$trace() {
-    return _atmos$trace;
+  private TraceContext SerializedMessage.echo$trace() {
+    return _echo$trace;
   }
 
-  private void SerializedMessage.atmos$trace(TraceContext context) {
-    _atmos$trace = context;
+  private void SerializedMessage.echo$trace(TraceContext context) {
+    _echo$trace = context;
   }
 
   Tuple2<Option<Ack>, Option<Message>> around(ByteString raw):
@@ -232,7 +232,7 @@ privileged public aspect RemoteTraceAspect {
     Tuple2<Option<Ack>, Option<Message>> result = proceed(extracted._1());
     if (result._2().isDefined()) {
       SerializedMessage serializedMessage = result._2().get().serializedMessage();
-      serializedMessage.atmos$trace(extracted._2());
+      serializedMessage.echo$trace(extracted._2());
     }
     return result;
   }
@@ -246,15 +246,15 @@ privileged public aspect RemoteTraceAspect {
     args(recipient, recipientAddress, serializedMessage, senderOption)
   {
     ActorRef actorRef = (ActorRef) recipient;
-    ActorSystemTracer tracer = actorRef.atmos$tracer();
+    ActorSystemTracer tracer = actorRef.echo$tracer();
 
-    if (disabled(tracer) || !actorRef.atmos$traceable()) return proceed(recipient, recipientAddress, serializedMessage, senderOption);
+    if (disabled(tracer) || !actorRef.echo$traceable()) return proceed(recipient, recipientAddress, serializedMessage, senderOption);
 
-    TraceContext context = serializedMessage.atmos$trace();
+    TraceContext context = serializedMessage.echo$trace();
 
     if (Uuid.isZero(context.trace())) return proceed(recipient, recipientAddress, serializedMessage, senderOption);
 
-    ActorInfo info = actorRef.atmos$info();
+    ActorInfo info = actorRef.echo$info();
     Object message = ""; // no nice way to get to the deserialized message
 
     tracer.trace().local().start(context);
@@ -269,14 +269,14 @@ privileged public aspect RemoteTraceAspect {
   // Tracer attached to remote event publisher
   // ----------------------------------------------------
 
-  private volatile ActorSystemTracer EventPublisher._atmos$tracer;
+  private volatile ActorSystemTracer EventPublisher._echo$tracer;
 
-  private ActorSystemTracer EventPublisher.atmos$tracer() {
-    return _atmos$tracer;
+  private ActorSystemTracer EventPublisher.echo$tracer() {
+    return _echo$tracer;
   }
 
-  private void EventPublisher.atmos$tracer(ActorSystemTracer tracer) {
-    _atmos$tracer = tracer;
+  private void EventPublisher.echo$tracer(ActorSystemTracer tracer) {
+    _echo$tracer = tracer;
   }
 
   // attach the tracer to remote transport
@@ -286,7 +286,7 @@ privileged public aspect RemoteTraceAspect {
     this(publisher) &&
     args(system, ..)
   {
-    publisher.atmos$tracer((ActorSystemTracer) system.tracer());
+    publisher.echo$tracer((ActorSystemTracer) system.tracer());
   }
 
   // ----------------------------------------------------
@@ -298,7 +298,7 @@ privileged public aspect RemoteTraceAspect {
     this(publisher) &&
     args(event, ..)
   {
-    ActorSystemTracer tracer = publisher.atmos$tracer();
+    ActorSystemTracer tracer = publisher.echo$tracer();
     if (enabled(tracer)) {
       tracer.remote().lifecycle(event);
     }

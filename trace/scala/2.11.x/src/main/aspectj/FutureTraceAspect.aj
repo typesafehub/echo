@@ -33,35 +33,35 @@ privileged aspect FutureTraceAspect {
 
   // sampled
 
-  private volatile int Future._atmos$sampled;
+  private volatile int Future._echo$sampled;
 
-  public int Future.atmos$sampled() {
-    return _atmos$sampled;
+  public int Future.echo$sampled() {
+    return _echo$sampled;
   }
 
-  public void Future.atmos$sampled(int sampled) {
-    _atmos$sampled = sampled;
+  public void Future.echo$sampled(int sampled) {
+    _echo$sampled = sampled;
   }
 
-  public boolean Future.atmos$traceable() {
-    return _atmos$sampled > 0;
+  public boolean Future.echo$traceable() {
+    return _echo$sampled > 0;
   }
 
   // info
 
-  private volatile FutureInfo Future._atmos$info;
+  private volatile FutureInfo Future._echo$info;
 
-  public FutureInfo Future.atmos$info() {
-    if (_atmos$info == null) return FutureTrace.ZeroFutureInfo();
-    else return _atmos$info;
+  public FutureInfo Future.echo$info() {
+    if (_echo$info == null) return FutureTrace.ZeroFutureInfo();
+    else return _echo$info;
   }
 
-  public void Future.atmos$info(FutureInfo info) {
-    _atmos$info = info;
+  public void Future.echo$info(FutureInfo info) {
+    _echo$info = info;
   }
 
   public Info Future.info() {
-    return (Info) this._atmos$info;
+    return (Info) this._echo$info;
   }
 
   // attach trace metadata to future
@@ -77,10 +77,10 @@ privileged aspect FutureTraceAspect {
         sampled = tracer.trace().sampled();
       else if (tracer.trace().settings().zeroContextFutures())
         sampled = 1;
-      future.atmos$sampled(sampled);
+      future.echo$sampled(sampled);
       if (sampled > 0) {
         FutureInfo info = tracer.future().newInfo("execution-context");
-        future.atmos$info(info);
+        future.echo$info(info);
         tracer.future().created(info);
       }
     }
@@ -98,10 +98,10 @@ privileged aspect FutureTraceAspect {
         sampled = tracer.trace().sampled();
       else if (tracer.trace().settings().zeroContextFutures())
         sampled = 1;
-      future.atmos$sampled(sampled);
+      future.echo$sampled(sampled);
       if (sampled > 0) {
         FutureInfo info = tracer.future().newInfo("execution-context");
-        future.atmos$info(info);
+        future.echo$info(info);
         tracer.future().created(info);
         tracer.future().completed(info, value);
       }
@@ -120,8 +120,8 @@ privileged aspect FutureTraceAspect {
     // futures are scheduled with a PromiseCompletingRunnable
     if (runnable instanceof PromiseCompletingRunnable) {
       Future future = ((PromiseCompletingRunnable) runnable).promise().future();
-      int sampled = future.atmos$sampled();
-      FutureInfo futureInfo = future.atmos$info();
+      int sampled = future.echo$sampled();
+      FutureInfo futureInfo = future.echo$info();
       TaskInfo taskInfo = tracer.future().newTaskInfo("execution-context");
       TraceContext context = TraceContext.EmptyTrace();
       if (sampled == 0) {
@@ -148,8 +148,8 @@ privileged aspect FutureTraceAspect {
   {
     ExecutionContextTracer tracer = ExecutionContextTracer.global();
     boolean completed = proceed(future, value);
-    if (completed && enabled(tracer) && future.atmos$traceable()) {
-      tracer.future().completed(future.atmos$info(), value);
+    if (completed && enabled(tracer) && future.echo$traceable()) {
+      tracer.future().completed(future.echo$info(), value);
     }
     return completed;
   }
@@ -163,8 +163,8 @@ privileged aspect FutureTraceAspect {
   {
     ExecutionContextTracer tracer = ExecutionContextTracer.global();
     if (disabled(tracer)) return proceed(future, func, executor);
-    int sampled = future.atmos$sampled();
-    FutureInfo info = future.atmos$info();
+    int sampled = future.echo$sampled();
+    FutureInfo info = future.echo$info();
     TraceContext context = TraceContext.EmptyTrace();
     if (sampled == 0) {
         context = TraceContext.NoTrace();
@@ -181,14 +181,14 @@ privileged aspect FutureTraceAspect {
     args(duration, permit)
   {
     ExecutionContextTracer tracer = ExecutionContextTracer.global();
-    if (disabled(tracer) || !future.atmos$traceable()) return proceed(future, duration, permit);
+    if (disabled(tracer) || !future.echo$traceable()) return proceed(future, duration, permit);
     try {
       Object result = proceed(future, duration, permit);
-      tracer.future().awaited(future.atmos$info());
+      tracer.future().awaited(future.echo$info());
       return result;
     } catch (TimeoutException exception) {
       // exception is rethrown in timedOut
-      tracer.future().timedOut(future.atmos$info(), duration, exception);
+      tracer.future().timedOut(future.echo$info(), duration, exception);
       return null;
     }
   }

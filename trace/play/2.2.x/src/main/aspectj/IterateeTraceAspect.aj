@@ -16,33 +16,33 @@ privileged aspect IterateeTraceAspect {
 
   declare parents: Iteratee implements IterateeTag;
 
-  private volatile IterateeTagData Iteratee._atmos$tag;
+  private volatile IterateeTagData Iteratee._echo$tag;
 
-  public IterateeTagData Iteratee.atmos$tag() {
-    return _atmos$tag;
+  public IterateeTagData Iteratee.echo$tag() {
+    return _echo$tag;
   }
 
-  public void Iteratee.atmos$tag(IterateeTagData tag) {
-    _atmos$tag = tag;
+  public void Iteratee.echo$tag(IterateeTagData tag) {
+    _echo$tag = tag;
   }
 
-  public void Iteratee.atmos$setChunking() {
-    if (this._atmos$tag == null) {
-      this.atmos$tag(IterateeTrace.Chunking());
+  public void Iteratee.echo$setChunking() {
+    if (this._echo$tag == null) {
+      this.echo$tag(IterateeTrace.Chunking());
     }
   }
 
-  public boolean Iteratee.atmos$chunking() {
-    if (this._atmos$tag != null) {
-      return this.atmos$tag().chunking();
+  public boolean Iteratee.echo$chunking() {
+    if (this._echo$tag != null) {
+      return this.echo$tag().chunking();
     } else return false;
   }
 
   public IterateeTagData Iteratee.tag() {
-    if (this._atmos$tag == null) {
-      this.atmos$tag(IterateeTrace.ZeroIterateeTagData());
-      return this._atmos$tag;
-    } else return this._atmos$tag;
+    if (this._echo$tag == null) {
+      this.echo$tag(IterateeTrace.ZeroIterateeTagData());
+      return this._echo$tag;
+    } else return this._echo$tag;
   }
 
   public boolean enabled(ActionTracer tracer) {
@@ -61,19 +61,19 @@ privileged aspect IterateeTraceAspect {
 
   // info
 
-  private volatile IterateeInfo Iteratee._atmos$info;
+  private volatile IterateeInfo Iteratee._echo$info;
 
-  public IterateeInfo Iteratee.atmos$info() {
-    if (_atmos$info == null) return IterateeTrace.ZeroIterateeInfo();
-    else return _atmos$info;
+  public IterateeInfo Iteratee.echo$info() {
+    if (_echo$info == null) return IterateeTrace.ZeroIterateeInfo();
+    else return _echo$info;
   }
 
-  public void Iteratee.atmos$info(IterateeInfo info) {
-    _atmos$info = info;
+  public void Iteratee.echo$info(IterateeInfo info) {
+    _echo$info = info;
   }
 
   public Info Iteratee.info() {
-    return (Info) this._atmos$info;
+    return (Info) this._echo$info;
   }
 
   before(Iteratee iteratee):
@@ -83,7 +83,7 @@ privileged aspect IterateeTraceAspect {
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
       IterateeInfo info = IterateeTrace.newInfo();
-      iteratee.atmos$info(info);
+      iteratee.echo$info(info);
       tracer.iteratee().created(info);
     }
   }
@@ -96,9 +96,9 @@ privileged aspect IterateeTraceAspect {
   {
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
-      tracer.iteratee().folded(iteratee.atmos$info());
-      boolean chunking = iteratee.atmos$chunking();
-      return proceed(iteratee, new StepTracerHook(tracer, iteratee.atmos$info(), chunking, folder), ctx);
+      tracer.iteratee().folded(iteratee.echo$info());
+      boolean chunking = iteratee.echo$chunking();
+      return proceed(iteratee, new StepTracerHook(tracer, iteratee.echo$info(), chunking, folder), ctx);
     } else {
       return proceed(iteratee, folder, ctx);
     }

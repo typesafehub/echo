@@ -27,19 +27,19 @@ privileged aspect IterateeTraceAspect {
 
   // info
 
-  private volatile IterateeInfo Iteratee._atmos$info;
+  private volatile IterateeInfo Iteratee._echo$info;
 
-  public IterateeInfo Iteratee.atmos$info() {
-    if (_atmos$info == null) return IterateeTrace.ZeroIterateeInfo();
-    else return _atmos$info;
+  public IterateeInfo Iteratee.echo$info() {
+    if (_echo$info == null) return IterateeTrace.ZeroIterateeInfo();
+    else return _echo$info;
   }
 
-  public void Iteratee.atmos$info(IterateeInfo info) {
-    _atmos$info = info;
+  public void Iteratee.echo$info(IterateeInfo info) {
+    _echo$info = info;
   }
 
   public Info Iteratee.info() {
-    return (Info) this._atmos$info;
+    return (Info) this._echo$info;
   }
 
   before(Iteratee iteratee):
@@ -49,7 +49,7 @@ privileged aspect IterateeTraceAspect {
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
       IterateeInfo info = IterateeTrace.newInfo();
-      iteratee.atmos$info(info);
+      iteratee.echo$info(info);
       tracer.iteratee().created(info);
     }
   }
@@ -61,8 +61,8 @@ privileged aspect IterateeTraceAspect {
   {
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
-      tracer.iteratee().folded(iteratee.atmos$info());
-      return proceed(iteratee, new StepTracerHook(tracer, iteratee.atmos$info(), folder));
+      tracer.iteratee().folded(iteratee.echo$info());
+      return proceed(iteratee, new StepTracerHook(tracer, iteratee.echo$info(), folder));
     } else {
       return proceed(iteratee, folder);
     }

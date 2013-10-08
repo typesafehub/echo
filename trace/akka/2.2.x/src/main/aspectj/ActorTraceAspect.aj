@@ -48,18 +48,18 @@ privileged aspect ActorTraceAspect {
 
   declare parents: ActorSystem implements WithTracer;
 
-  private volatile ActorSystemTracer ActorSystem._atmos$tracer;
+  private volatile ActorSystemTracer ActorSystem._echo$tracer;
 
-  private ActorSystemTracer ActorSystem.atmos$tracer() {
-    return _atmos$tracer;
+  private ActorSystemTracer ActorSystem.echo$tracer() {
+    return _echo$tracer;
   }
 
-  private void ActorSystem.atmos$tracer(ActorSystemTracer tracer) {
-    _atmos$tracer = tracer;
+  private void ActorSystem.echo$tracer(ActorSystemTracer tracer) {
+    _echo$tracer = tracer;
   }
 
   public Tracer ActorSystem.tracer() {
-    return (Tracer) _atmos$tracer;
+    return (Tracer) _echo$tracer;
   }
 
   public boolean enabled(ActorSystemTracer tracer) {
@@ -78,7 +78,7 @@ privileged aspect ActorTraceAspect {
     args(name, config, classLoader)
   {
     ActorSystemTracer tracer = ActorSystemTracer.create(name, config, classLoader);
-    system.atmos$tracer(tracer);
+    system.echo$tracer(tracer);
     if (enabled(tracer)) {
       tracer.actor().systemStarted(System.currentTimeMillis());
     }
@@ -90,7 +90,7 @@ privileged aspect ActorTraceAspect {
     execution(* akka.actor.ActorSystemImpl.start(..)) &&
     this(system)
   {
-    ActorSystemTracer tracer = system.atmos$tracer();
+    ActorSystemTracer tracer = system.echo$tracer();
     if (disabled(tracer)) return proceed(system);
     tracer.trace().local().start(TraceContext.EmptyTrace());
     Object result = proceed(system);
@@ -104,7 +104,7 @@ privileged aspect ActorTraceAspect {
     execution(* akka.actor.ActorSystemImpl.shutdown(..)) &&
     this(system)
   {
-    ActorSystemTracer tracer = system.atmos$tracer();
+    ActorSystemTracer tracer = system.echo$tracer();
     if (enabled(tracer)) {
       tracer.shutdown(system);
     }
@@ -114,24 +114,24 @@ privileged aspect ActorTraceAspect {
   // Tracer attached to dispatchers
   // ----------------------------------------------------
 
-  private volatile ActorSystemTracer Dispatchers._atmos$tracer;
+  private volatile ActorSystemTracer Dispatchers._echo$tracer;
 
-  private ActorSystemTracer Dispatchers.atmos$tracer() {
-    return _atmos$tracer;
+  private ActorSystemTracer Dispatchers.echo$tracer() {
+    return _echo$tracer;
   }
 
-  private void Dispatchers.atmos$tracer(ActorSystemTracer tracer) {
-    _atmos$tracer = tracer;
+  private void Dispatchers.echo$tracer(ActorSystemTracer tracer) {
+    _echo$tracer = tracer;
   }
 
-  private volatile ActorSystemTracer MessageDispatcher._atmos$tracer;
+  private volatile ActorSystemTracer MessageDispatcher._echo$tracer;
 
-  private ActorSystemTracer MessageDispatcher.atmos$tracer() {
-    return _atmos$tracer;
+  private ActorSystemTracer MessageDispatcher.echo$tracer() {
+    return _echo$tracer;
   }
 
-  private void MessageDispatcher.atmos$tracer(ActorSystemTracer tracer) {
-    _atmos$tracer = tracer;
+  private void MessageDispatcher.echo$tracer(ActorSystemTracer tracer) {
+    _echo$tracer = tracer;
   }
 
   before(Dispatchers dispatchers, ActorSystemImpl system):
@@ -139,14 +139,14 @@ privileged aspect ActorTraceAspect {
     this(dispatchers) &&
     cflow(execution(akka.actor.ActorSystemImpl.new(..)) && this(system))
   {
-    dispatchers.atmos$tracer(system.atmos$tracer());
+    dispatchers.echo$tracer(system.echo$tracer());
   }
 
   after(Dispatchers dispatchers) returning(MessageDispatcher dispatcher):
     execution(* akka.dispatch.Dispatchers.lookup(..)) &&
     this(dispatchers)
   {
-    dispatcher.atmos$tracer(dispatchers.atmos$tracer());
+    dispatcher.echo$tracer(dispatchers.echo$tracer());
   }
 
   // ----------------------------------------------------
@@ -159,7 +159,7 @@ privileged aspect ActorTraceAspect {
            execution(* akka.dispatch.MessageDispatcher.executeTask(..))) &&
            this(dispatcher))
   {
-    ActorSystemTracer tracer = dispatcher.atmos$tracer();
+    ActorSystemTracer tracer = dispatcher.echo$tracer();
     if (enabled(tracer)) {
       tracer.dispatcher().started(dispatcher);
     }
@@ -169,7 +169,7 @@ privileged aspect ActorTraceAspect {
     execution(* akka.dispatch.MessageDispatcher.shutdown(..)) &&
     this(dispatcher)
   {
-    ActorSystemTracer tracer = dispatcher.atmos$tracer();
+    ActorSystemTracer tracer = dispatcher.echo$tracer();
     if (enabled(tracer)) {
       tracer.dispatcher().shutdown(dispatcher);
     }
@@ -179,21 +179,21 @@ privileged aspect ActorTraceAspect {
   // Tracer attached to mailbox
   // ----------------------------------------------------
 
-  private volatile ActorSystemTracer Mailbox._atmos$tracer;
+  private volatile ActorSystemTracer Mailbox._echo$tracer;
 
-  private ActorSystemTracer Mailbox.atmos$tracer() {
-    return _atmos$tracer;
+  private ActorSystemTracer Mailbox.echo$tracer() {
+    return _echo$tracer;
   }
 
-  private void Mailbox.atmos$tracer(ActorSystemTracer tracer) {
-    _atmos$tracer = tracer;
+  private void Mailbox.echo$tracer(ActorSystemTracer tracer) {
+    _echo$tracer = tracer;
   }
 
   after(MessageDispatcher dispatcher) returning(Mailbox mailbox):
     execution(* akka.dispatch.MessageDispatcher+.createMailbox(..)) &&
     this(dispatcher)
   {
-    mailbox.atmos$tracer(dispatcher.atmos$tracer());
+    mailbox.echo$tracer(dispatcher.echo$tracer());
   }
 
   // ----------------------------------------------------
@@ -202,18 +202,18 @@ privileged aspect ActorTraceAspect {
 
   declare parents: LocalActorRefProvider implements WithTracer;
 
-  private volatile ActorSystemTracer LocalActorRefProvider._atmos$tracer;
+  private volatile ActorSystemTracer LocalActorRefProvider._echo$tracer;
 
-  private ActorSystemTracer LocalActorRefProvider.atmos$tracer() {
-    return _atmos$tracer;
+  private ActorSystemTracer LocalActorRefProvider.echo$tracer() {
+    return _echo$tracer;
   }
 
-  private void LocalActorRefProvider.atmos$tracer(ActorSystemTracer tracer) {
-    _atmos$tracer = tracer;
+  private void LocalActorRefProvider.echo$tracer(ActorSystemTracer tracer) {
+    _echo$tracer = tracer;
   }
 
   public Tracer LocalActorRefProvider.tracer() {
-    return (Tracer) _atmos$tracer;
+    return (Tracer) _echo$tracer;
   }
 
   // attach the tracer to local actor ref provider
@@ -223,7 +223,7 @@ privileged aspect ActorTraceAspect {
     this(provider) &&
     args(system)
   {
-    provider.atmos$tracer(system.atmos$tracer());
+    provider.echo$tracer(system.echo$tracer());
   }
 
   // ----------------------------------------------------
@@ -234,54 +234,54 @@ privileged aspect ActorTraceAspect {
 
   // tracer
 
-  private volatile ActorSystemTracer ActorRef._atmos$tracer;
+  private volatile ActorSystemTracer ActorRef._echo$tracer;
 
-  public ActorSystemTracer ActorRef.atmos$tracer() {
-    return _atmos$tracer;
+  public ActorSystemTracer ActorRef.echo$tracer() {
+    return _echo$tracer;
   }
 
-  public void ActorRef.atmos$tracer(ActorSystemTracer tracer) {
-    _atmos$tracer = tracer;
+  public void ActorRef.echo$tracer(ActorSystemTracer tracer) {
+    _echo$tracer = tracer;
   }
 
   // identifier
 
-  private volatile String ActorRef._atmos$identifier;
+  private volatile String ActorRef._echo$identifier;
 
-  public String ActorRef.atmos$identifier() {
-    return _atmos$identifier;
+  public String ActorRef.echo$identifier() {
+    return _echo$identifier;
   }
 
-  public void ActorRef.atmos$identifier(String identifier) {
-    _atmos$identifier = identifier;
+  public void ActorRef.echo$identifier(String identifier) {
+    _echo$identifier = identifier;
   }
 
   // traceable
 
-  private volatile boolean ActorRef._atmos$traceable = false;
+  private volatile boolean ActorRef._echo$traceable = false;
 
-  public boolean ActorRef.atmos$traceable() {
-    return _atmos$traceable;
+  public boolean ActorRef.echo$traceable() {
+    return _echo$traceable;
   }
 
-  public void ActorRef.atmos$traceable(boolean traceable) {
-    _atmos$traceable = traceable;
+  public void ActorRef.echo$traceable(boolean traceable) {
+    _echo$traceable = traceable;
   }
 
   // actor info
 
-  private volatile ActorInfo ActorRef._atmos$info;
+  private volatile ActorInfo ActorRef._echo$info;
 
-  public ActorInfo ActorRef.atmos$info() {
-    return _atmos$info;
+  public ActorInfo ActorRef.echo$info() {
+    return _echo$info;
   }
 
-  public void ActorRef.atmos$info(ActorInfo info) {
-    _atmos$info = info;
+  public void ActorRef.echo$info(ActorInfo info) {
+    _echo$info = info;
   }
 
   public Info ActorRef.info() {
-    return (Info) this._atmos$info;
+    return (Info) this._echo$info;
   }
 
   // ----------------------------------------------------
@@ -295,7 +295,7 @@ privileged aspect ActorTraceAspect {
     this(system) &&
     args(props, name)
   {
-    ActorSystemTracer tracer = system.atmos$tracer();
+    ActorSystemTracer tracer = system.echo$tracer();
     ActorRef guardian = system.systemGuardian();
 
     if (disabled(tracer) || name == null) return proceed(system, props, name);
@@ -304,15 +304,15 @@ privileged aspect ActorTraceAspect {
     boolean requestedTraceable = tracer.actor().traceable(requestedIdentifier);
 
     TraceContext context;
-    if (guardian.atmos$traceable() && requestedTraceable) {
-      context = tracer.actor().requestedTopLevelActor(guardian.atmos$identifier(), guardian.atmos$info(), name);
+    if (guardian.echo$traceable() && requestedTraceable) {
+      context = tracer.actor().requestedTopLevelActor(guardian.echo$identifier(), guardian.echo$info(), name);
     } else {
       context = TraceContext.NoTrace();
     }
 
     tracer.trace().local().start(context);
     ActorRef actorRef = proceed(system, props, name);
-    if (requestedTraceable) tracer.actor().createdTopLevelActor(actorRef.atmos$info());
+    if (requestedTraceable) tracer.actor().createdTopLevelActor(actorRef.echo$info());
     tracer.trace().local().end();
     return actorRef;
   }
@@ -322,7 +322,7 @@ privileged aspect ActorTraceAspect {
     this(system) &&
     args(props, name)
   {
-    ActorSystemTracer tracer = system.atmos$tracer();
+    ActorSystemTracer tracer = system.echo$tracer();
     ActorRef guardian = system.guardian();
 
     if (disabled(tracer) || name == null) return proceed(system, props, name);
@@ -331,15 +331,15 @@ privileged aspect ActorTraceAspect {
     boolean requestedTraceable = tracer.actor().traceable(requestedIdentifier);
 
     TraceContext context;
-    if (guardian.atmos$traceable() && requestedTraceable) {
-      context = tracer.actor().requestedTopLevelActor(guardian.atmos$identifier(), guardian.atmos$info(), name);
+    if (guardian.echo$traceable() && requestedTraceable) {
+      context = tracer.actor().requestedTopLevelActor(guardian.echo$identifier(), guardian.echo$info(), name);
     } else {
       context = TraceContext.NoTrace();
     }
 
     tracer.trace().local().start(context);
     ActorRef actorRef = proceed(system, props, name);
-    if (requestedTraceable) tracer.actor().createdTopLevelActor(actorRef.atmos$info());
+    if (requestedTraceable) tracer.actor().createdTopLevelActor(actorRef.echo$info());
     tracer.trace().local().end();
     return actorRef;
   }
@@ -349,7 +349,7 @@ privileged aspect ActorTraceAspect {
     this(system) &&
     args(props)
   {
-    ActorSystemTracer tracer = system.atmos$tracer();
+    ActorSystemTracer tracer = system.echo$tracer();
     ActorRef guardian = system.guardian();
 
     if (disabled(tracer)) return proceed(system, props);
@@ -359,15 +359,15 @@ privileged aspect ActorTraceAspect {
     boolean requestedTraceable = tracer.actor().traceable(requestedIdentifier);
 
     TraceContext context;
-    if (guardian.atmos$traceable() && requestedTraceable) {
-      context = tracer.actor().requestedTopLevelActor(guardian.atmos$identifier(), guardian.atmos$info(), name);
+    if (guardian.echo$traceable() && requestedTraceable) {
+      context = tracer.actor().requestedTopLevelActor(guardian.echo$identifier(), guardian.echo$info(), name);
     } else {
       context = TraceContext.NoTrace();
     }
 
     tracer.trace().local().start(context);
     ActorRef actorRef = proceed(system, props);
-    if (requestedTraceable) tracer.actor().createdTopLevelActor(actorRef.atmos$info());
+    if (requestedTraceable) tracer.actor().createdTopLevelActor(actorRef.echo$info());
     tracer.trace().local().end();
     return actorRef;
   }
@@ -380,9 +380,9 @@ privileged aspect ActorTraceAspect {
     this(provider) &&
     args(system, props, supervisor, path, systemService, deploy, lookupDeploy, async)
   {
-    ActorSystemTracer tracer = system.atmos$tracer();
+    ActorSystemTracer tracer = system.echo$tracer();
 
-    if (disabled(tracer) || !supervisor.atmos$traceable()) return proceed(provider, system, props, supervisor, path, systemService, deploy, lookupDeploy, async);
+    if (disabled(tracer) || !supervisor.echo$traceable()) return proceed(provider, system, props, supervisor, path, systemService, deploy, lookupDeploy, async);
 
     String requestedIdentifier = tracer.actor().identifier(path);
     boolean requestedTraceable = tracer.actor().traceable(requestedIdentifier);
@@ -390,10 +390,10 @@ privileged aspect ActorTraceAspect {
 
     boolean router = !(props.deploy().routerConfig() instanceof NoRouter);
     ActorInfo info = tracer.actor().info(path, props.dispatcher(), false, router);
-    TraceContext context = tracer.actor().requested(supervisor.atmos$info(), info);
+    TraceContext context = tracer.actor().requested(supervisor.echo$info(), info);
     tracer.trace().local().start(context);
     InternalActorRef child = proceed(provider, system, props, supervisor, path, systemService, deploy, lookupDeploy, async);
-    tracer.actor().created(child.atmos$info());
+    tracer.actor().created(child.echo$info());
     tracer.trace().local().end();
     return child;
   }
@@ -405,17 +405,17 @@ privileged aspect ActorTraceAspect {
     this(actorRef) &&
     args(system, props, dispatcher, mailboxType, supervisor, path)
   {
-    ActorSystemTracer tracer = system.atmos$tracer();
-    actorRef.atmos$tracer(tracer);
+    ActorSystemTracer tracer = system.echo$tracer();
+    actorRef.echo$tracer(tracer);
     if (enabled(tracer)) {
       String identifier = tracer.actor().identifier(path);
-      actorRef.atmos$identifier(identifier);
+      actorRef.echo$identifier(identifier);
       boolean traceable = tracer.actor().traceable(identifier);
-      actorRef.atmos$traceable(traceable);
+      actorRef.echo$traceable(traceable);
       if (traceable) {
         boolean router = !(props.deploy().routerConfig() instanceof NoRouter);
         ActorInfo info = tracer.actor().info(path, props.dispatcher(), false, router);
-        actorRef.atmos$info(info);
+        actorRef.echo$info(info);
       }
     }
   }
@@ -424,14 +424,14 @@ privileged aspect ActorTraceAspect {
   // Trace context transfer with system message
   // ----------------------------------------------------
 
-  private volatile TraceContext SystemMessage._atmos$trace;
+  private volatile TraceContext SystemMessage._echo$trace;
 
-  public TraceContext SystemMessage.atmos$trace() {
-    return _atmos$trace;
+  public TraceContext SystemMessage.echo$trace() {
+    return _echo$trace;
   }
 
-  public void SystemMessage.atmos$trace(TraceContext context) {
-    _atmos$trace = context;
+  public void SystemMessage.echo$trace(TraceContext context) {
+    _echo$trace = context;
   }
 
   // ----------------------------------------------------
@@ -443,19 +443,19 @@ privileged aspect ActorTraceAspect {
     this(mailbox) &&
     args(actorRef, message)
   {
-    ActorSystemTracer tracer = actorRef.atmos$tracer();
+    ActorSystemTracer tracer = actorRef.echo$tracer();
     if (enabled(tracer)) {
       // create similar actor failed events to earlier Akka versions
       if (message instanceof Failed) {
         Failed failed = (Failed) message;
         ActorRef child = failed.child();
-        if (child != null && child.atmos$traceable()) {
-          TraceContext context = tracer.actor().failed(child.atmos$info(), failed.cause(), actorRef.atmos$info());
-          message.atmos$trace(context);
+        if (child != null && child.echo$traceable()) {
+          TraceContext context = tracer.actor().failed(child.echo$info(), failed.cause(), actorRef.echo$info());
+          message.echo$trace(context);
         }
-      } else if (actorRef.atmos$traceable()) {
-        TraceContext context = tracer.actor().message().sysMsgDispatched(actorRef.atmos$info(), message);
-        message.atmos$trace(context);
+      } else if (actorRef.echo$traceable()) {
+        TraceContext context = tracer.actor().message().sysMsgDispatched(actorRef.echo$info(), message);
+        message.echo$trace(context);
       }
     }
   }
@@ -470,13 +470,13 @@ privileged aspect ActorTraceAspect {
     args(message)
   {
     ActorRef actorRef = (ActorRef) actorCell.self();
-    ActorSystemTracer tracer = actorRef.atmos$tracer();
-    TraceContext context = message.atmos$trace();
+    ActorSystemTracer tracer = actorRef.echo$tracer();
+    TraceContext context = message.echo$trace();
 
-    if (disabled(tracer) || !actorRef.atmos$traceable() || (context == null))
+    if (disabled(tracer) || !actorRef.echo$traceable() || (context == null))
       return proceed(actorCell, message);
 
-    ActorInfo info = actorRef.atmos$info();
+    ActorInfo info = actorRef.echo$info();
 
     // set the trace context from the system message
     tracer.trace().local().start(context);
@@ -491,14 +491,14 @@ privileged aspect ActorTraceAspect {
   // Transfer trace context with envelope
   // ----------------------------------------------------
 
-  private volatile TraceContext Envelope._atmos$trace = TraceContext.ZeroTrace();
+  private volatile TraceContext Envelope._echo$trace = TraceContext.ZeroTrace();
 
-  private TraceContext Envelope.atmos$trace() {
-    return _atmos$trace;
+  private TraceContext Envelope.echo$trace() {
+    return _echo$trace;
   }
 
-  private void Envelope.atmos$trace(TraceContext context) {
-    _atmos$trace = context;
+  private void Envelope.echo$trace(TraceContext context) {
+    _echo$trace = context;
   }
 
   // ----------------------------------------------------
@@ -511,11 +511,11 @@ privileged aspect ActorTraceAspect {
     args(message, sender) &&
     cflow(execution(* akka.actor.ActorRefWithCell+.$bang(..)) && this(actorRef))
   {
-    ActorSystemTracer tracer = actorRef.atmos$tracer();
-    if (enabled(tracer) && actorRef.atmos$traceable()) {
-      ActorInfo senderInfo = (sender != null && sender.atmos$traceable()) ? sender.atmos$info() : null;
-      TraceContext context = tracer.actor().told(actorRef.atmos$identifier(), actorRef.atmos$info(), message, senderInfo);
-      envelope.atmos$trace(context);
+    ActorSystemTracer tracer = actorRef.echo$tracer();
+    if (enabled(tracer) && actorRef.echo$traceable()) {
+      ActorInfo senderInfo = (sender != null && sender.echo$traceable()) ? sender.echo$info() : null;
+      TraceContext context = tracer.actor().told(actorRef.echo$identifier(), actorRef.echo$info(), message, senderInfo);
+      envelope.echo$trace(context);
     }
   }
 
@@ -529,13 +529,13 @@ privileged aspect ActorTraceAspect {
     args(envelope)
   {
     ActorRef actorRef = (ActorRef) actorCell.self();
-    ActorSystemTracer tracer = actorRef.atmos$tracer();
-    TraceContext context = envelope.atmos$trace();
+    ActorSystemTracer tracer = actorRef.echo$tracer();
+    TraceContext context = envelope.echo$trace();
 
-    if (disabled(tracer) || !actorRef.atmos$traceable() || (context == null))
+    if (disabled(tracer) || !actorRef.echo$traceable() || (context == null))
       return proceed(actorCell, envelope);
 
-    ActorInfo info = actorRef.atmos$info();
+    ActorInfo info = actorRef.echo$info();
     Object message = envelope.message();
 
     tracer.trace().local().start(context);
@@ -559,16 +559,16 @@ privileged aspect ActorTraceAspect {
   {
     if (provider instanceof WithTracer) {
       ActorSystemTracer tracer = (ActorSystemTracer) ((WithTracer) provider).tracer();
-      actorRef.atmos$tracer(tracer);
+      actorRef.echo$tracer(tracer);
       if (enabled(tracer)) {
         ActorPath path = actorRef.path();
         String identifier = tracer.actor().identifier(path);
-        actorRef.atmos$identifier(identifier);
+        actorRef.echo$identifier(identifier);
         boolean traceable = tracer.trace().active();
-        actorRef.atmos$traceable(traceable);
+        actorRef.echo$traceable(traceable);
         if (traceable) {
           ActorInfo info = tracer.actor().info(path, null, false, false);
-          actorRef.atmos$info(info);
+          actorRef.echo$info(info);
         }
       }
     }
@@ -580,9 +580,9 @@ privileged aspect ActorTraceAspect {
     execution(akka.pattern.PromiseActorRef.new(..)) &&
     this(actorRef)
   {
-    ActorSystemTracer tracer = actorRef.atmos$tracer();
-    if (enabled(tracer) && actorRef.atmos$traceable()) {
-      tracer.actor().tempCreated(actorRef.atmos$info());
+    ActorSystemTracer tracer = actorRef.echo$tracer();
+    if (enabled(tracer) && actorRef.echo$traceable()) {
+      tracer.actor().tempCreated(actorRef.echo$info());
     }
   }
 
@@ -592,14 +592,14 @@ privileged aspect ActorTraceAspect {
     execution(* akka.pattern.AskableActorRef$.ask$extension(..)) &&
     args(actorRef, message, timeout)
   {
-    ActorSystemTracer tracer = actorRef.atmos$tracer();
+    ActorSystemTracer tracer = actorRef.echo$tracer();
 
     if (disabled(tracer)) return proceed(actorRef, message, timeout);
 
     TraceContext context = TraceContext.EmptyTrace();
 
-    if (actorRef.atmos$traceable()) {
-      context = tracer.actor().asked(actorRef.atmos$identifier(), actorRef.atmos$info(), message);
+    if (actorRef.echo$traceable()) {
+      context = tracer.actor().asked(actorRef.echo$identifier(), actorRef.echo$info(), message);
     }
 
     tracer.trace().local().start(context);
@@ -615,13 +615,13 @@ privileged aspect ActorTraceAspect {
     this(actorRef) &&
     args(message, sender)
   {
-    ActorSystemTracer tracer = actorRef.atmos$tracer();
+    ActorSystemTracer tracer = actorRef.echo$tracer();
 
-    if (disabled(tracer) || !actorRef.atmos$traceable()) return proceed(actorRef, message, sender);
+    if (disabled(tracer) || !actorRef.echo$traceable()) return proceed(actorRef, message, sender);
 
-    ActorInfo info = actorRef.atmos$info();
-    ActorInfo senderInfo = (sender != null && sender.atmos$traceable()) ? sender.atmos$info() : null;
-    TraceContext context = tracer.actor().tempTold(actorRef.atmos$identifier(), info, message, senderInfo);
+    ActorInfo info = actorRef.echo$info();
+    ActorInfo senderInfo = (sender != null && sender.echo$traceable()) ? sender.echo$info() : null;
+    TraceContext context = tracer.actor().tempTold(actorRef.echo$identifier(), info, message, senderInfo);
     tracer.trace().local().start(context);
     tracer.actor().message().tempReceived(info, message);
     Object result = proceed(actorRef, message, sender);
@@ -636,9 +636,9 @@ privileged aspect ActorTraceAspect {
     execution(* akka.pattern.PromiseActorRef.stop(..)) &&
     this(actorRef)
   {
-    ActorSystemTracer tracer = actorRef.atmos$tracer();
-    if (enabled(tracer) && actorRef.atmos$traceable()) {
-      tracer.actor().tempStopped(actorRef.atmos$info());
+    ActorSystemTracer tracer = actorRef.echo$tracer();
+    if (enabled(tracer) && actorRef.echo$traceable()) {
+      tracer.actor().tempStopped(actorRef.echo$info());
     }
   }
 
@@ -648,43 +648,43 @@ privileged aspect ActorTraceAspect {
 
   // attach tracer to scheduler
 
-  private volatile ActorSystemTracer Scheduler._atmos$tracer;
+  private volatile ActorSystemTracer Scheduler._echo$tracer;
 
-  private ActorSystemTracer Scheduler.atmos$tracer() {
-    return _atmos$tracer;
+  private ActorSystemTracer Scheduler.echo$tracer() {
+    return _echo$tracer;
   }
 
-  private void Scheduler.atmos$tracer(ActorSystemTracer tracer) {
-    _atmos$tracer = tracer;
+  private void Scheduler.echo$tracer(ActorSystemTracer tracer) {
+    _echo$tracer = tracer;
   }
 
   after(ActorSystemImpl system) returning(Scheduler scheduler):
     execution(* akka.actor.ActorSystemImpl.createScheduler(..)) &&
     this(system)
   {
-    scheduler.atmos$tracer(system.atmos$tracer());
+    scheduler.echo$tracer(system.echo$tracer());
   }
 
   // attach tracer and info to scheduler timeout
 
-  private volatile ActorSystemTracer akka.actor.Cancellable._atmos$tracer;
+  private volatile ActorSystemTracer akka.actor.Cancellable._echo$tracer;
 
-  public ActorSystemTracer akka.actor.Cancellable.atmos$tracer() {
-    return _atmos$tracer;
+  public ActorSystemTracer akka.actor.Cancellable.echo$tracer() {
+    return _echo$tracer;
   }
 
-  public void akka.actor.Cancellable.atmos$tracer(ActorSystemTracer tracer) {
-    _atmos$tracer = tracer;
+  public void akka.actor.Cancellable.echo$tracer(ActorSystemTracer tracer) {
+    _echo$tracer = tracer;
   }
 
-  private volatile TaskInfo akka.actor.Cancellable._atmos$info;
+  private volatile TaskInfo akka.actor.Cancellable._echo$info;
 
-  private TaskInfo akka.actor.Cancellable.atmos$info() {
-    return _atmos$info;
+  private TaskInfo akka.actor.Cancellable.echo$info() {
+    return _echo$info;
   }
 
-  private void akka.actor.Cancellable.atmos$info(TaskInfo info) {
-    _atmos$info = info;
+  private void akka.actor.Cancellable.echo$info(TaskInfo info) {
+    _echo$info = info;
   }
 
   // schedule once tracing
@@ -694,14 +694,14 @@ privileged aspect ActorTraceAspect {
     this(scheduler) &&
     args(delay, runnable, executor)
   {
-    ActorSystemTracer tracer = scheduler.atmos$tracer();
+    ActorSystemTracer tracer = scheduler.echo$tracer();
     if (disabled(tracer)) return proceed(scheduler, delay, runnable, executor);
     TaskInfo info = tracer.scheduler().newInfo(executor.getClass().getName());
     TraceContext context = tracer.scheduler().scheduledOnce(info, delay);
     TracedUnscheduledRunnable tracedRunnable = new TracedUnscheduledRunnable(runnable, context, info);
     akka.actor.Cancellable cancellable = proceed(scheduler, delay, tracedRunnable, executor);
-    cancellable.atmos$tracer(scheduler.atmos$tracer());
-    cancellable.atmos$info(info);
+    cancellable.echo$tracer(scheduler.echo$tracer());
+    cancellable.echo$info(info);
     return cancellable;
   }
 
@@ -711,9 +711,9 @@ privileged aspect ActorTraceAspect {
     execution(* akka.actor.Cancellable.cancel(..)) &&
     this(cancellable)
   {
-    ActorSystemTracer tracer = cancellable.atmos$tracer();
+    ActorSystemTracer tracer = cancellable.echo$tracer();
     if (enabled(tracer) && tracer.trace().sampled() > 0) {
-      TaskInfo info = cancellable.atmos$info();
+      TaskInfo info = cancellable.echo$info();
       if (info != null && cancelled) {
         tracer.scheduler().cancelled(info);
       }
@@ -726,14 +726,14 @@ privileged aspect ActorTraceAspect {
 
   // attach tracer to event stream
 
-  private volatile ActorSystemTracer EventStream._atmos$tracer;
+  private volatile ActorSystemTracer EventStream._echo$tracer;
 
-  private ActorSystemTracer EventStream.atmos$tracer() {
-    return _atmos$tracer;
+  private ActorSystemTracer EventStream.echo$tracer() {
+    return _echo$tracer;
   }
 
-  private void EventStream.atmos$tracer(ActorSystemTracer tracer) {
-    _atmos$tracer = tracer;
+  private void EventStream.echo$tracer(ActorSystemTracer tracer) {
+    _echo$tracer = tracer;
   }
 
   before(ActorSystemImpl system, EventStream eventStream):
@@ -741,7 +741,7 @@ privileged aspect ActorTraceAspect {
     this(eventStream) &&
     cflow(execution(akka.actor.ActorSystemImpl.new(..)) && this(system))
   {
-    eventStream.atmos$tracer(system.atmos$tracer());
+    eventStream.echo$tracer(system.echo$tracer());
   }
 
   // event stream publish tracing
@@ -752,7 +752,7 @@ privileged aspect ActorTraceAspect {
   {
     if (eventBus instanceof EventStream) {
       EventStream eventStream = (EventStream) eventBus;
-      ActorSystemTracer tracer = eventStream.atmos$tracer();
+      ActorSystemTracer tracer = eventStream.echo$tracer();
       if (enabled(tracer)) {
         tracer.eventStream().published(event);
       }
@@ -771,16 +771,16 @@ privileged aspect ActorTraceAspect {
     this(actorRef) &&
     args(provider, path, eventStream)
   {
-    ActorSystemTracer tracer = eventStream.atmos$tracer();
-    actorRef.atmos$tracer(tracer);
+    ActorSystemTracer tracer = eventStream.echo$tracer();
+    actorRef.echo$tracer(tracer);
     if (enabled(tracer)) {
       String identifier = tracer.actor().identifier(path);
-      actorRef.atmos$identifier(identifier);
+      actorRef.echo$identifier(identifier);
       boolean traceable = tracer.actor().traceable(identifier);
-      actorRef.atmos$traceable(traceable);
+      actorRef.echo$traceable(traceable);
       if (traceable) {
         ActorInfo info = tracer.actor().info(path, "", false, false);
-        actorRef.atmos$info(info);
+        actorRef.echo$info(info);
       }
     }
   }
@@ -797,11 +797,11 @@ privileged aspect ActorTraceAspect {
     args(envelope)
   {
     ActorRef actorRef = (ActorRef) actorCell.self();
-    ActorSystemTracer tracer = actorRef.atmos$tracer();
+    ActorSystemTracer tracer = actorRef.echo$tracer();
 
-    if (disabled(tracer) || !actorRef.atmos$traceable()) return proceed(actorCell, envelope);
+    if (disabled(tracer) || !actorRef.echo$traceable()) return proceed(actorCell, envelope);
 
-    TraceContext context = envelope.atmos$trace();
+    TraceContext context = envelope.echo$trace();
     tracer.trace().local().start(context);
     Object result = proceed(actorCell, envelope);
     tracer.trace().local().end();
@@ -816,42 +816,42 @@ privileged aspect ActorTraceAspect {
 
   // tracer
 
-  private volatile ActorSystemTracer ActorSelection._atmos$tracer = null;
+  private volatile ActorSystemTracer ActorSelection._echo$tracer = null;
 
-  public ActorSystemTracer ActorSelection.atmos$tracer() {
-    return _atmos$tracer;
+  public ActorSystemTracer ActorSelection.echo$tracer() {
+    return _echo$tracer;
   }
 
-  public void ActorSelection.atmos$tracer(ActorSystemTracer tracer) {
-    _atmos$tracer = tracer;
+  public void ActorSelection.echo$tracer(ActorSystemTracer tracer) {
+    _echo$tracer = tracer;
   }
 
   // traceable
 
-  private volatile boolean ActorSelection._atmos$traceable = false;
+  private volatile boolean ActorSelection._echo$traceable = false;
 
-  public boolean ActorSelection.atmos$traceable() {
-    return _atmos$traceable;
+  public boolean ActorSelection.echo$traceable() {
+    return _echo$traceable;
   }
 
-  public void ActorSelection.atmos$traceable(boolean traceable) {
-    _atmos$traceable = traceable;
+  public void ActorSelection.echo$traceable(boolean traceable) {
+    _echo$traceable = traceable;
   }
 
   // info
 
-  private volatile ActorSelectionInfo ActorSelection._atmos$info = null;
+  private volatile ActorSelectionInfo ActorSelection._echo$info = null;
 
-  public ActorSelectionInfo ActorSelection.atmos$info() {
-    return _atmos$info;
+  public ActorSelectionInfo ActorSelection.echo$info() {
+    return _echo$info;
   }
 
-  public void ActorSelection.atmos$info(ActorSelectionInfo info) {
-    _atmos$info = info;
+  public void ActorSelection.echo$info(ActorSelectionInfo info) {
+    _echo$info = info;
   }
 
   public Info ActorSelection.info() {
-    return (Info) this._atmos$info;
+    return (Info) this._echo$info;
   }
 
   // attach metadata to actor selections
@@ -860,15 +860,15 @@ privileged aspect ActorTraceAspect {
     execution(* akka.actor.ActorSelection$+.apply(..))
   {
     ActorRef anchor = selection.anchor();
-    if (anchor.atmos$traceable()) {
-      ActorSystemTracer tracer = anchor.atmos$tracer();
+    if (anchor.echo$traceable()) {
+      ActorSystemTracer tracer = anchor.echo$tracer();
       String path = tracer.actor().selectionPath(selection.path());
       boolean traceable = tracer.actor().traceable(path);
       if (traceable) {
-        ActorSelectionInfo info = tracer.actor().selectionInfo(anchor.atmos$info(), path);
-        selection.atmos$tracer(tracer);
-        selection.atmos$traceable(true);
-        selection.atmos$info(info);
+        ActorSelectionInfo info = tracer.actor().selectionInfo(anchor.echo$info(), path);
+        selection.echo$tracer(tracer);
+        selection.echo$traceable(true);
+        selection.echo$info(info);
       }
     }
   }
@@ -880,12 +880,12 @@ privileged aspect ActorTraceAspect {
     this(selection) &&
     args(message, sender)
   {
-    ActorSystemTracer tracer = selection.atmos$tracer();
+    ActorSystemTracer tracer = selection.echo$tracer();
 
-    if (disabled(tracer) || !selection.atmos$traceable()) return proceed(selection, message, sender);
+    if (disabled(tracer) || !selection.echo$traceable()) return proceed(selection, message, sender);
 
-    ActorInfo senderInfo = (sender != null && sender.atmos$traceable()) ? sender.atmos$info() : null;
-    TraceContext context = tracer.actor().selectionTold(selection.atmos$info(), message, senderInfo);
+    ActorInfo senderInfo = (sender != null && sender.echo$traceable()) ? sender.echo$info() : null;
+    TraceContext context = tracer.actor().selectionTold(selection.echo$info(), message, senderInfo);
     tracer.trace().local().start(context);
     Object result = proceed(selection, message, sender);
     tracer.trace().local().end();
@@ -898,14 +898,14 @@ privileged aspect ActorTraceAspect {
     execution(* akka.pattern.AskableActorSelection$.ask$extension(..)) &&
     args(selection, message, timeout)
   {
-    ActorSystemTracer tracer = selection.atmos$tracer();
+    ActorSystemTracer tracer = selection.echo$tracer();
 
     if (disabled(tracer)) return proceed(selection, message, timeout);
 
     TraceContext context = TraceContext.EmptyTrace();
 
-    if (selection.atmos$traceable()) {
-      context = tracer.actor().selectionAsked(selection.atmos$info(), message);
+    if (selection.echo$traceable()) {
+      context = tracer.actor().selectionAsked(selection.echo$info(), message);
     }
 
     tracer.trace().local().start(context);

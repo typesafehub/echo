@@ -14,30 +14,30 @@ privileged aspect EnumerateeTraceAspect {
 
   declare parents: Enumeratee implements EnumerateeTag;
 
-  private volatile EnumerateeTagData Enumeratee._atmos$tag;
+  private volatile EnumerateeTagData Enumeratee._echo$tag;
 
-  public EnumerateeTagData Enumeratee.atmos$tag() {
-    return _atmos$tag;
+  public EnumerateeTagData Enumeratee.echo$tag() {
+    return _echo$tag;
   }
 
-  public void Enumeratee.atmos$tag(EnumerateeTagData tag) {
-    _atmos$tag = tag;
+  public void Enumeratee.echo$tag(EnumerateeTagData tag) {
+    _echo$tag = tag;
   }
 
-  public void Enumeratee.atmos$setChunking() {
-    if (this._atmos$tag == null) {
-      this.atmos$tag(EnumerateeTrace.Chunking());
+  public void Enumeratee.echo$setChunking() {
+    if (this._echo$tag == null) {
+      this.echo$tag(EnumerateeTrace.Chunking());
     }
   }
 
-  public boolean Enumeratee.atmos$chunking() {
-    if (this._atmos$tag != null) {
-      return this.atmos$tag().chunking();
+  public boolean Enumeratee.echo$chunking() {
+    if (this._echo$tag != null) {
+      return this.echo$tag().chunking();
     } else return false;
   }
 
   public EnumerateeTagData Enumeratee.tag() {
-    return this._atmos$tag;
+    return this._echo$tag;
   }
 
   public boolean enabled(ActionTracer tracer) {
@@ -60,7 +60,7 @@ privileged aspect EnumerateeTraceAspect {
   {
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
-      if (enumeratee.atmos$chunking()) inner.atmos$setChunking();
+      if (enumeratee.echo$chunking()) inner.echo$setChunking();
       return proceed(enumeratee, inner);
     } else {
       return proceed(enumeratee, inner);
