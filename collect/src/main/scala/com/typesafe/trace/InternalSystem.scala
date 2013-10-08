@@ -32,8 +32,7 @@ object InternalSystem {
     val useRemoteProvider = appConfig.getStringList("atmos.trace.event-handlers").contains(RemoteHandlerName)
     val defaultConfigMap = Map(
       "akka.loglevel" -> loglevel,
-      "akka.event-handlers" -> eventHandlers,
-      "atmos.mode" -> appConfig.getString("atmos.mode")) ++
+      "akka.event-handlers" -> eventHandlers) ++
       (if (useRemoteProvider) Map("akka.actor.provider" -> "akka.remote.RemoteActorRefProvider") else Map.empty)
 
     val config =

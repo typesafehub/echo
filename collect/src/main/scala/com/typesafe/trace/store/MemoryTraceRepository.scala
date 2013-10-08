@@ -155,7 +155,7 @@ object MemoryTraceEventListener {
 
   def useLocal(receiver: TraceReceiver): Boolean = useLocal(receiver.eventHandler.config)
 
-  def useLocal(config: Config): Boolean = config.getString("atmos.mode") == "local"
+  def useLocal(config: Config): Boolean = true
 
   def getListenerFor(receiver: TraceReceiver): Option[ActorRef] = {
     receiver.eventHandler.listeners.find { _.path.name contains "MemoryTraceEventListener" }
