@@ -294,8 +294,7 @@ object EchoBuild extends Build {
     settings = defaultSettings ++ tracedTestSettings ++ Seq(
       name := "cotests-trace-akka-2.0",
       scalaVersion := Dependency.V.Scala29,
-      cotestProjectName := "trace",
-      javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off"))
+      cotestProjectName := "trace"
     )
   )
 
@@ -307,8 +306,7 @@ object EchoBuild extends Build {
       name := "cotests-trace-akka-2.1",
       scalaVersion := Dependency.V.Scala210,
       cotestProjectName := "trace",
-      javaOptions in Test += "-Datmos.trace.enabled=true",
-      javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off"))
+      javaOptions in Test += "-Datmos.trace.enabled=true"
     )
   )
 
@@ -320,8 +318,7 @@ object EchoBuild extends Build {
       name := "cotests-trace-akka-2.2-scala-2.10",
       scalaVersion := Dependency.V.Scala210,
       cotestProjectName := "trace",
-      javaOptions in Test += "-Datmos.trace.enabled=true",
-      javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off"))
+      javaOptions in Test += "-Datmos.trace.enabled=true"
     )
   )
 
@@ -333,8 +330,7 @@ object EchoBuild extends Build {
       name := "cotests-trace-akka-2.2-scala-2.11",
       scalaVersion := Dependency.V.Scala211,
       cotestProjectName := "trace",
-      javaOptions in Test += "-Datmos.trace.enabled=true",
-      javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off"))
+      javaOptions in Test += "-Datmos.trace.enabled=true"
     )
   )
 
@@ -380,8 +376,7 @@ object EchoBuild extends Build {
         "-Datmos.trace.play.sampling./getSampled=3",
         "-Datmos.trace.use-dispatcher-monitor=off",
         "-Datmos.trace.use-system-metrics-monitor=off"
-      ),
-      javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off"))
+      )
     )
   )
 
@@ -404,7 +399,6 @@ object EchoBuild extends Build {
         "-Datmos.trace.play.sampling./getSampled=3",
         "-Datmos.trace.use-system-metrics-monitor=off"
       ),
-      javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off")),
       // ignore deprecation warnings (intended usage of deprecated api)
       scalacOptions ~= { _ diff Seq("-deprecation") }
     )
@@ -417,8 +411,7 @@ object EchoBuild extends Build {
     settings = defaultSettings ++ tracedTestSettings ++ Seq(
       name := "cotests-trace2-akka-2.0",
       scalaVersion := Dependency.V.Scala29,
-      cotestProjectName := "trace2",
-      javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off"))
+      cotestProjectName := "trace2"
     )
   )
 
@@ -430,8 +423,7 @@ object EchoBuild extends Build {
       name := "cotests-trace2-akka-2.1",
       scalaVersion := Dependency.V.Scala210,
       cotestProjectName := "trace2",
-      javaOptions in Test += "-Datmos.trace.enabled=true",
-      javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off"))
+      javaOptions in Test += "-Datmos.trace.enabled=true"
     )
   )
 
@@ -443,8 +435,7 @@ object EchoBuild extends Build {
       name := "cotests-trace2-akka-2.2-scala-2.10",
       scalaVersion := Dependency.V.Scala210,
       cotestProjectName := "trace2",
-      javaOptions in Test += "-Datmos.trace.enabled=true",
-      javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off"))
+      javaOptions in Test += "-Datmos.trace.enabled=true"
     )
   )
 
@@ -456,8 +447,7 @@ object EchoBuild extends Build {
       name := "cotests-trace2-akka-2.2-scala-2.11",
       scalaVersion := Dependency.V.Scala211,
       cotestProjectName := "trace2",
-      javaOptions in Test += "-Datmos.trace.enabled=true",
-      javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off"))
+      javaOptions in Test += "-Datmos.trace.enabled=true"
     )
   )
 
