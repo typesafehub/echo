@@ -6,7 +6,7 @@ package com.typesafe.trace
 
 import akka.actor._
 import akka.routing.FromConfig
-import com.typesafe.trace.test.AtmosTraceSpec
+import com.typesafe.trace.test.EchoTraceSpec
 
 object RoutedActorSpec {
   val config = """
@@ -25,7 +25,7 @@ object RoutedActorSpec {
   }
 }
 
-class Akka22Scala211RoutedActorSpec extends AtmosTraceSpec(RoutedActorSpec.config) {
+class Akka22Scala211RoutedActorSpec extends EchoTraceSpec(RoutedActorSpec.config) {
   import RoutedActorSpec._
 
   "Tracing" must {

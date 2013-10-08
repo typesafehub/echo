@@ -6,7 +6,7 @@ package com.typesafe.trace
 
 import akka.actor._
 import akka.util.Duration
-import com.typesafe.trace.test.AtmosTraceSpec
+import com.typesafe.trace.test.EchoTraceSpec
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
@@ -32,7 +32,7 @@ object SchedulerSpec {
 
 }
 
-class Akka20SchedulerSpec extends AtmosTraceSpec {
+class Akka20SchedulerSpec extends EchoTraceSpec {
   import SchedulerSpec._
 
   "Tracing of Scheduler" must {

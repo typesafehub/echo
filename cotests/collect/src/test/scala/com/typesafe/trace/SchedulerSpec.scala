@@ -4,7 +4,7 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosCollectSpec
+import com.typesafe.trace.test.EchoCollectSpec
 
 class Akka20SchedulerSpec extends SchedulerSpec {
   val setupCount = 54
@@ -30,7 +30,7 @@ abstract class Akka22SchedulerSpec extends SchedulerSpec {
   val runnableCount = 2
 }
 
-abstract class SchedulerSpec extends AtmosCollectSpec {
+abstract class SchedulerSpec extends EchoCollectSpec {
   def setupCount: Int
   def mainCount: Int
   def scheduledCount: Int

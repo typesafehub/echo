@@ -5,7 +5,7 @@
 package com.typesafe.trace
 
 import akka.actor._
-import com.typesafe.trace.test.AtmosTraceSpec
+import com.typesafe.trace.test.EchoTraceSpec
 
 object UnhandledMessageSpec {
   case object Msg
@@ -18,7 +18,7 @@ object UnhandledMessageSpec {
   }
 }
 
-class Akka21UnhandledMessageSpec extends AtmosTraceSpec {
+class Akka21UnhandledMessageSpec extends EchoTraceSpec {
   import UnhandledMessageSpec._
 
   "Unhandled message tracing" must {

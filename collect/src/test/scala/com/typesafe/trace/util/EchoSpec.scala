@@ -15,7 +15,7 @@ import org.scalatest.{ WordSpec, BeforeAndAfterAll }
 import scala.concurrent.duration._
 import java.util.concurrent.TimeUnit
 
-object AtmosSpec {
+object EchoSpec {
   val testConf: Config = ConfigFactory.parseString("""
       akka {
         # TestEventHandler suppresses "simulated" errors
@@ -72,24 +72,24 @@ object AtmosSpec {
       }""")
 
   def getCallerName: String = {
-    val s = Thread.currentThread.getStackTrace map (_.getClassName) drop 1 dropWhile (_ matches ".*AtmosSpec.?$")
+    val s = Thread.currentThread.getStackTrace map (_.getClassName) drop 1 dropWhile (_ matches ".*EchoSpec.?$")
     s.head.replaceFirst(""".*\.""", "").replaceAll("[^a-zA-Z_0-9]", "_")
   }
 
 }
 
-abstract class AtmosSpec(_system: ActorSystem) extends TestKit(_system) with WordSpec with MustMatchers with BeforeAndAfterAll {
+abstract class EchoSpec(_system: ActorSystem) extends TestKit(_system) with WordSpec with MustMatchers with BeforeAndAfterAll {
 
   def this(config: Config) =
-    this(ActorSystem(AtmosSpec.getCallerName,
+    this(ActorSystem(EchoSpec.getCallerName,
       ConfigFactory.defaultOverrides
         .withFallback(config)
-        .withFallback(AtmosSpec.testConf)
+        .withFallback(EchoSpec.testConf)
         .withFallback(ConfigFactory.defaultReference)))
 
   def this(conf: String) = this(ConfigFactory.parseString(conf))
 
-  def this() = this(ActorSystem(AtmosSpec.getCallerName, AtmosSpec.testConf))
+  def this() = this(ActorSystem(EchoSpec.getCallerName, EchoSpec.testConf))
 
   val log: LoggingAdapter = Logging(system, this.getClass)
 

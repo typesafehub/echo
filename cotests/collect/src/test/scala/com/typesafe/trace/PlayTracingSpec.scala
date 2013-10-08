@@ -4,10 +4,10 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosCollectSpec
+import com.typesafe.trace.test.EchoCollectSpec
 import scala.concurrent.duration._
 
-class Play21NettyGetTracingSpec extends AtmosCollectSpec {
+class Play21NettyGetTracingSpec extends EchoCollectSpec {
   "Play Netty (GETs only)" must {
     "GET /get" in {
       eventCheck(expected = 416) {
@@ -211,7 +211,7 @@ class Play21NettyGetTracingSpec extends AtmosCollectSpec {
   }
 }
 
-class Play21NettyPostTracingSpec extends AtmosCollectSpec {
+class Play21NettyPostTracingSpec extends EchoCollectSpec {
   "Play Netty (POSTs only)" must {
     "POST /post" in {
       eventCheck(expected = 813) {
@@ -292,7 +292,7 @@ class Play21NettyPostTracingSpec extends AtmosCollectSpec {
   }
 }
 
-class Play21IterateeTracingSpec extends AtmosCollectSpec {
+class Play21IterateeTracingSpec extends EchoCollectSpec {
   "Iteratee tracing" must {
     "trace iteratees" in {
       eventCheck(expected = 59) {
@@ -311,7 +311,7 @@ class Play21IterateeTracingSpec extends AtmosCollectSpec {
   }
 }
 
-class Play21NettySamplingTracingSpec extends AtmosCollectSpec {
+class Play21NettySamplingTracingSpec extends EchoCollectSpec {
   "Play trace sampling" must {
     "produce a sample in-line with sampling rate" in {
       eventCheck(expected = 2080) {
@@ -342,7 +342,7 @@ class Play21NettySamplingTracingSpec extends AtmosCollectSpec {
   }
 }
 
-class Play22NettyGetTracingSpec extends AtmosCollectSpec {
+class Play22NettyGetTracingSpec extends EchoCollectSpec {
   "Play Netty (GETs only)" must {
     "GET /get" in {
       eventCheck(expected = 369) {
@@ -547,7 +547,7 @@ class Play22NettyGetTracingSpec extends AtmosCollectSpec {
   }
 }
 
-class Play22NettyPostTracingSpec extends AtmosCollectSpec {
+class Play22NettyPostTracingSpec extends EchoCollectSpec {
   "Play Netty (POSTs only)" must {
     "POST /post" in {
       eventCheck(expected = 1050) {
@@ -628,7 +628,7 @@ class Play22NettyPostTracingSpec extends AtmosCollectSpec {
   }
 }
 
-class Play22IterateeTracingSpec extends AtmosCollectSpec {
+class Play22IterateeTracingSpec extends EchoCollectSpec {
   "Iteratee tracing" must {
     "trace iteratees" in {
       eventCheck(expected = 205) {
@@ -647,7 +647,7 @@ class Play22IterateeTracingSpec extends AtmosCollectSpec {
   }
 }
 
-class Play22NettySamplingTracingSpec extends AtmosCollectSpec {
+class Play22NettySamplingTracingSpec extends EchoCollectSpec {
   "Play trace sampling" must {
     "produce a sample in-line with sampling rate" in {
       eventCheck(expected = 1845) {

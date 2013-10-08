@@ -4,7 +4,7 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosCollectSpec
+import com.typesafe.trace.test.EchoCollectSpec
 
 class Akka20TraceTreeSpec extends TraceTreeSpec {
   val createCount = 27
@@ -21,7 +21,7 @@ abstract class Akka22TraceTreeSpec extends TraceTreeSpec {
   val createCount = 10
 }
 
-abstract class TraceTreeSpec extends AtmosCollectSpec {
+abstract class TraceTreeSpec extends EchoCollectSpec {
   def createCount: Int
 
   "TraceTree" must {

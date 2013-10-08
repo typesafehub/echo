@@ -5,7 +5,7 @@
 package com.typesafe.trace
 
 import akka.actor._
-import com.typesafe.trace.test.AtmosTraceSpec
+import com.typesafe.trace.test.EchoTraceSpec
 
 object DeadLetterSpec {
   class Echo extends Actor {
@@ -15,7 +15,7 @@ object DeadLetterSpec {
   }
 }
 
-class Akka22Scala210DeadLetterSpec extends AtmosTraceSpec {
+class Akka22Scala210DeadLetterSpec extends EchoTraceSpec {
   import DeadLetterSpec._
 
   "Dead letter tracing" must {

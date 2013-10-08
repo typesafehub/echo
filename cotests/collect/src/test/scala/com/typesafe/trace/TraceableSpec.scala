@@ -4,7 +4,7 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosCollectSpec
+import com.typesafe.trace.test.EchoCollectSpec
 import scala.concurrent.duration._
 
 class Akka20TraceableSpec extends TraceableSpec {
@@ -22,7 +22,7 @@ abstract class Akka22TraceableSpec extends TraceableSpec {
   val createCount = 10
 }
 
-abstract class TraceableSpec extends AtmosCollectSpec {
+abstract class TraceableSpec extends EchoCollectSpec {
   def createCount: Int
 
   "Traceable" must {

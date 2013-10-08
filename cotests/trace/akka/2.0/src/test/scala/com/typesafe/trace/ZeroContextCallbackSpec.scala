@@ -8,7 +8,7 @@ import akka.actor._
 import akka.dispatch.Future
 import akka.pattern.pipe
 import akka.util.duration._
-import com.typesafe.trace.test.AtmosTraceSpec
+import com.typesafe.trace.test.EchoTraceSpec
 import java.util.concurrent.CountDownLatch
 
 object ZeroContextCallbackSpec {
@@ -27,7 +27,7 @@ object ZeroContextCallbackSpec {
   """
 }
 
-class Akka20ZeroContextCallbackSpec extends AtmosTraceSpec(ZeroContextCallbackSpec.testConfig) {
+class Akka20ZeroContextCallbackSpec extends EchoTraceSpec(ZeroContextCallbackSpec.testConfig) {
   import ZeroContextCallbackSpec._
 
   "Zero context callbacks" must {

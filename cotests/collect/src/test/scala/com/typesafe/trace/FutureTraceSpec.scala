@@ -4,7 +4,7 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosCollectSpec
+import com.typesafe.trace.test.EchoCollectSpec
 
 class Akka20FutureTraceSpec extends FutureTraceSpec {
   val createCount = 54
@@ -24,7 +24,7 @@ abstract class Akka22FutureTraceSpec extends FutureTraceSpec {
   val scheduledWrapperEvents = false
 }
 
-abstract class FutureTraceSpec extends AtmosCollectSpec {
+abstract class FutureTraceSpec extends EchoCollectSpec {
 
   // set this to true to activate pretty print of traces
   override val printTracesAfterWaitForEvents = false

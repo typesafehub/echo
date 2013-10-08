@@ -8,10 +8,10 @@ import akka.actor._
 import akka.dispatch.Await
 import akka.pattern.ask
 import akka.util.Timeout
-import com.typesafe.trace.test.AtmosTraceSpec
+import com.typesafe.trace.test.EchoTraceSpec
 import com.typesafe.trace.uuid.UUID
 
-class Akka20RemoteTraceSpec extends AtmosTraceSpec(RemoteTraceTest.config2) {
+class Akka20RemoteTraceSpec extends EchoTraceSpec(RemoteTraceTest.config2) {
   import RemoteTraceTest._
 
   override def cotestNodes = 3

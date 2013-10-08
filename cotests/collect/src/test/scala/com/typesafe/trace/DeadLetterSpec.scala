@@ -4,7 +4,7 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosCollectSpec
+import com.typesafe.trace.test.EchoCollectSpec
 
 class Akka20DeadLetterSpec extends DeadLetterSpec {
   // 27 events for system.actorOf
@@ -30,7 +30,7 @@ abstract class Akka22DeadLetterSpec extends DeadLetterSpec {
   val totalCount = 23
 }
 
-abstract class DeadLetterSpec extends AtmosCollectSpec {
+abstract class DeadLetterSpec extends EchoCollectSpec {
 
   def totalCount: Int
 

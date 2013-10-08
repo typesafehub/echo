@@ -9,7 +9,7 @@ import akka.dispatch.{ Await, Future, Promise }
 import akka.pattern.ask
 import akka.util.duration._
 import akka.util.Timeout
-import com.typesafe.trace.test.{ TimeoutHandler, AtmosTraceSpec }
+import com.typesafe.trace.test.{ TimeoutHandler, EchoTraceSpec }
 import com.typesafe.trace.util.ExpectedFailureException
 import java.util.concurrent.{ CountDownLatch, TimeoutException }
 
@@ -99,7 +99,7 @@ object FutureTraceSpec {
   }
 }
 
-class Akka20FutureTraceSpec extends AtmosTraceSpec {
+class Akka20FutureTraceSpec extends EchoTraceSpec {
   import FutureTraceSpec._
 
   var actor1: ActorRef = _

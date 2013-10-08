@@ -4,14 +4,14 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosCollectSpec
+import com.typesafe.trace.test.EchoCollectSpec
 
 class Akka20EventStreamSpec extends EventStreamSpec
 class Akka21EventStreamSpec extends EventStreamSpec
 class Akka22Scala210EventStreamSpec extends EventStreamSpec
 class Akka22Scala211EventStreamSpec extends EventStreamSpec
 
-abstract class EventStreamSpec extends AtmosCollectSpec {
+abstract class EventStreamSpec extends EchoCollectSpec {
 
   "Event stream tracing" must {
 

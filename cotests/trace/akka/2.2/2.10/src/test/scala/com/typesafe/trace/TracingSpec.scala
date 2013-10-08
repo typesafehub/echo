@@ -7,7 +7,7 @@ package com.typesafe.trace
 import akka.actor._
 import akka.pattern.ask
 import akka.util.Timeout
-import com.typesafe.trace.test.{ AtmosTraceSpec, CotestSyncSpec }
+import com.typesafe.trace.test.{ EchoTraceSpec, CotestSyncSpec }
 import com.typesafe.trace.util.ExpectedFailureException
 import java.util.concurrent.CountDownLatch
 import scala.concurrent.Await
@@ -44,7 +44,7 @@ object TracingSpec {
   }
 }
 
-class Akka22Scala210TracingSpec extends AtmosTraceSpec {
+class Akka22Scala210TracingSpec extends EchoTraceSpec {
   import TracingSpec._
 
   "Tracing" must {

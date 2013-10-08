@@ -7,7 +7,7 @@ package com.typesafe.trace
 import akka.actor._
 import akka.pattern.ask
 import akka.util.Timeout
-import com.typesafe.trace.test.{ TimeoutHandler, AtmosTraceSpec }
+import com.typesafe.trace.test.{ TimeoutHandler, EchoTraceSpec }
 import com.typesafe.trace.uuid.UUID
 import java.util.concurrent.CountDownLatch
 import scala.concurrent.Await
@@ -103,7 +103,7 @@ object RemoteTraceTest {
   }
 }
 
-class Akka22Scala211RemoteTraceSpec extends AtmosTraceSpec(RemoteTraceTest.config1) {
+class Akka22Scala211RemoteTraceSpec extends EchoTraceSpec(RemoteTraceTest.config1) {
   import RemoteTraceTest._
 
   override def cotestNodes = 3

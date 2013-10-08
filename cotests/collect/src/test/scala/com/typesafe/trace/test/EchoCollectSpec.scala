@@ -6,19 +6,19 @@ package com.typesafe.trace.test
 
 import com.typesafe.trace._
 import com.typesafe.trace.store.{ MemoryTraceEventListener, MemoryTraceRepository }
-import com.typesafe.trace.util.AtmosSpec
+import com.typesafe.trace.util.EchoSpec
 import com.typesafe.config.{ Config, ConfigFactory }
 import org.scalatest.BeforeAndAfterEach
 import java.util.concurrent.TimeUnit
 import scala.concurrent.duration._
 import scala.reflect.ClassTag
 
-object AtmosCollectSpec {
+object EchoCollectSpec {
   val config: Config = ConfigFactory.parseString("")
 }
 
-abstract class AtmosCollectSpec(_config: Config = AtmosCollectSpec.config) extends AtmosSpec(_config) with CotestSyncSpec with BeforeAndAfterEach {
-  def this(conf: String) = this(ConfigFactory.parseString(conf).withFallback(AtmosCollectSpec.config))
+abstract class EchoCollectSpec(_config: Config = EchoCollectSpec.config) extends EchoSpec(_config) with CotestSyncSpec with BeforeAndAfterEach {
+  def this(conf: String) = this(ConfigFactory.parseString(conf).withFallback(EchoCollectSpec.config))
 
   def testFactor = _config.getInt("atmos.test.time-factor")
 
@@ -36,7 +36,7 @@ abstract class AtmosCollectSpec(_config: Config = AtmosCollectSpec.config) exten
 
   lazy val repository: MemoryTraceRepository = {
     MemoryTraceEventListener.getRepositoryFor(traceReceiver).getOrElse {
-      throw new Exception("Need to use MemoryTraceEventListener with AtmosCollectSpec")
+      throw new Exception("Need to use MemoryTraceEventListener with EchoCollectSpec")
     }
   }
 

@@ -8,7 +8,7 @@ import akka.actor._
 import akka.dispatch.Await
 import akka.pattern.ask
 import akka.util.Timeout
-import com.typesafe.trace.test.{ AtmosTraceSpec, CotestSyncSpec }
+import com.typesafe.trace.test.{ EchoTraceSpec, CotestSyncSpec }
 import com.typesafe.trace.util.ExpectedFailureException
 import java.util.concurrent.CountDownLatch
 
@@ -44,7 +44,7 @@ object TracingSpec {
   }
 }
 
-class Akka20TracingSpec extends AtmosTraceSpec {
+class Akka20TracingSpec extends EchoTraceSpec {
   import TracingSpec._
 
   "Tracing" must {

@@ -5,7 +5,7 @@
 package com.typesafe.trace
 
 import akka.actor._
-import com.typesafe.trace.test.AtmosTraceSpec
+import com.typesafe.trace.test.EchoTraceSpec
 import java.util.concurrent.CountDownLatch
 
 object SamplingSpec {
@@ -34,7 +34,7 @@ object SamplingSpec {
   """
 }
 
-class Akka21SamplingSpec extends AtmosTraceSpec(SamplingSpec.config) {
+class Akka21SamplingSpec extends EchoTraceSpec(SamplingSpec.config) {
   import SamplingSpec._
 
   "Sampling" must {

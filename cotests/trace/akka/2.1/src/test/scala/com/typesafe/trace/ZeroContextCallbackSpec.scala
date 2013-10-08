@@ -6,7 +6,7 @@ package com.typesafe.trace
 
 import akka.actor._
 import akka.pattern.pipe
-import com.typesafe.trace.test.AtmosTraceSpec
+import com.typesafe.trace.test.EchoTraceSpec
 import java.util.concurrent.CountDownLatch
 import scala.concurrent.duration._
 import scala.concurrent.Future
@@ -23,7 +23,7 @@ object ZeroContextCallbackSpec {
   }
 }
 
-class Akka21ZeroContextCallbackSpec extends AtmosTraceSpec {
+class Akka21ZeroContextCallbackSpec extends EchoTraceSpec {
   import ZeroContextCallbackSpec._
   import scala.concurrent.ExecutionContext.Implicits.global
 

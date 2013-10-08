@@ -4,12 +4,12 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosCollectSpec
+import com.typesafe.trace.test.EchoCollectSpec
 
 class Akka22Scala210RoutedActorSpec extends Akka22RoutedActorSpec
 class Akka22Scala211RoutedActorSpec extends Akka22RoutedActorSpec
 
-abstract class Akka22RoutedActorSpec extends AtmosCollectSpec {
+abstract class Akka22RoutedActorSpec extends EchoCollectSpec {
 
   "Tracing" must {
     "trace routed actors" in {

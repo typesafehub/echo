@@ -7,10 +7,10 @@ package com.typesafe.trace
 import akka.actor._
 import akka.event.Logging
 import akka.event.Logging.{ Error, Warning }
-import com.typesafe.trace.test.AtmosTraceSpec
+import com.typesafe.trace.test.EchoTraceSpec
 import com.typesafe.trace.util.ExpectedFailureException
 
-class Akka20EventStreamSpec extends AtmosTraceSpec {
+class Akka20EventStreamSpec extends EchoTraceSpec {
 
   "Event stream tracing" must {
 

@@ -13,12 +13,12 @@ import scala.concurrent.duration._
 import scala.concurrent.duration.Duration
 import scala.concurrent.duration.TimeUnit
 
-object AtmosTraceSpec {
+object EchoTraceSpec {
   val config: Config = ConfigFactory.parseString("""
       akka {
-        # TestEventHandler suppresses "simulated" errors
-        event-handlers = ["com.typesafe.trace.test.TestEventHandler"]
-        event-handler-startup-timeout = 10s
+        # TestLogger suppresses "simulated" errors
+        loggers = ["com.typesafe.trace.test.TestLogger"]
+        logger-startup-timeout = 10s
         loglevel = WARNING
         stdout-loglevel = WARNING
         actor {
@@ -52,9 +52,9 @@ object AtmosTraceSpec {
       }""")
 }
 
-abstract class AtmosTraceSpec(val config: Config = AtmosTraceSpec.config) extends CotestSyncSpec with MustMatchers with BeforeAndAfterAll with BeforeAndAfterEach {
+abstract class EchoTraceSpec(val config: Config = EchoTraceSpec.config) extends CotestSyncSpec with MustMatchers with BeforeAndAfterAll with BeforeAndAfterEach {
 
-  def this(conf: String) = this(ConfigFactory.parseString(conf).withFallback(AtmosTraceSpec.config))
+  def this(conf: String) = this(ConfigFactory.parseString(conf).withFallback(EchoTraceSpec.config))
 
   val nodes = cotestNodes
   val nodeName = cotestName

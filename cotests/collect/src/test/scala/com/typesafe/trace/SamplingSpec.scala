@@ -4,7 +4,7 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosCollectSpec
+import com.typesafe.trace.test.EchoCollectSpec
 import scala.concurrent.duration._
 
 class Akka20SamplingSpec extends AkkaSamplingSpec {
@@ -25,7 +25,7 @@ abstract class Akka22SamplingSpec extends AkkaSamplingSpec {
   val sampled1Count = 32
 }
 
-abstract class AkkaSamplingSpec extends AtmosCollectSpec {
+abstract class AkkaSamplingSpec extends EchoCollectSpec {
 
   def totalCount: Int
   def sampled1Count: Int

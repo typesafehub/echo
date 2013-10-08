@@ -4,7 +4,7 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosCollectSpec
+import com.typesafe.trace.test.EchoCollectSpec
 
 class Akka20UnhandledMessageSpec extends UnhandledMessageSpec {
   val createCount = 27
@@ -21,7 +21,7 @@ abstract class Akka22UnhandledMessageSpec extends UnhandledMessageSpec {
   val createCount = 10
 }
 
-abstract class UnhandledMessageSpec extends AtmosCollectSpec {
+abstract class UnhandledMessageSpec extends EchoCollectSpec {
   def createCount: Int
 
   "Unhandled message tracing" must {

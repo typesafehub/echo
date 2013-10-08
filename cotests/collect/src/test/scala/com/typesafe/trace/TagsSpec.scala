@@ -4,7 +4,7 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosCollectSpec
+import com.typesafe.trace.test.EchoCollectSpec
 
 class Akka20TagsSpec extends TagsSpec {
   val eventCount = 81
@@ -21,7 +21,7 @@ abstract class Akka22TagsSpec extends TagsSpec {
   val eventCount = 47
 }
 
-abstract class TagsSpec extends AtmosCollectSpec {
+abstract class TagsSpec extends EchoCollectSpec {
   def eventCount: Int
 
   "Tags" must {

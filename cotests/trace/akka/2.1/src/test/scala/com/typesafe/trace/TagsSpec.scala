@@ -5,7 +5,7 @@
 package com.typesafe.trace
 
 import akka.actor._
-import com.typesafe.trace.test.AtmosTraceSpec
+import com.typesafe.trace.test.EchoTraceSpec
 import java.util.concurrent.CountDownLatch
 
 object TagsSpec {
@@ -35,7 +35,7 @@ object TagsSpec {
   """
 }
 
-class Akka21TagsSpec extends AtmosTraceSpec(TagsSpec.config) {
+class Akka21TagsSpec extends EchoTraceSpec(TagsSpec.config) {
   import TagsSpec._
 
   "Tags" must {

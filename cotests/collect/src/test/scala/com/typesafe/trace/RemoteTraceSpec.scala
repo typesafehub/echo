@@ -4,7 +4,7 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosCollectSpec
+import com.typesafe.trace.test.EchoCollectSpec
 import scala.concurrent.duration._
 
 object RemoteTraceSpec {
@@ -21,7 +21,7 @@ object RemoteTraceSpec {
   """
 }
 
-class Akka20RemoteTraceSpec extends AtmosCollectSpec(RemoteTraceSpec.config20) {
+class Akka20RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.config20) {
 
   override def cotestNodes = 3
   override def includeSystemStartedEvents = true
@@ -98,7 +98,7 @@ class Akka20RemoteTraceSpec extends AtmosCollectSpec(RemoteTraceSpec.config20) {
   }
 }
 
-class Akka21RemoteTraceSpec extends AtmosCollectSpec(RemoteTraceSpec.config21) {
+class Akka21RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.config21) {
 
   override def cotestNodes = 3
   override def includeSystemStartedEvents = true
@@ -178,7 +178,7 @@ class Akka21RemoteTraceSpec extends AtmosCollectSpec(RemoteTraceSpec.config21) {
 class Akka22Scala210RemoteTraceSpec extends Akka22RemoteTraceSpec
 class Akka22Scala211RemoteTraceSpec extends Akka22RemoteTraceSpec
 
-abstract class Akka22RemoteTraceSpec extends AtmosCollectSpec(RemoteTraceSpec.config22) {
+abstract class Akka22RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.config22) {
 
   override def cotestNodes = 3
   override def includeSystemStartedEvents = true

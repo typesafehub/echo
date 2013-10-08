@@ -4,7 +4,7 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosCollectSpec
+import com.typesafe.trace.test.EchoCollectSpec
 
 // ===============
 // Expected events
@@ -88,7 +88,7 @@ import com.typesafe.trace.test.AtmosCollectSpec
 //   1 ActorAutoCompleted
 //   3 RecreateSysMsg (dispatched, received, completed)
 
-class Akka20TracingSpec extends AtmosCollectSpec {
+class Akka20TracingSpec extends EchoCollectSpec {
 
   "Tracing" must {
 
@@ -186,7 +186,7 @@ class Akka20TracingSpec extends AtmosCollectSpec {
   }
 }
 
-class Akka21TracingSpec extends AtmosCollectSpec {
+class Akka21TracingSpec extends EchoCollectSpec {
 
   "Tracing" must {
 
@@ -274,7 +274,7 @@ class Akka21TracingSpec extends AtmosCollectSpec {
 class Akka22Scala210TracingSpec extends Akka22TracingSpec
 class Akka22Scala211TracingSpec extends Akka22TracingSpec
 
-abstract class Akka22TracingSpec extends AtmosCollectSpec {
+abstract class Akka22TracingSpec extends EchoCollectSpec {
 
   "Tracing" must {
 

@@ -5,7 +5,7 @@
 package com.typesafe.trace
 
 import akka.actor._
-import com.typesafe.trace.test.AtmosTraceSpec
+import com.typesafe.trace.test.EchoTraceSpec
 
 object TraceTreeSpec {
 
@@ -17,7 +17,7 @@ object TraceTreeSpec {
   }
 }
 
-class Akka22Scala211TraceTreeSpec extends AtmosTraceSpec {
+class Akka22Scala211TraceTreeSpec extends EchoTraceSpec {
   import TraceTreeSpec._
 
   "TraceTree" must {

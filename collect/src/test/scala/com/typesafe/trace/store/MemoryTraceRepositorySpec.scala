@@ -4,13 +4,13 @@
 package com.typesafe.trace.store
 
 import com.typesafe.trace._
-import com.typesafe.trace.util.AtmosSpec
+import com.typesafe.trace.util.EchoSpec
 import com.typesafe.trace.util.Uuid
 import com.typesafe.trace.uuid.UUID
 import org.scalatest.matchers.MustMatchers
 
 @org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class MemoryTraceRepositorySpec extends AtmosSpec with MustMatchers {
+class MemoryTraceRepositorySpec extends EchoSpec with MustMatchers {
 
   "A MemoryTraceRepository" must {
     "store traces up to the limit" in {

@@ -5,7 +5,7 @@
 package com.typesafe.trace
 
 import akka.actor._
-import com.typesafe.trace.test.AtmosTraceSpec
+import com.typesafe.trace.test.EchoTraceSpec
 import java.util.concurrent.CountDownLatch
 
 object TraceableSpec {
@@ -44,7 +44,7 @@ object TraceableSpec {
   """
 }
 
-class Akka22Scala210TraceableSpec extends AtmosTraceSpec(TraceableSpec.config) {
+class Akka22Scala210TraceableSpec extends EchoTraceSpec(TraceableSpec.config) {
   import TraceableSpec._
 
   "Traceable" must {

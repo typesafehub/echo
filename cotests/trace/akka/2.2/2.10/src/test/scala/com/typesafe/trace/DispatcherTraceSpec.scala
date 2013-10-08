@@ -4,7 +4,7 @@
 
 package com.typesafe.trace
 
-import com.typesafe.trace.test.AtmosTraceSpec
+import com.typesafe.trace.test.EchoTraceSpec
 
 object DispatcherTraceSpec {
   val config = """
@@ -12,7 +12,7 @@ object DispatcherTraceSpec {
   """
 }
 
-class Akka22Scala210DispatcherTraceSpec extends AtmosTraceSpec(DispatcherTraceSpec.config) {
+class Akka22Scala210DispatcherTraceSpec extends EchoTraceSpec(DispatcherTraceSpec.config) {
   "Dispatcher trace" must {
     "generate dispatcher status events" in {
       eventCheck()
