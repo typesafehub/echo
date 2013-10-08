@@ -34,7 +34,7 @@ object FutureTraceSpec {
 
     import context.dispatcher
 
-    val timeoutHandler = TimeoutHandler(context.system.settings.config.getInt("atmos.test.time-factor"))
+    val timeoutHandler = TimeoutHandler(context.system.settings.config.getInt("activator.trace.test.time-factor"))
 
     def receive = {
       case AskBlocking(payload, actor) ⇒
@@ -108,7 +108,7 @@ class Akka22Scala210FutureTraceSpec extends EchoTraceSpec {
   var actor2: ActorRef = _
 
   override def beforeAll() = {
-    System.setProperty("atmos.trace.futures", "on")
+    System.setProperty("activator.trace.futures", "on")
     super.beforeAll()
   }
 

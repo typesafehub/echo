@@ -20,7 +20,7 @@ object EchoCollectSpec {
 abstract class EchoCollectSpec(_config: Config = EchoCollectSpec.config) extends EchoSpec(_config) with CotestSyncSpec with BeforeAndAfterEach {
   def this(conf: String) = this(ConfigFactory.parseString(conf).withFallback(EchoCollectSpec.config))
 
-  def testFactor = _config.getInt("atmos.test.time-factor")
+  def testFactor = _config.getInt("activator.trace.test.time-factor")
 
   val defaultTimeout = 5.seconds
   val waitSleep = 20.millis

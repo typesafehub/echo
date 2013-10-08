@@ -27,7 +27,7 @@ object SamplingSpec {
   }
 
   val config = """
-    atmos.trace.sampling {
+    activator.trace.sampling {
       "/user/sampling1" = 3
       "/user/sampling2" = 1
     }

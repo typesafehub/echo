@@ -33,7 +33,7 @@ object RemoteTraceTest {
         port = %s
       }
     }
-    atmos.trace.remote-life-cycle = off
+    activator.trace.remote-life-cycle = off
   """.format(host, port)
 
   case class Message(n: Int, trace: Option[UUID])
@@ -46,7 +46,7 @@ object RemoteTraceTest {
     var trace2: Option[UUID] = None
     var trace4: Option[UUID] = None
 
-    val timeoutHandler = TimeoutHandler(context.system.settings.config.getInt("atmos.test.time-factor"))
+    val timeoutHandler = TimeoutHandler(context.system.settings.config.getInt("activator.trace.test.time-factor"))
 
     def receive = {
       case cdl: CountDownLatch ⇒

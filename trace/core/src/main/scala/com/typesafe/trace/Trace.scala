@@ -12,7 +12,7 @@ import scala.util.control.Exception._
  * Tracing. Internal API.
  */
 object Trace {
-  val DispatcherId = "atmos-trace-dispatcher"
+  val DispatcherId = "activator-trace-dispatcher"
 
   /**
    * Wrapper class for all trace settings.
@@ -21,14 +21,14 @@ object Trace {
   class Settings(val systemName: String, systemConfig: Config, classLoader: ClassLoader) {
 
     val config: Config = systemConfig.withFallback(ConfigFactory.defaultReference(classLoader))
-    config.checkValid(ConfigFactory.defaultReference, "atmos")
+    config.checkValid(ConfigFactory.defaultReference, "activator")
 
-    val enabled = config.getBoolean("atmos.trace.enabled")
+    val enabled = config.getBoolean("activator.trace.enabled")
 
     val node = TraceEvent.normalizeNode({
       def syntheticNodeName(processId: String) = systemName + "-" + processId + "@" + TraceEvent.HostName
 
-      val key = "atmos.trace.node"
+      val key = "activator.trace.node"
       allCatch.opt {
         config.getString(key) match {
           case "" ⇒
@@ -39,36 +39,36 @@ object Trace {
       }.getOrElse(syntheticNodeName(System.currentTimeMillis.toString))
     })
 
-    val sendPort = config.getInt("atmos.trace.send.port")
-    val sendCapacity = config.getInt("atmos.trace.send.capacity")
-    val sendRetry = config.getBoolean("atmos.trace.send.retry")
-    val sendDaemonic = config.getBoolean("atmos.trace.send.daemonic") || config.getBoolean("akka.daemonic")
-    val sendGlobalDaemonic = config.getBoolean("atmos.trace.send.global.daemonic")
-    val sendWarn = config.getBoolean("atmos.trace.send.warn")
+    val sendPort = config.getInt("activator.trace.send.port")
+    val sendCapacity = config.getInt("activator.trace.send.capacity")
+    val sendRetry = config.getBoolean("activator.trace.send.retry")
+    val sendDaemonic = config.getBoolean("activator.trace.send.daemonic") || config.getBoolean("akka.daemonic")
+    val sendGlobalDaemonic = config.getBoolean("activator.trace.send.global.daemonic")
+    val sendWarn = config.getBoolean("activator.trace.send.warn")
 
-    val zeroContextFutures = config.getBoolean("atmos.trace.futures")
-    val zeroContextIteratees = config.getBoolean("atmos.trace.iteratees")
+    val zeroContextFutures = config.getBoolean("activator.trace.futures")
+    val zeroContextIteratees = config.getBoolean("activator.trace.iteratees")
 
-    val events = new TraceEvent.Settings(config.getConfig("atmos.trace.events"))
+    val events = new TraceEvent.Settings(config.getConfig("activator.trace.events"))
 
-    val localLimit = config.getInt("atmos.trace.buffer.local-limit")
-    val sizeLimit = config.getInt("atmos.trace.buffer.size-limit")
-    val timeLimit = config.getMilliseconds("atmos.trace.buffer.time-limit").intValue
+    val localLimit = config.getInt("activator.trace.buffer.local-limit")
+    val sizeLimit = config.getInt("activator.trace.buffer.size-limit")
+    val timeLimit = config.getMilliseconds("activator.trace.buffer.time-limit").intValue
 
-    val maxLengthShortMessage = config.getInt("atmos.trace.max-length-short-message")
-    val maxLengthLongMessage = config.getInt("atmos.trace.max-length-long-message")
-    val maxStackTraceSize = config.getInt("atmos.trace.max-stack-trace-size")
+    val maxLengthShortMessage = config.getInt("activator.trace.max-length-short-message")
+    val maxLengthLongMessage = config.getInt("activator.trace.max-length-long-message")
+    val maxStackTraceSize = config.getInt("activator.trace.max-stack-trace-size")
 
-    val remoteLifeCycle = config.getBoolean("atmos.trace.remote-life-cycle")
+    val remoteLifeCycle = config.getBoolean("activator.trace.remote-life-cycle")
 
-    val useDispatcherMonitor = config.getBoolean("atmos.trace.use-dispatcher-monitor")
-    val dispatcherPollInterval = config.getMilliseconds("atmos.trace.dispatcher-poll-interval")
+    val useDispatcherMonitor = config.getBoolean("activator.trace.use-dispatcher-monitor")
+    val dispatcherPollInterval = config.getMilliseconds("activator.trace.dispatcher-poll-interval")
 
-    val useSystemMetricsMonitor = config.getBoolean("atmos.trace.use-system-metrics-monitor")
-    val systemMetricsPollInterval = config.getMilliseconds("atmos.trace.system-metrics-poll-interval")
-    val deadlockWatchFrequency = config.getMilliseconds("atmos.trace.deadlock-watch-frequency")
+    val useSystemMetricsMonitor = config.getBoolean("activator.trace.use-system-metrics-monitor")
+    val systemMetricsPollInterval = config.getMilliseconds("activator.trace.system-metrics-poll-interval")
+    val deadlockWatchFrequency = config.getMilliseconds("activator.trace.deadlock-watch-frequency")
 
-    val shutdownTimeout = config.getMilliseconds("atmos.trace.shutdown-timeout")
+    val shutdownTimeout = config.getMilliseconds("activator.trace.shutdown-timeout")
 
     override def toString: String = config.root.render
   }

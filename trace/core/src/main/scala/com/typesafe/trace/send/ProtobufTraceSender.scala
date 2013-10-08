@@ -19,7 +19,7 @@ class ProtobufTraceSender(port: Int, capacity: Int, retry: Boolean, daemonic: Bo
       if (capacity > 0) new LinkedBlockingQueue[Runnable](capacity)
       else new LinkedBlockingQueue[Runnable]()
     }
-    val threadFactory = new TraceSenderThreadFactory("atmos-trace-sender", daemonic)
+    val threadFactory = new TraceSenderThreadFactory("activator-trace-sender", daemonic)
     val rejectionHandler = new ThreadPoolExecutor.DiscardPolicy
     new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, workQueue, threadFactory, rejectionHandler)
   }

@@ -24,7 +24,7 @@ object ActionTraceSpecConfig {
       |  }
       |}
       |
-      |atmos {
+      |activator {
       |  trace {
       |    enabled = true
       |    traceable {
@@ -44,6 +44,6 @@ object ActionTraceSpecConfig {
       |    }
       |  }
       |
-      |  test.time-factor = 1
+      |  trace.test.time-factor = 1
       |}""".stripMargin)
 }

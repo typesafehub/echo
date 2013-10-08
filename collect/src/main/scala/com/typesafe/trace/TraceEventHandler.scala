@@ -11,14 +11,14 @@ import scala.collection.JavaConverters._
 import scala.util.{ Failure, Success }
 
 object TraceEventHandler {
-  val DispatcherId = "atmos-trace-dispatcher"
+  val DispatcherId = "activator-trace-dispatcher"
 
   def apply(config: Config) = new TraceEventHandler(config)
 }
 
 class TraceEventHandler(val config: Config) {
 
-  val listenerNames = config.getStringList("atmos.trace.event-handlers").asScala
+  val listenerNames = config.getStringList("activator.trace.event-handlers").asScala
 
   val listeners: Seq[ActorRef] = createListeners
 
@@ -82,8 +82,8 @@ abstract class TraceEventListener extends Actor with UsingCircuitBreaker with Ac
 
   val circuitBreakerName = {
     val circuitBreakerConfiguration = {
-      val timeoutMillis = config.getMilliseconds("atmos.trace.storage-circuit-breaker.timeout")
-      val failureThreshold = config.getInt("atmos.trace.storage-circuit-breaker.failure-threshold")
+      val timeoutMillis = config.getMilliseconds("activator.trace.storage-circuit-breaker.timeout")
+      val failureThreshold = config.getInt("activator.trace.storage-circuit-breaker.failure-threshold")
       CircuitBreakerConfiguration(timeoutMillis, failureThreshold)
     }
 
@@ -96,7 +96,7 @@ abstract class TraceEventListener extends Actor with UsingCircuitBreaker with Ac
   /**
    * Number of batches that will be kept in memory later retry in case of failure sending to storage.
    */
-  private val retryBufferSize: Int = config.getInt("atmos.trace.storage-retry-buffer-size")
+  private val retryBufferSize: Int = config.getInt("activator.trace.storage-retry-buffer-size")
 
   def receive = {
     case batch: Batch ⇒ handle(batch)

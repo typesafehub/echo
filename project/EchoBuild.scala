@@ -306,7 +306,7 @@ object EchoBuild extends Build {
       name := "cotests-trace-akka-2.1",
       scalaVersion := Dependency.V.Scala210,
       cotestProjectName := "trace",
-      javaOptions in Test += "-Datmos.trace.enabled=true"
+      javaOptions in Test += "-Dactivator.trace.enabled=true"
     )
   )
 
@@ -318,7 +318,7 @@ object EchoBuild extends Build {
       name := "cotests-trace-akka-2.2-scala-2.10",
       scalaVersion := Dependency.V.Scala210,
       cotestProjectName := "trace",
-      javaOptions in Test += "-Datmos.trace.enabled=true"
+      javaOptions in Test += "-Dactivator.trace.enabled=true"
     )
   )
 
@@ -330,7 +330,7 @@ object EchoBuild extends Build {
       name := "cotests-trace-akka-2.2-scala-2.11",
       scalaVersion := Dependency.V.Scala211,
       cotestProjectName := "trace",
-      javaOptions in Test += "-Datmos.trace.enabled=true"
+      javaOptions in Test += "-Dactivator.trace.enabled=true"
     )
   )
 
@@ -367,15 +367,15 @@ object EchoBuild extends Build {
       scalaVersion := Dependency.V.Scala210,
       cotestProjectName := "trace",
       javaOptions in Test ++= Seq(
-        "-Datmos.trace.enabled=true",
-        "-Datmos.trace.futures=off",
-        "-Datmos.trace.iteratees=on",
-        "-Datmos.trace.events.futures=on",
-        "-Datmos.trace.events.iteratees=on",
-        "-Datmos.trace.play.traceable./get/filtered/*=off",
-        "-Datmos.trace.play.sampling./getSampled=3",
-        "-Datmos.trace.use-dispatcher-monitor=off",
-        "-Datmos.trace.use-system-metrics-monitor=off"
+        "-Dactivator.trace.enabled=true",
+        "-Dactivator.trace.futures=off",
+        "-Dactivator.trace.iteratees=on",
+        "-Dactivator.trace.events.futures=on",
+        "-Dactivator.trace.events.iteratees=on",
+        "-Dactivator.trace.play.traceable./get/filtered/*=off",
+        "-Dactivator.trace.play.sampling./getSampled=3",
+        "-Dactivator.trace.use-dispatcher-monitor=off",
+        "-Dactivator.trace.use-system-metrics-monitor=off"
       )
     )
   )
@@ -389,15 +389,15 @@ object EchoBuild extends Build {
       scalaVersion := Dependency.V.Scala210,
       cotestProjectName := "trace",
       javaOptions in Test ++= Seq(
-        "-Datmos.trace.enabled=true",
-        "-Datmos.trace.futures=off",
-        "-Datmos.trace.iteratees=on",
-        "-Datmos.trace.events.futures=on",
-        "-Datmos.trace.events.iteratees=on",
-        "-Datmos.trace.use-dispatcher-monitor=off",
-        "-Datmos.trace.play.traceable./get/filtered/*=off",
-        "-Datmos.trace.play.sampling./getSampled=3",
-        "-Datmos.trace.use-system-metrics-monitor=off"
+        "-Dactivator.trace.enabled=true",
+        "-Dactivator.trace.futures=off",
+        "-Dactivator.trace.iteratees=on",
+        "-Dactivator.trace.events.futures=on",
+        "-Dactivator.trace.events.iteratees=on",
+        "-Dactivator.trace.use-dispatcher-monitor=off",
+        "-Dactivator.trace.play.traceable./get/filtered/*=off",
+        "-Dactivator.trace.play.sampling./getSampled=3",
+        "-Dactivator.trace.use-system-metrics-monitor=off"
       ),
       // ignore deprecation warnings (intended usage of deprecated api)
       scalacOptions ~= { _ diff Seq("-deprecation") }
@@ -423,7 +423,7 @@ object EchoBuild extends Build {
       name := "cotests-trace2-akka-2.1",
       scalaVersion := Dependency.V.Scala210,
       cotestProjectName := "trace2",
-      javaOptions in Test += "-Datmos.trace.enabled=true"
+      javaOptions in Test += "-Dactivator.trace.enabled=true"
     )
   )
 
@@ -435,7 +435,7 @@ object EchoBuild extends Build {
       name := "cotests-trace2-akka-2.2-scala-2.10",
       scalaVersion := Dependency.V.Scala210,
       cotestProjectName := "trace2",
-      javaOptions in Test += "-Datmos.trace.enabled=true"
+      javaOptions in Test += "-Dactivator.trace.enabled=true"
     )
   )
 
@@ -447,7 +447,7 @@ object EchoBuild extends Build {
       name := "cotests-trace2-akka-2.2-scala-2.11",
       scalaVersion := Dependency.V.Scala211,
       cotestProjectName := "trace2",
-      javaOptions in Test += "-Datmos.trace.enabled=true"
+      javaOptions in Test += "-Dactivator.trace.enabled=true"
     )
   )
 

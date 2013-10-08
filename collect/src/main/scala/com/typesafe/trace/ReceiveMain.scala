@@ -24,7 +24,7 @@ object ReceiveMain {
 
   def main(args: Array[String]) {
     val config = ConfigFactory.load()
-    config.checkValid(ConfigFactory.defaultReference, "atmos")
+    config.checkValid(ConfigFactory.defaultReference, "activator")
     startReceiver(config)
     Runtime.getRuntime.addShutdownHook(new Thread {
       override def run = shutdownReceiver()

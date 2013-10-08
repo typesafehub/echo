@@ -31,7 +31,7 @@ object EchoTraceSpec {
         }
       }
 
-      atmos {
+      activator {
         trace {
           enabled = true
           traceable {
@@ -47,7 +47,7 @@ object EchoTraceSpec {
           buffer.size-limit = 0
         }
 
-        test.time-factor = 1
+        trace.test.time-factor = 1
       }""")
 }
 
@@ -63,9 +63,9 @@ abstract class EchoTraceSpec(config: Config = EchoTraceSpec.config) extends Cote
 
   implicit var system: ActorSystem = _
 
-  val timeoutHandler = TimeoutHandler(config.getInt("atmos.test.time-factor"))
+  val timeoutHandler = TimeoutHandler(config.getInt("activator.trace.test.time-factor"))
 
-  val timeFactor = config.getInt("atmos.test.time-factor")
+  val timeFactor = config.getInt("activator.trace.test.time-factor")
 
   override def beforeAll(): Unit = {
     super.beforeAll()

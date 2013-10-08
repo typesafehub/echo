@@ -26,7 +26,7 @@ object TagsSpec {
   }
 
   val config = """
-    atmos.trace.tags {
+    activator.trace.tags {
       "/user/tags*" = ["default", "tags"]
       "/user/tags1" = "1"
       "/user/tags2" = "2"

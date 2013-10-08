@@ -32,7 +32,7 @@ object EchoTraceSpec {
         }
       }
 
-      atmos {
+      activator {
         trace {
           enabled = true
           traceable {
@@ -48,7 +48,7 @@ object EchoTraceSpec {
           buffer.size-limit = 0
         }
 
-        test.time-factor = 1
+        trace.test.time-factor = 1
       }""")
 }
 
@@ -64,12 +64,12 @@ abstract class EchoTraceSpec(val config: Config = EchoTraceSpec.config) extends 
 
   var system: ActorSystem = _
 
-  val timeoutHandler = TimeoutHandler(config.getInt("atmos.test.time-factor"))
+  val timeoutHandler = TimeoutHandler(config.getInt("activator.trace.test.time-factor"))
 
-  override val timeFactor = config.getInt("atmos.test.time-factor")
+  override val timeFactor = config.getInt("activator.trace.test.time-factor")
 
   override def beforeAll(): Unit = {
-    System.setProperty("atmos.trace.events.futures", "on")
+    System.setProperty("activator.trace.events.futures", "on")
     super.beforeAll()
     barrier("spec-create")
     createSystem()

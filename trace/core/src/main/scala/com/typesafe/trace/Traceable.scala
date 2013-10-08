@@ -12,22 +12,22 @@ object Traceable {
     val counter = CyclicCounter(rate)
   }
 
-  val DefaultAkkaTraceableKey = "atmos.trace.akka.defaults.traceable"
-  val DefaultAkkaTraceableFallbackKey = "atmos.trace.defaults.traceable"
-  val DefaultPlayTraceableKey = "atmos.trace.play.defaults.traceable"
-  val DefaultAkkaSamplingKey = "atmos.trace.akka.defaults.sampling"
-  val DefaultAkkaSamplingFallbackKey = "atmos.trace.defaults.sampling"
-  val DefaultPlaySamplingKey = "atmos.trace.play.defaults.sampling"
-  val DefaultSystemTraceableKey = "atmos.trace.akka.defaults.system-traceable"
-  val DefaultSystemFallbackTraceableKey = "atmos.trace.defaults.system-traceable"
+  val DefaultAkkaTraceableKey = "activator.trace.akka.defaults.traceable"
+  val DefaultAkkaTraceableFallbackKey = "activator.trace.defaults.traceable"
+  val DefaultPlayTraceableKey = "activator.trace.play.defaults.traceable"
+  val DefaultAkkaSamplingKey = "activator.trace.akka.defaults.sampling"
+  val DefaultAkkaSamplingFallbackKey = "activator.trace.defaults.sampling"
+  val DefaultPlaySamplingKey = "activator.trace.play.defaults.sampling"
+  val DefaultSystemTraceableKey = "activator.trace.akka.defaults.system-traceable"
+  val DefaultSystemFallbackTraceableKey = "activator.trace.defaults.system-traceable"
 
-  val AkkaTraceableKey = "atmos.trace.akka.traceable"
-  val AkkaFallbackTraceableKey = "atmos.trace.traceable"
-  val PlayTraceableKey = "atmos.trace.play.traceable"
-  val AkkaSamplingKey = "atmos.trace.akka.sampling"
-  val AkkaSamplingFallbackKey = "atmos.trace.sampling"
-  val PlaySamplingKey = "atmos.trace.play.sampling"
-  val TagsKey = "atmos.trace.tags"
+  val AkkaTraceableKey = "activator.trace.akka.traceable"
+  val AkkaFallbackTraceableKey = "activator.trace.traceable"
+  val PlayTraceableKey = "activator.trace.play.traceable"
+  val AkkaSamplingKey = "activator.trace.akka.sampling"
+  val AkkaSamplingFallbackKey = "activator.trace.sampling"
+  val PlaySamplingKey = "activator.trace.play.sampling"
+  val TagsKey = "activator.trace.tags"
 
   val RandomPlaceholder = "$random$"
 

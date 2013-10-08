@@ -23,7 +23,7 @@ object ZeroContextCallbackSpec {
   }
 
   val testConfig = """
-    atmos.trace.futures = off
+    activator.trace.futures = off
   """
 }
 

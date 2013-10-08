@@ -35,7 +35,7 @@ object TraceableSpec {
   }
 
   val config = """
-    atmos.trace.traceable {
+    activator.trace.traceable {
       "/user/traceable" = true
       "/user/traceable1" = true
       "/user/traceable2" = true

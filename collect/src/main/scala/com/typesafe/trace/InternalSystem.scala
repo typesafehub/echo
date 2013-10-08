@@ -25,28 +25,28 @@ object InternalSystem {
   private val config = {
     import scala.collection.JavaConverters._
     val appConfig = ConfigFactory.load(akka.trace.Private.findClassLoader())
-    val internalSystemConfig = appConfig.getConfig("atmos.trace.internal-system")
+    val internalSystemConfig = appConfig.getConfig("activator.trace.internal-system")
     // use the loglevel and event-handlers from the appConfig as default
     val loglevel = appConfig.getString("akka.loglevel")
     val eventHandlers = appConfig.getStringList("akka.event-handlers")
-    val useRemoteProvider = appConfig.getStringList("atmos.trace.event-handlers").contains(RemoteHandlerName)
+    val useRemoteProvider = appConfig.getStringList("activator.trace.event-handlers").contains(RemoteHandlerName)
     val defaultConfigMap = Map(
       "akka.loglevel" -> loglevel,
       "akka.event-handlers" -> eventHandlers) ++
       (if (useRemoteProvider) Map("akka.actor.provider" -> "akka.remote.RemoteActorRefProvider") else Map.empty)
 
     val config =
-      ConfigFactory.parseString("atmos.trace.enabled = false").
+      ConfigFactory.parseString("activator.trace.enabled = false").
         withFallback(ConfigFactory.defaultOverrides).
         withFallback(internalSystemConfig).
         withFallback(ConfigFactory.parseMap(defaultConfigMap.asJava)).
         withFallback(ConfigFactory.defaultReference)
-    config.checkValid(ConfigFactory.defaultReference, "atmos")
+    config.checkValid(ConfigFactory.defaultReference, "activator")
     config
   }
 
   private val actorSystem = new OnDemand[ActorSystem] {
-    def create(): ActorSystem = ActorSystem("atmos", config)
+    def create(): ActorSystem = ActorSystem("activator-trace", config)
     def shutdown(system: ActorSystem) = system.shutdown
   }
 
@@ -68,7 +68,7 @@ object InternalSystem {
       try {
         Await.ready(gracefulStop(actor, StopTimeout)(system), StopTimeout)
       } catch {
-        case e: Exception ⇒ system.log.error(e, "Failed to gracefully stop atmos actor [" + actor.path + "]")
+        case e: Exception ⇒ system.log.error(e, "Failed to gracefully stop trace actor [" + actor.path + "]")
       }
     }
     actorSystem.release()

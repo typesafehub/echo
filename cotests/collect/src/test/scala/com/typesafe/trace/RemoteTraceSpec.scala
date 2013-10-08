@@ -9,15 +9,15 @@ import scala.concurrent.duration._
 
 object RemoteTraceSpec {
   val config20 = """
-    atmos.trace.receive.max-connections = 2
+    activator.trace.receive.max-connections = 2
   """
 
   val config21 = """
-    atmos.trace.receive.max-connections = 4
+    activator.trace.receive.max-connections = 4
   """
 
   val config22 = """
-    atmos.trace.receive.max-connections = 4
+    activator.trace.receive.max-connections = 4
   """
 }
 

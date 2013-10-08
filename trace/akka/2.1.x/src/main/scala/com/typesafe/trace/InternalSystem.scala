@@ -23,7 +23,7 @@ object InternalSystem {
   private val config = {
     import scala.collection.JavaConverters._
     val appConfig = ConfigFactory.load(akka.trace.Private.findClassLoader())
-    val internalSystemConfig = appConfig.getConfig("atmos.trace.internal-system")
+    val internalSystemConfig = appConfig.getConfig("activator.trace.internal-system")
     // use the loglevel and daemonic settings from the appConfig as default
     val defaultConfigMap = Map(
       "akka.loglevel" -> appConfig.getString("akka.loglevel"),
@@ -31,17 +31,17 @@ object InternalSystem {
       "akka.actor.serialize-creators" -> false)
 
     val config =
-      ConfigFactory.parseString("atmos.trace.enabled = false").
+      ConfigFactory.parseString("activator.trace.enabled = false").
         withFallback(ConfigFactory.defaultOverrides).
         withFallback(internalSystemConfig).
         withFallback(ConfigFactory.parseMap(defaultConfigMap.asJava)).
         withFallback(ConfigFactory.defaultReference)
-    config.checkValid(ConfigFactory.defaultReference, "atmos")
+    config.checkValid(ConfigFactory.defaultReference, "activator")
     config
   }
 
   private val actorSystem = new OnDemand[ActorSystem] {
-    def create(): ActorSystem = ActorSystem("atmos", config)
+    def create(): ActorSystem = ActorSystem("activator-trace", config)
     def shutdown(system: ActorSystem) = system.shutdown
   }
 
@@ -63,7 +63,7 @@ object InternalSystem {
       try {
         Await.ready(gracefulStop(actor, StopTimeout)(system), StopTimeout)
       } catch {
-        case e: Exception ⇒ system.log.error(e, "Failed to gracefully stop atmos actor [" + actor.path + "]")
+        case e: Exception ⇒ system.log.error(e, "Failed to gracefully stop internal actor [" + actor.path + "]")
       }
     }
     actorSystem.release()

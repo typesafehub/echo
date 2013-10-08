@@ -22,7 +22,7 @@ abstract class ActionTraceSpecBase(val config: Config = ActionTraceSpecConfig.co
 
   var app: FakeApplication = _
 
-  override val timeFactor = config.getInt("atmos.test.time-factor")
+  override val timeFactor = config.getInt("activator.trace.test.time-factor")
 
   def beforeAllInit(): Unit = ()
   def afterEachStep(): Unit = ()

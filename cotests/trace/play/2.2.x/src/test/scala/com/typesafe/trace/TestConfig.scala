@@ -24,7 +24,7 @@ object ActionTraceSpecConfig {
         }
       }
 
-      atmos {
+      activator {
         trace {
           enabled = true
           traceable {
@@ -39,7 +39,7 @@ object ActionTraceSpecConfig {
           buffer.size-limit = 0
         }
 
-        test.time-factor = 1
+        trace.test.time-factor = 1
       }
 
       play {

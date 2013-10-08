@@ -8,7 +8,7 @@ import com.typesafe.trace.test.EchoTraceSpec
 
 object DispatcherTraceSpec {
   val config = """
-    atmos.trace.use-dispatcher-monitor = on
+    activator.trace.use-dispatcher-monitor = on
   """
 }
 

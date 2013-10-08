@@ -32,7 +32,7 @@ object FutureTraceSpec {
 
   class TestActor extends Actor {
 
-    val timeoutHandler = TimeoutHandler(context.system.settings.config.getInt("atmos.test.time-factor"))
+    val timeoutHandler = TimeoutHandler(context.system.settings.config.getInt("activator.trace.test.time-factor"))
 
     def receive = {
       case AskBlocking(payload, actor) ⇒

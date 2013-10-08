@@ -34,7 +34,7 @@ object EchoSpec {
         }
       }
 
-      atmos {
+      activator {
         analytics {
           ignore-span-types = []
           ignore-span-time-series = []
@@ -49,7 +49,7 @@ object EchoSpec {
           save-spans = on
         }
         subscribe.notification-event-log-size = 500000
-        test.time-factor = 1
+        trace.test.time-factor = 1
       }""")
 
   def getCallerName: String = {
@@ -76,7 +76,7 @@ abstract class EchoSpec(_system: ActorSystem) extends TestKit(_system) with Word
 
   def config: Config = system.settings.config
 
-  def timeoutHandler = TimeoutHandler(config.getInt("atmos.test.time-factor"))
+  def timeoutHandler = TimeoutHandler(config.getInt("activator.trace.test.time-factor"))
 
   val timeFactor = timeoutHandler.factor
 
