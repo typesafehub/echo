@@ -42,7 +42,7 @@ object EchoBuild extends Build {
     id = "event29",
     base = file("trace/event"),
     settings = defaultSettings ++ Seq(
-      name := "echo-event",
+      name := "trace-event",
       scalaVersion := Dependency.V.Scala29,
       crossPaths := true,
       target <<= target / "29",
@@ -55,7 +55,7 @@ object EchoBuild extends Build {
     id = "event210",
     base = file("trace/event"),
     settings = defaultSettings ++ Seq(
-      name := "echo-event",
+      name := "trace-event",
       scalaVersion := Dependency.V.Scala210,
       crossPaths := true,
       target <<= target / "210",
@@ -67,7 +67,7 @@ object EchoBuild extends Build {
     id = "event211",
     base = file("trace/event"),
     settings = defaultSettings ++ Seq(
-      name := "echo-event",
+      name := "trace-event",
       scalaVersion := Dependency.V.Scala211,
       crossPaths := true,
       target <<= target / "211",
@@ -80,7 +80,7 @@ object EchoBuild extends Build {
     base = file("trace/core"),
     dependencies = Seq(event29),
     settings = defaultSettings ++ Seq(
-      name := "echo-trace",
+      name := "trace-core",
       scalaVersion := Dependency.V.Scala29,
       crossPaths := true,
       target <<= target / "29",
@@ -93,7 +93,7 @@ object EchoBuild extends Build {
     base = file("trace/core"),
     dependencies = Seq(event210),
     settings = defaultSettings ++ Seq(
-      name := "echo-trace",
+      name := "trace-core",
       scalaVersion := Dependency.V.Scala210,
       crossPaths := true,
       target <<= target / "210",
@@ -106,7 +106,7 @@ object EchoBuild extends Build {
     base = file("trace/core"),
     dependencies = Seq(event211),
     settings = defaultSettings ++ Seq(
-      name := "echo-trace",
+      name := "trace-core",
       scalaVersion := Dependency.V.Scala211,
       crossPaths := true,
       target <<= target / "211",
@@ -231,7 +231,7 @@ object EchoBuild extends Build {
     base = file("collect"),
     dependencies = Seq(event210),
     settings = defaultSettings ++ Seq(
-      name := "echo-collect",
+      name := "trace-collect",
       libraryDependencies ++= Dependencies.collect
     )
   )
@@ -464,7 +464,7 @@ object EchoBuild extends Build {
     id = "sigar-libs",
     base = file("sigar"),
     settings = defaultSettings ++ Seq(
-      name := "echo-sigar-libs",
+      name := "trace-sigar-libs",
       resourceDirectory in Compile <<= baseDirectory / "lib",
       autoScalaLibrary := false,
       pomIncludeRepository := { _ => false },
