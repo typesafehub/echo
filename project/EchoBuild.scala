@@ -239,16 +239,12 @@ object EchoBuild extends Build {
   lazy val cotests = Project(
     id = "cotests",
     base = file("cotests"),
-    settings = defaultSettings ++
+    settings = defaultSettings ++ noPublish ++
       SbtCotest.cotestSettings(
         cotestsTraceAkka20, cotestsTraceAkka21, cotestsTraceAkka22Scala210, cotestsTraceAkka22Scala211,
         cotestsTracePlay21, cotestsTracePlay22,
         cotestsTrace2Akka20, cotestsTrace2Akka21, cotestsTrace2Akka22Scala210, cotestsTrace2Akka22Scala211,
-        cotestsCollect) ++
-      Seq(
-        name := "echo-cotests",
-        publishArtifact := false
-      )
+        cotestsCollect)
   )
 
   lazy val cotestsCommon29 = Project(
@@ -505,9 +501,12 @@ object EchoBuild extends Build {
 
   def typesafeRepo(name: String) = Some(name at "https://private-repo.typesafe.com/typesafe/" + name)
 
-  lazy val parentSettings = Defaults.defaultSettings ++ buildSettings ++ Seq(
-    publishArtifact in Compile := false
+  def noPublish = Seq(
+    publish := {},
+    publishLocal := {}
   )
+
+  lazy val parentSettings = Defaults.defaultSettings ++ buildSettings ++ noPublish
 
   lazy val projectSettings = buildSettings ++ formatSettings ++ Seq(
     resolvers += "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/",
