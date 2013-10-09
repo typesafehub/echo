@@ -4,6 +4,7 @@ import com.typesafe.sbt.SbtAspectj
 import com.typesafe.sbt.SbtAspectj.{ Aspectj, AspectjKeys }
 import com.typesafe.sbt.SbtCotest
 import com.typesafe.sbt.SbtCotest.CotestKeys.cotestProjectName
+import com.typesafe.sbt.SbtGit
 import com.typesafe.sbt.SbtScalariform
 import com.typesafe.sbt.SbtScalariform.ScalariformKeys
 
@@ -471,9 +472,12 @@ object EchoBuild extends Build {
 
   // Settings
 
-  lazy val buildSettings = Seq(
+  lazy val versionSettings = SbtGit.versionWithGit ++ Seq(
+    SbtGit.git.baseVersion := "0.1"
+  )
+
+  lazy val buildSettings = versionSettings ++ Seq(
     organization := "com.typesafe.trace",
-    version := "0.1.0-SNAPSHOT",
     scalaVersion := Dependency.V.Scala210,
     crossPaths := false,
     publishArtifact in packageSrc := false,
