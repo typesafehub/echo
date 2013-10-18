@@ -11,7 +11,7 @@ import org.scalatest.WordSpec
 object CotestSyncSpec {
   import FileBasedBarrier.{ DefaultTimeout, DefaultSleep }
 
-  val CotestDir = new File(".cotest")
+  val CotestDir = new File(sys.props("user.home"), ".cotest")
   val BarrierDir = new File(CotestDir, "barrier")
   val PropertiesDir = new File(CotestDir, "properties")
 
