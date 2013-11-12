@@ -18,11 +18,11 @@ import java.util.concurrent.TimeUnit
 object EchoSpec {
   val testConf: Config = ConfigFactory.parseString("""
       akka {
-        # TestEventHandler suppresses "simulated" errors
-        event-handlers = ["com.typesafe.trace.util.TestEventHandler"]
+        # TestLogger suppresses "simulated" errors
+        loggers = ["com.typesafe.trace.util.TestLogger"]
         loglevel = WARNING
         stdout-loglevel = WARNING
-        event-handler-startup-timeout = 10s
+        logger-startup-timeout = 10s
         actor {
           default-dispatcher {
             executor = "fork-join-executor"

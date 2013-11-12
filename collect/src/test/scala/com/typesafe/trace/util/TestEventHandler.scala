@@ -1,13 +1,13 @@
 package com.typesafe.trace.util
 
 import akka.event.Logging._
-import akka.event.slf4j.Slf4jEventHandler
+import akka.event.slf4j.Slf4jLogger
 
 /**
  * Event handler that suppresses all errors with cause ExpectedFailureException
  * or errors and warnings with expected messages.
  */
-class TestEventHandler extends Slf4jEventHandler {
+class TestLogger extends Slf4jLogger {
 
   override def receive = suppress.orElse(super.receive)
 
