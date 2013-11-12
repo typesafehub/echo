@@ -66,7 +66,7 @@ object InternalSystem {
   def stop(actor: ActorRef): Unit = {
     actorSystem { system ⇒
       try {
-        Await.ready(gracefulStop(actor, StopTimeout)(system), StopTimeout)
+        Await.ready(gracefulStop(actor, StopTimeout), StopTimeout)
       } catch {
         case e: Exception ⇒ system.log.error(e, "Failed to gracefully stop trace actor [" + actor.path + "]")
       }

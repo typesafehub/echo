@@ -632,7 +632,7 @@ object Dependency {
     val Akka22Scala211 = "2.2.0"
   }
 
-  val akkaSlf4j         = "com.typesafe.akka"         %% "akka-slf4j"         % V.Akka21
+  val akkaSlf4j         = "com.typesafe.akka"         %% "akka-slf4j"         % V.Akka22
   val play21            = "play"                      %% "play"               % V.Play21
   val play22            = "com.typesafe.play"         %% "play"               % V.Play22
   val config            = "com.typesafe"              % "config"              % V.Config
@@ -642,7 +642,7 @@ object Dependency {
   val slf4j             = "org.slf4j"                 % "slf4j-api"           % V.Slf4j
 
   object Test {
-    val akkaTestKit = "com.typesafe.akka"   %% "akka-testkit"            % V.Akka21    % "test"
+    val akkaTestKit = "com.typesafe.akka"   %% "akka-testkit"            % V.Akka22    % "test"
     val junit       = "junit"               % "junit"                    % "4.5"       % "test"
     val logback     = "ch.qos.logback"      % "logback-classic"          % V.Logback   % "test"
     val playTest21  = "play"                %% "play-test"               % V.Play21    % "test"

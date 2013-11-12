@@ -7,6 +7,7 @@ import akka.actor._
 import com.typesafe.trace.circuitbreaker._
 import com.typesafe.trace.store.TraceStorageRepository
 import com.typesafe.config.Config
+import scala.collection.immutable
 import scala.collection.JavaConverters._
 import scala.util.{ Failure, Success }
 
@@ -57,7 +58,7 @@ class TraceEventHandler(val config: Config) {
 
   def createListenerActor(fqcn: String): ActorRef = {
     val dynamicAccess = new ReflectiveDynamicAccess(getClass.getClassLoader)
-    val constructorParams = Seq((classOf[Config], config))
+    val constructorParams = immutable.Seq((classOf[Config], config))
     val props = Props(
       dynamicAccess.createInstanceFor[Actor](fqcn, constructorParams) match {
         case Success(listenerClass) ⇒ listenerClass

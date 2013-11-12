@@ -8,7 +8,7 @@ import com.typesafe.config.{ Config, ConfigFactory }
 object ActionTraceSpecConfig {
   val config: Config = ConfigFactory.parseString("""
       akka {
-        # TestEventHandler suppresses "simulated" errors
+        # TestLogger suppresses "simulated" errors
         loggers = ["com.typesafe.trace.test.TestLogger"]
         logger-startup-timeout = 10s
         loglevel = WARNING
