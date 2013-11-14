@@ -18,7 +18,7 @@ object EchoBuild extends Build {
       parallelExecution in GlobalScope := false
     ),
     aggregate = Seq(
-      trace, collect, cotests
+      trace, collect, cotests, sigarLibs
     )
   )
 
