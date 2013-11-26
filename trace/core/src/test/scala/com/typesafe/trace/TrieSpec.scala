@@ -56,6 +56,26 @@ class TrieSpec extends WordSpec with MustMatchers {
       trie.getAll("b") must be(Set("*", "b*"))
     }
 
+    "match wildly in middle" in {
+      val trie = makeTrie("a*b")
+
+      trie("ab") must be("a*b")
+      trie("axb") must be("a*b")
+      trie("axxb") must be("a*b")
+    }
+
+    "collect all wildly in middle" in {
+      val trie = makeTrie("a*bc", "ab*c", "a*b*c")
+
+      trie.getAll("abc") must be(Set("a*bc", "ab*c", "a*b*c"))
+      trie.getAll("axbc") must be(Set("a*bc", "a*b*c"))
+      trie.getAll("axxbc") must be(Set("a*bc", "a*b*c"))
+      trie.getAll("abxc") must be(Set("ab*c", "a*b*c"))
+      trie.getAll("abxxc") must be(Set("ab*c", "a*b*c"))
+      trie.getAll("axbxc") must be(Set("a*b*c"))
+      trie.getAll("axxbxxc") must be(Set("a*b*c"))
+    }
+
     "match wildly anywhere" in {
       val trie = makeTrie("a", "*", "ab", "a*", "*b", "abc", "ab*", "a*c", "*bc", "b*", "*c")
 

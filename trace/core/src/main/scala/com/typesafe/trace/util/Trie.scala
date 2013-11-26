@@ -32,7 +32,9 @@ object Trie {
   val Wildcard = '*'.toInt
   val Escape = '\\'.toInt
 
-  def empty[T] = new Trie[T](IntMap.empty[Trie[T]], None, false)
+  def empty[T]: Trie[T] = create[T](isWild = false)
+
+  def create[T](isWild: Boolean): Trie[T] = new Trie[T](IntMap.empty[Trie[T]], None, isWild)
 
   def apply[T](kvs: (String, T)*): Trie[T] = {
     var trie: Trie[T] = empty
@@ -45,8 +47,9 @@ object Trie {
       new Trie(trie.map, Some(value), isWild)
     } else {
       val (leading, rest) = takeLeading(key)
-      val next = trie.map get (leading) getOrElse (empty)
-      new Trie(trie.map + (leading -> add(next, rest, value, leading == Wild)), trie.value, trie.isWild)
+      val nextIsWild = leading == Wild
+      val next = trie.map get leading getOrElse create(nextIsWild)
+      new Trie(trie.map + (leading -> add(next, rest, value, nextIsWild)), trie.value, trie.isWild)
     }
   }
 
