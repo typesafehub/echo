@@ -5,7 +5,7 @@
 package com.typesafe.trace
 
 import com.typesafe.trace.util.Uuid
-import org.jboss.netty.handler.codec.http.{ HttpChunk, HttpRequest, HttpHeaders, HttpMessage }
+import org.jboss.netty.handler.codec.http.{ HttpChunk, HttpRequest, HttpHeaders, HttpMessage, HttpResponse }
 import org.jboss.netty.channel.{ ChannelFuture, ChannelFutureListener, Channel }
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.ConcurrentHashMap
@@ -69,6 +69,28 @@ private[trace] object NettyTrace {
 
   def proxyChannelFuture(underlying: ChannelFuture, trace: Trace): ChannelFuture =
     new ProxyChannelFuture(underlying, trace.continue, trace)
+
+  final private val SEPERATOR_LENGTH: Int = 2
+  final private val NEWLINE_LENGTH: Int = 2
+
+  // This is not ideal.  I'm reconstructing the request and response header blocks.
+  final def requestHeaderLength(message: HttpRequest): Int = {
+    message.getMethod.getName.getBytes("UTF-8").length + 1 + message.getUri.getBytes("UTF-8").length +
+      message.getProtocolVersion.toString.getBytes("UTF-8").length + NEWLINE_LENGTH + httpHeadersLength(message)
+  }
+  final def responseHeaderLength(message: HttpResponse): Int = {
+    message.getProtocolVersion.toString.getBytes("UTF-8").length + 1 + message.getStatus.toString.getBytes("UTF-8").length + NEWLINE_LENGTH + httpHeadersLength(message)
+  }
+  final def httpHeadersLength(message: HttpMessage): Int = {
+    import scala.collection.JavaConversions._
+    message.getHeaders.foldLeft(NEWLINE_LENGTH) {
+      (s, v) ⇒ s + v.getKey.getBytes("UTF-8").length + SEPERATOR_LENGTH + v.getValue.getBytes("UTF-8").length + NEWLINE_LENGTH
+    }
+  }
+  final def chunkedHeaderLength(message: HttpChunk): Int = {
+    message.getContent.readableBytes().toHexString.getBytes("UTF-8").length + NEWLINE_LENGTH
+  }
+
 }
 
 /**
