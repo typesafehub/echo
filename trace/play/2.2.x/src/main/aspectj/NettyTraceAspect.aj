@@ -86,7 +86,7 @@ privileged aspect NettyTraceAspect {
         Object r = proceed(encoder,ctx,channel,msg);
         if (r instanceof ChannelBuffer) {
           ChannelBuffer cb = (ChannelBuffer) r;
-          tracer.netty().writeChunk((int)(cb.readableBytes()-buffer.readableBytes()),(int)buffer.readableBytes());
+          tracer.netty().writeChunk(NettyTrace.chunkedHeaderLength(chunk),(int)buffer.readableBytes());
         } else {
          // System.out.println("-- chunk of size: "+buffer.writerIndex()+" returned message is: "+r);
         }
@@ -98,7 +98,7 @@ privileged aspect NettyTraceAspect {
         Object r = proceed(encoder,ctx,channel,msg);
         if (r instanceof ChannelBuffer) {
           ChannelBuffer cb = (ChannelBuffer) r;
-          tracer.netty().responseHeader((int)(cb.readableBytes()-length));
+          tracer.netty().responseHeader(NettyTrace.responseHeaderLength(response));
           if (!response.isChunked()) {
             tracer.action().simpleResult(response.getStatus().getCode());
             tracer.netty().responseBody((int)length);

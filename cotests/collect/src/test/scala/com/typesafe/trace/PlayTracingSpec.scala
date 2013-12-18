@@ -232,8 +232,8 @@ class Play21NettyPostTracingSpec extends EchoCollectSpec {
         countEventsOf[ActionResultGenerationEnd.type] must be(1)
       }
     }
-    "(chunked) POST /post" in {
-      eventCheck(expected = 853, timeout = 10.seconds) {
+    "POST /post (BIG - should be converted by Netty to a chunked POST)" in {
+      eventCheck(expected = 2530) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -246,7 +246,26 @@ class Play21NettyPostTracingSpec extends EchoCollectSpec {
         countEventsOf[ActionSimpleResult] must be(1)
         countEventsOf[NettyResponseHeader] must be(1)
         countEventsOf[NettyResponseBody] must be(1)
-        countEventsOf[NettyReadBytes] must be(2)
+        countEventsOf[NettyReadBytes] must be(9)
+        countEventsOf[ActionResultGenerationStart.type] must be(1)
+        countEventsOf[ActionResultGenerationEnd.type] must be(1)
+      }
+    }
+    "(chunked) POST /post" in {
+      eventOneOfCheck(expectedOptions = Map(855 -> 4, 854 -> 3, 853 -> 2), timeout = 10.seconds) { readBytesCount ⇒
+        // printTraces
+        countTraces must be(1)
+        countEventsOf[NettyHttpReceivedStart.type] must be(1)
+        countEventsOf[NettyHttpReceivedEnd.type] must be(1)
+        countEventsOf[NettyPlayReceivedStart.type] must be(1)
+        countEventsOf[NettyPlayReceivedEnd.type] must be(1)
+        countEventsOf[ActionResolved] must be(1)
+        countEventsOf[ActionRouteRequest] must be(1)
+        countEventsOf[ActionInvoked] must be(1)
+        countEventsOf[ActionSimpleResult] must be(1)
+        countEventsOf[NettyResponseHeader] must be(1)
+        countEventsOf[NettyResponseBody] must be(1)
+        countEventsOf[NettyReadBytes] must be(readBytesCount)
         countEventsOf[ActionResultGenerationStart.type] must be(1)
         countEventsOf[ActionResultGenerationEnd.type] must be(1)
       }
@@ -568,8 +587,8 @@ class Play22NettyPostTracingSpec extends EchoCollectSpec {
         countEventsOf[ActionResultGenerationEnd.type] must be(1)
       }
     }
-    "(chunked) POST /post" in {
-      eventCheck(expected = 1123, timeout = 10.seconds) {
+    "POST /post (BIG - should be converted by Netty to a chunked POST)" in {
+      eventCheck(expected = 3968) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -582,7 +601,26 @@ class Play22NettyPostTracingSpec extends EchoCollectSpec {
         countEventsOf[ActionSimpleResult] must be(1)
         countEventsOf[NettyResponseHeader] must be(1)
         countEventsOf[NettyResponseBody] must be(1)
-        countEventsOf[NettyReadBytes] must be(2)
+        countEventsOf[NettyReadBytes] must be(9)
+        countEventsOf[ActionResultGenerationStart.type] must be(1)
+        countEventsOf[ActionResultGenerationEnd.type] must be(1)
+      }
+    }
+    "(chunked) POST /post" in {
+      eventOneOfCheck(expectedOptions = Map(1125 -> 4, 1124 -> 3, 1123 -> 2), timeout = 10.seconds) { readBytesCount ⇒
+        // printTraces
+        countTraces must be(1)
+        countEventsOf[NettyHttpReceivedStart.type] must be(1)
+        countEventsOf[NettyHttpReceivedEnd.type] must be(1)
+        countEventsOf[NettyPlayReceivedStart.type] must be(1)
+        countEventsOf[NettyPlayReceivedEnd.type] must be(1)
+        countEventsOf[ActionResolved] must be(1)
+        countEventsOf[ActionRouteRequest] must be(1)
+        countEventsOf[ActionInvoked] must be(1)
+        countEventsOf[ActionSimpleResult] must be(1)
+        countEventsOf[NettyResponseHeader] must be(1)
+        countEventsOf[NettyResponseBody] must be(1)
+        countEventsOf[NettyReadBytes] must be(readBytesCount)
         countEventsOf[ActionResultGenerationStart.type] must be(1)
         countEventsOf[ActionResultGenerationEnd.type] must be(1)
       }

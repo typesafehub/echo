@@ -12,6 +12,7 @@ import java.io.{ ByteArrayInputStream, File }
 import com.ning.http.client.generators.InputStreamBodyGenerator
 import com.ning.http.client.FilePart
 import scala.collection.JavaConverters._
+import scala.util.Random
 
 object CookieParser {
   // quick and dirty.  AsyncHttpClient fails to parse the Play cookie correctly
@@ -122,9 +123,15 @@ class Play21NettyPostTracingSpec extends ActionTraceNettySpec {
       // println("********** BODY:" + r.body)
       eventCheck()
     }
+    "POST /post (BIG - should be converted by Netty to a chunked POST)" in {
+      val r = await(WS.url("http://localhost:9876/post").post(new String(Random.alphanumeric.take(50 * 1024).toArray)))
+      r.status must be(OK)
+      // println("********** BODY:" + r.body)
+      eventCheck()
+    }
     "(chunked) POST /post" in {
 
-      val body = new ByteArrayInputStream(urlEncodeForm(Map("key1" -> Seq("value1"),
+      val bytes = urlEncodeForm(Map("key1" -> Seq("value1"),
         "key2" -> Seq("value2"),
         "key3" -> Seq("value3"),
         "key4" -> Seq("value4"),
@@ -133,7 +140,8 @@ class Play21NettyPostTracingSpec extends ActionTraceNettySpec {
         "key7" -> Seq("value7"),
         "key8" -> Seq("value8"),
         "key9" -> Seq("value9"),
-        "key10" -> Seq("value10"))).getBytes("utf-8"))
+        "key10" -> Seq("value10"))).getBytes("utf-8")
+      val body = new ByteArrayInputStream(bytes)
       val request = requestBuilder("POST", "http://localhost:9876/post")
       request.setBody(new InputStreamBodyGenerator(body))
       request.setHeader("Content-Type", "application/x-www-form-urlencoded")
