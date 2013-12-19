@@ -121,6 +121,7 @@ object EchoBuild extends Build {
     dependencies = Seq(trace29),
     settings = defaultSettings ++ aspectjSettings ++ Seq(
       name := "trace-akka-" + Dependency.V.Akka20,
+      normalizedName <<= name,
       scalaVersion := Dependency.V.Scala29,
       libraryDependencies ++= Dependencies.traceAkka(Dependency.V.Akka20, CrossVersion.Disabled),
       ivyXML := Dependencies.traceAkkaExcludes,
@@ -135,6 +136,7 @@ object EchoBuild extends Build {
     dependencies = Seq(trace210),
     settings = defaultSettings ++ aspectjSettings ++ Seq(
       name := "trace-scala-" + Dependency.V.Scala210,
+      normalizedName <<= name,
       scalaVersion := Dependency.V.Scala210
     )
   )
@@ -145,6 +147,7 @@ object EchoBuild extends Build {
     dependencies = Seq(traceScala210),
     settings = defaultSettings ++ aspectjSettings ++ Seq(
       name := "trace-akka-" + Dependency.V.Akka21,
+      normalizedName <<= name,
       scalaVersion := Dependency.V.Scala210,
       libraryDependencies ++= Dependencies.traceAkka(Dependency.V.Akka21, CrossVersion.binary),
       ivyXML := Dependencies.traceAkkaExcludes
