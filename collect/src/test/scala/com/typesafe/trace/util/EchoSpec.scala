@@ -115,6 +115,8 @@ case class TimeoutHandler(factor: Int) {
 
   def timeoutify(originalDuration: Duration): Duration = originalDuration.*(factor)
 
+  def finiteTimeoutify(originalDuration: FiniteDuration): FiniteDuration = originalDuration.*(factor)
+
   def awaitLatch(latch: CountDownLatch, timeout: Long, unit: TimeUnit): Boolean =
     latch.await(timeout * factor, unit)
 }

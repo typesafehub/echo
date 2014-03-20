@@ -10,7 +10,7 @@ import scala.concurrent.duration._
 class Play21NettyGetTracingSpec extends EchoCollectSpec {
   "Play Netty (GETs only)" must {
     "GET /get" in {
-      eventCheck(expected = 416) {
+      eventCheck(expected = 121) {
         // allEvents.toSeq.sortBy(_.nanoTime).foreach(println)
         // printTraces
         countTraces must be(1)
@@ -30,7 +30,7 @@ class Play21NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /getWithSession" in {
-      eventCheck(expected = 832) {
+      eventCheck(expected = 242) {
         // printTraces
         countTraces must be(2)
         countEventsOf[NettyHttpReceivedStart.type] must be(2)
@@ -50,7 +50,7 @@ class Play21NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /get/sync/10" in {
-      eventCheck(expected = 416) {
+      eventCheck(expected = 121) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -69,7 +69,7 @@ class Play21NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /get/async/100 -- 100ms delay" in {
-      eventCheck(expected = 440) {
+      eventCheck(expected = 122) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -89,7 +89,7 @@ class Play21NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /get/async_immediate -- no delay" in {
-      eventCheck(expected = 440) {
+      eventCheck(expected = 122) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -109,7 +109,7 @@ class Play21NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /get/chunked/10" in {
-      eventCheck(expected = 795) {
+      eventCheck(expected = 206) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -129,7 +129,7 @@ class Play21NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /get/large" in {
-      eventCheck(expected = 416) {
+      eventCheck(expected = 121) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -149,7 +149,7 @@ class Play21NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /no-handler" in {
-      eventCheck(expected = 400) {
+      eventCheck(expected = 115) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -169,7 +169,7 @@ class Play21NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /error" in {
-      eventCheck(expected = 389) {
+      eventCheck(expected = 109) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -189,7 +189,7 @@ class Play21NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "properly trace bad requests GET /get/sync/abcd" in {
-      eventCheck(expected = 416) {
+      eventCheck(expected = 121) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -214,7 +214,7 @@ class Play21NettyGetTracingSpec extends EchoCollectSpec {
 class Play21NettyPostTracingSpec extends EchoCollectSpec {
   "Play Netty (POSTs only)" must {
     "POST /post" in {
-      eventCheck(expected = 813) {
+      eventCheck(expected = 277, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -233,7 +233,7 @@ class Play21NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "POST /post (BIG - should be converted by Netty to a chunked POST)" in {
-      eventCheck(expected = 2530) {
+      eventCheck(expected = 889, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -252,7 +252,7 @@ class Play21NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "(chunked) POST /post" in {
-      eventOneOfCheck(expectedOptions = Map(855 -> 4, 854 -> 3, 853 -> 2), timeout = 10.seconds) { readBytesCount ⇒
+      eventOneOfCheck[Int](expectedOptions = Map(292 -> 2, 293 -> 3), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -271,7 +271,7 @@ class Play21NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "(file upload) POST /uploadFile" in {
-      eventOneOfCheck[Int](expectedOptions = Map(2622 -> 6, 2621 -> 5, 2620 -> 4), timeout = 10.seconds) { readBytesCount ⇒
+      eventOneOfCheck[Int](expectedOptions = Map(955 -> 6, 956 -> 5, 957 -> 4, 958 -> 3), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -290,7 +290,7 @@ class Play21NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "BAD (file upload) POST /uploadFile" in {
-      eventOneOfCheck[Int](expectedOptions = Map(421 -> 5, 420 -> 4, 419 -> 3, 418 -> 2, 417 -> 1), timeout = 10.seconds) { readBytesCount ⇒
+      eventOneOfCheck[Int](expectedOptions = Map(122 -> 1, 123 -> 2, 124 -> 3, 125 -> 4, 126 -> 5), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -314,7 +314,7 @@ class Play21NettyPostTracingSpec extends EchoCollectSpec {
 class Play21IterateeTracingSpec extends EchoCollectSpec {
   "Iteratee tracing" must {
     "trace iteratees" in {
-      eventCheck(expected = 59) {
+      eventCheck(expected = 17) {
         // printTraces()
         countTraces must be(1)
         countEventsOf[IterateeFolded] must be(5)
@@ -333,7 +333,7 @@ class Play21IterateeTracingSpec extends EchoCollectSpec {
 class Play21NettySamplingTracingSpec extends EchoCollectSpec {
   "Play trace sampling" must {
     "produce a sample in-line with sampling rate" in {
-      eventCheck(expected = 2080) {
+      eventCheck(expected = 605, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
         // printTraces
         countTraces must be(5)
         countEventsOf[NettyPlayReceivedStart.type] must be(5)
@@ -364,7 +364,7 @@ class Play21NettySamplingTracingSpec extends EchoCollectSpec {
 class Play22NettyGetTracingSpec extends EchoCollectSpec {
   "Play Netty (GETs only)" must {
     "GET /get" in {
-      eventCheck(expected = 369) {
+      eventCheck(expected = 69) {
         // allEvents.toSeq.sortBy(_.nanoTime).foreach(println)
         // printTraces
         countTraces must be(1)
@@ -384,7 +384,7 @@ class Play22NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /getWithSession" in {
-      eventCheck(expected = 738) {
+      eventCheck(expected = 138) {
         // printTraces
         countTraces must be(2)
         countEventsOf[NettyHttpReceivedStart.type] must be(2)
@@ -404,7 +404,7 @@ class Play22NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /get/sync/10" in {
-      eventCheck(expected = 369) {
+      eventCheck(expected = 69, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -423,7 +423,7 @@ class Play22NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /get/async/100 -- 100ms delay" in {
-      eventCheck(expected = 383) {
+      eventCheck(expected = 70) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -443,7 +443,7 @@ class Play22NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /get/async_immediate -- no delay" in {
-      eventCheck(expected = 383) {
+      eventCheck(expected = 70) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -463,7 +463,7 @@ class Play22NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /get/chunked/10" in {
-      eventCheck(expected = 3159) {
+      eventCheck(expected = 759, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
         // printTraces
         // Unable to get stable data out of this
         countTraces must be(1)
@@ -475,7 +475,7 @@ class Play22NettyGetTracingSpec extends EchoCollectSpec {
         countEventsOf[ActionRouteRequest] must be(1)
         countEventsOf[ActionInvoked] must be(1)
         countEventsOf[ActionChunkedResult] must be(1)
-        countEventsOf[IterateeFolded] must be(184)
+        countEventsOf[IterateeFolded] must be(245)
         countEventsOf[NettyResponseHeader] must be(1)
         countEventsOf[NettyWriteChunk] must be(11)
         countEventsOf[NettyReadBytes] must be(1)
@@ -484,7 +484,7 @@ class Play22NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /get/large" in {
-      eventCheck(expected = 369) {
+      eventCheck(expected = 69, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -504,7 +504,7 @@ class Play22NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /no-handler" in {
-      eventCheck(expected = 321) {
+      eventCheck(expected = 57) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -524,7 +524,7 @@ class Play22NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /error" in {
-      eventCheck(expected = 367) {
+      eventCheck(expected = 69, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -544,7 +544,7 @@ class Play22NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "properly trace bad requests GET /get/sync/abcd" in {
-      eventCheck(expected = 369) {
+      eventCheck(expected = 69) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -569,7 +569,7 @@ class Play22NettyGetTracingSpec extends EchoCollectSpec {
 class Play22NettyPostTracingSpec extends EchoCollectSpec {
   "Play Netty (POSTs only)" must {
     "POST /post" in {
-      eventCheck(expected = 1050) {
+      eventCheck(expected = 214) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -588,7 +588,7 @@ class Play22NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "POST /post (BIG - should be converted by Netty to a chunked POST)" in {
-      eventCheck(expected = 3968) {
+      eventCheck(expected = 771, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -607,7 +607,7 @@ class Play22NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "(chunked) POST /post" in {
-      eventOneOfCheck(expectedOptions = Map(1125 -> 4, 1124 -> 3, 1123 -> 2), timeout = 10.seconds) { readBytesCount ⇒
+      eventOneOfCheck[Int](expectedOptions = Map(229 -> 2, 230 -> 3), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -626,7 +626,7 @@ class Play22NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "(file upload) POST /uploadFile" in {
-      eventOneOfCheck[Int](expectedOptions = Map(4243 -> 7, 4242 -> 6, 4241 -> 5, 4240 -> 4, 4219 -> 3), timeout = 10.seconds) { readBytesCount ⇒
+      eventOneOfCheck[Int](expectedOptions = Map(864 -> 4, 865 -> 5, 866 -> 6, 867 -> 7), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -645,7 +645,7 @@ class Play22NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "BAD (file upload) POST /uploadFile" in {
-      eventOneOfCheck[Int](expectedOptions = Map(422 -> 7, 421 -> 6, 420 -> 5, 419 -> 4, 418 -> 3, 417 -> 2, 416 -> 1), timeout = 10.seconds) { readBytesCount ⇒
+      eventOneOfCheck[Int](expectedOptions = Map(79 -> 2, 80 -> 3, 81 -> 4, 82 -> 5), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
         // printTraces
         countTraces must be(1)
         countEventsOf[NettyHttpReceivedStart.type] must be(1)
@@ -669,7 +669,7 @@ class Play22NettyPostTracingSpec extends EchoCollectSpec {
 class Play22IterateeTracingSpec extends EchoCollectSpec {
   "Iteratee tracing" must {
     "trace iteratees" in {
-      eventCheck(expected = 205) {
+      eventCheck(expected = 24) {
         // printTraces()
         // countTraces must be(1)
         countEventsOf[IterateeFolded] must be(7)
@@ -688,7 +688,7 @@ class Play22IterateeTracingSpec extends EchoCollectSpec {
 class Play22NettySamplingTracingSpec extends EchoCollectSpec {
   "Play trace sampling" must {
     "produce a sample in-line with sampling rate" in {
-      eventCheck(expected = 1845) {
+      eventCheck(expected = 345) {
         // printTraces
         countTraces must be(5)
         countEventsOf[NettyPlayReceivedStart.type] must be(5)
