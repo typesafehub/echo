@@ -39,7 +39,7 @@ object ActionTraceSpecConfig {
       |    use-system-metrics-monitor = off
       |    buffer.size-limit = 0
       |    events {
-      |      futures = on
+      |      futures = off
       |      iteratees = on
       |    }
       |  }

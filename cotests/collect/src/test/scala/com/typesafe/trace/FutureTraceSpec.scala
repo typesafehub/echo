@@ -8,20 +8,47 @@ import com.typesafe.trace.test.EchoCollectSpec
 
 class Akka20FutureTraceSpec extends FutureTraceSpec {
   val createCount = 54
+  val awaitedEventCount = 20
+  val awaitedFutureCallbackAddedCount = 1
+  val awaitedFutureCallbackStartedCount = 1
+  val awaitedFutureCallbackCompletedCount = 1
+  val outsideActorsFutureEventCount = 6
+  val insideActorsFutureEventCount = 12
   val scheduledWrapperEvents = true
 }
 
 class Akka21FutureTraceSpec extends FutureTraceSpec {
   val createCount = 20
+  val awaitedEventCount = 23
+  val awaitedFutureCallbackAddedCount = 2
+  val awaitedFutureCallbackStartedCount = 2
+  val awaitedFutureCallbackCompletedCount = 2
+  val outsideActorsFutureEventCount = 9
+  val insideActorsFutureEventCount = 15
   val scheduledWrapperEvents = true
 }
-
-class Akka22Scala210FutureTraceSpec extends Akka22FutureTraceSpec
-class Akka22Scala211FutureTraceSpec extends Akka22FutureTraceSpec
 
 abstract class Akka22FutureTraceSpec extends FutureTraceSpec {
   val createCount = 20
   val scheduledWrapperEvents = false
+}
+
+class Akka22Scala210FutureTraceSpec extends Akka22FutureTraceSpec {
+  val awaitedEventCount = 23
+  val awaitedFutureCallbackAddedCount = 2
+  val awaitedFutureCallbackStartedCount = 2
+  val awaitedFutureCallbackCompletedCount = 2
+  val outsideActorsFutureEventCount = 9
+  val insideActorsFutureEventCount = 15
+}
+
+class Akka22Scala211FutureTraceSpec extends Akka22FutureTraceSpec {
+  val awaitedEventCount = 20
+  val awaitedFutureCallbackAddedCount = 1
+  val awaitedFutureCallbackStartedCount = 1
+  val awaitedFutureCallbackCompletedCount = 1
+  val outsideActorsFutureEventCount = 6
+  val insideActorsFutureEventCount = 12
 }
 
 abstract class FutureTraceSpec extends EchoCollectSpec {
@@ -30,7 +57,13 @@ abstract class FutureTraceSpec extends EchoCollectSpec {
   override val printTracesAfterWaitForEvents = false
 
   def createCount: Int
+  def awaitedEventCount: Int
   def scheduledWrapperEvents: Boolean
+  def awaitedFutureCallbackAddedCount: Int
+  def awaitedFutureCallbackStartedCount: Int
+  def awaitedFutureCallbackCompletedCount: Int
+  def outsideActorsFutureEventCount: Int
+  def insideActorsFutureEventCount: Int
 
   override def beforeEach() = {
     super.beforeEach()
@@ -47,16 +80,16 @@ abstract class FutureTraceSpec extends EchoCollectSpec {
   "FutureTrace" must {
 
     "trace actors that ask blocking" in {
-      eventCheck(expected = 20) {
+      eventCheck(expected = awaitedEventCount) {
         countEventsOf[ActorAsked] must be(1)
         countEventsOf[ActorTold] must be(3)
         countEventsOf[ActorReceived] must be(3)
         countEventsOf[ActorCompleted] must be(3)
 
         countEventsOf[FutureCreated] must be(1)
-        countEventsOf[FutureCallbackAdded] must be(1)
-        countEventsOf[FutureCallbackStarted] must be(1)
-        countEventsOf[FutureCallbackCompleted] must be(1)
+        countEventsOf[FutureCallbackAdded] must be(awaitedFutureCallbackAddedCount)
+        countEventsOf[FutureCallbackStarted] must be(awaitedFutureCallbackStartedCount)
+        countEventsOf[FutureCallbackCompleted] must be(awaitedFutureCallbackCompletedCount)
         countEventsOf[FutureSucceeded] must be(1)
         countEventsOf[FutureAwaited] must be(1)
 
@@ -105,16 +138,16 @@ abstract class FutureTraceSpec extends EchoCollectSpec {
     }
 
     "trace actors that ask blocking and receiver times out" in {
-      eventCheck(expected = 20) {
+      eventCheck(expected = awaitedEventCount) {
         countEventsOf[ActorAsked] must be(1)
         countEventsOf[ActorTold] must be(3)
         countEventsOf[ActorReceived] must be(3)
         countEventsOf[ActorCompleted] must be(3)
 
         countEventsOf[FutureCreated] must be(1)
-        countEventsOf[FutureCallbackAdded] must be(1)
-        countEventsOf[FutureCallbackStarted] must be(1)
-        countEventsOf[FutureCallbackCompleted] must be(1)
+        countEventsOf[FutureCallbackAdded] must be(awaitedFutureCallbackAddedCount)
+        countEventsOf[FutureCallbackStarted] must be(awaitedFutureCallbackStartedCount)
+        countEventsOf[FutureCallbackCompleted] must be(awaitedFutureCallbackCompletedCount)
         countEventsOf[FutureSucceeded] must be(1)
         countEventsOf[FutureAwaitTimedOut] must be(1)
 
@@ -134,16 +167,16 @@ abstract class FutureTraceSpec extends EchoCollectSpec {
     }
 
     "trace actors that ask blocking and receiver replies with exception" in {
-      eventCheck(expected = 20) {
+      eventCheck(expected = awaitedEventCount) {
         countEventsOf[ActorAsked] must be(1)
         countEventsOf[ActorTold] must be(3)
         countEventsOf[ActorReceived] must be(3)
         countEventsOf[ActorCompleted] must be(3)
 
         countEventsOf[FutureCreated] must be(1)
-        countEventsOf[FutureCallbackAdded] must be(1)
-        countEventsOf[FutureCallbackStarted] must be(1)
-        countEventsOf[FutureCallbackCompleted] must be(1)
+        countEventsOf[FutureCallbackAdded] must be(awaitedFutureCallbackAddedCount)
+        countEventsOf[FutureCallbackStarted] must be(awaitedFutureCallbackStartedCount)
+        countEventsOf[FutureCallbackCompleted] must be(awaitedFutureCallbackCompletedCount)
         countEventsOf[FutureFailed] must be(1)
         countEventsOf[FutureAwaited] must be(1)
 
@@ -345,7 +378,7 @@ abstract class FutureTraceSpec extends EchoCollectSpec {
     }
 
     "trace futures that are used outside actors" in {
-      eventCheck(expected = 6) {
+      eventCheck(expected = outsideActorsFutureEventCount) {
         countEventsOf[FutureCreated] must be(1)
         countEventsOf[FutureScheduled] must be(1)
         countEventsOf[FutureSucceeded] must be(1)
@@ -366,7 +399,7 @@ abstract class FutureTraceSpec extends EchoCollectSpec {
     }
 
     "trace futures that are used inside actor" in {
-      eventCheck(expected = 12) {
+      eventCheck(expected = insideActorsFutureEventCount) {
         countEventsOf[ActorTold] must be(2)
         countEventsOf[ActorReceived] must be(2)
         countEventsOf[ActorCompleted] must be(2)

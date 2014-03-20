@@ -112,7 +112,7 @@ class Akka21RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.config21) {
 
       barrier("check-trace")
 
-      eventCheck("1", expected = 123) {
+      eventCheck("1", expected = 132) {
         countEventsOf[SystemStarted] must be(2)
         countEventsOf[GroupStarted] must be(1)
         countEventsOf[GroupEnded] must be(1)
@@ -134,9 +134,9 @@ class Akka21RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.config21) {
         countEventsOf[ActorCompleted] must be(11)
 
         countEventsOf[FutureCreated] must be(3)
-        countEventsOf[FutureCallbackAdded] must be(3)
-        countEventsOf[FutureCallbackStarted] must be(3)
-        countEventsOf[FutureCallbackCompleted] must be(3)
+        countEventsOf[FutureCallbackAdded] must be(6)
+        countEventsOf[FutureCallbackStarted] must be(6)
+        countEventsOf[FutureCallbackCompleted] must be(6)
         countEventsOf[FutureSucceeded] must be(3)
         countEventsOf[FutureAwaited] must be(3)
 
@@ -175,21 +175,51 @@ class Akka21RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.config21) {
   }
 }
 
-class Akka22Scala210RemoteTraceSpec extends Akka22RemoteTraceSpec
-class Akka22Scala211RemoteTraceSpec extends Akka22RemoteTraceSpec
+class Akka22Scala210RemoteTraceSpec extends Akka22RemoteTraceSpec {
+  val traceAcrossNodesEventCount = 57
+  val traceAcrossNodesTestEventCount = 110
+  val traceAcrossNodesTracesCount = 7
+  val traceAcrossNodesFutureCallbackAddedCount = 2
+  val traceAcrossNodesFutureCallbackStartedCount = 2
+  val traceAcrossNodesFutureCallbackCompletedCount = 2
+  val traceAcrossNodesTestFutureCallbackAddedCount = 6
+  val traceAcrossNodesTestFutureCallbackStartedCount = 6
+  val traceAcrossNodesTestFutureCallbackCompletedCount = 6
+}
+
+class Akka22Scala211RemoteTraceSpec extends Akka22RemoteTraceSpec {
+  val traceAcrossNodesEventCount = 54
+  val traceAcrossNodesTestEventCount = 101
+  val traceAcrossNodesTracesCount = 6
+  val traceAcrossNodesFutureCallbackAddedCount = 1
+  val traceAcrossNodesFutureCallbackStartedCount = 1
+  val traceAcrossNodesFutureCallbackCompletedCount = 1
+  val traceAcrossNodesTestFutureCallbackAddedCount = 3
+  val traceAcrossNodesTestFutureCallbackStartedCount = 3
+  val traceAcrossNodesTestFutureCallbackCompletedCount = 3
+}
 
 abstract class Akka22RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.config22) {
 
   override def cotestNodes = 3
   override def includeSystemStartedEvents = true
+  def traceAcrossNodesEventCount: Int
+  def traceAcrossNodesTestEventCount: Int
+  def traceAcrossNodesTracesCount: Int
+  def traceAcrossNodesFutureCallbackAddedCount: Int
+  def traceAcrossNodesFutureCallbackStartedCount: Int
+  def traceAcrossNodesFutureCallbackCompletedCount: Int
+  def traceAcrossNodesTestFutureCallbackAddedCount: Int
+  def traceAcrossNodesTestFutureCallbackStartedCount: Int
+  def traceAcrossNodesTestFutureCallbackCompletedCount: Int
 
   "Remote tracing" must {
 
     "trace across nodes" in {
       barrier("setup")
 
-      eventCheck("create-and-identify", expected = 54) {
-        countTraces must be(6)
+      eventCheck("create-and-identify", expected = traceAcrossNodesEventCount) {
+        countTraces must be(traceAcrossNodesTracesCount)
 
         countEventsOf[SystemStarted] must be(2)
 
@@ -212,9 +242,9 @@ abstract class Akka22RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.con
         countEventsOf[ActorSelectionTold] must be(1)
 
         countEventsOf[FutureCreated] must be(1)
-        countEventsOf[FutureCallbackAdded] must be(1)
-        countEventsOf[FutureCallbackStarted] must be(1)
-        countEventsOf[FutureCallbackCompleted] must be(1)
+        countEventsOf[FutureCallbackAdded] must be(traceAcrossNodesFutureCallbackAddedCount)
+        countEventsOf[FutureCallbackStarted] must be(traceAcrossNodesFutureCallbackStartedCount)
+        countEventsOf[FutureCallbackCompleted] must be(traceAcrossNodesFutureCallbackCompletedCount)
         countEventsOf[FutureSucceeded] must be(1)
         countEventsOf[FutureAwaited] must be(1)
 
@@ -233,7 +263,7 @@ abstract class Akka22RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.con
 
       barrier("check-trace")
 
-      eventCheck("test", expected = 101) {
+      eventCheck("test", expected = traceAcrossNodesTestEventCount) {
         countEventsOf[GroupStarted] must be(1)
         countEventsOf[GroupEnded] must be(1)
 
@@ -251,9 +281,9 @@ abstract class Akka22RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.con
         countEventsOf[ActorCompleted] must be(11)
 
         countEventsOf[FutureCreated] must be(3)
-        countEventsOf[FutureCallbackAdded] must be(3)
-        countEventsOf[FutureCallbackStarted] must be(3)
-        countEventsOf[FutureCallbackCompleted] must be(3)
+        countEventsOf[FutureCallbackAdded] must be(traceAcrossNodesTestFutureCallbackAddedCount)
+        countEventsOf[FutureCallbackStarted] must be(traceAcrossNodesTestFutureCallbackStartedCount)
+        countEventsOf[FutureCallbackCompleted] must be(traceAcrossNodesTestFutureCallbackCompletedCount)
         countEventsOf[FutureSucceeded] must be(3)
         countEventsOf[FutureAwaited] must be(3)
 

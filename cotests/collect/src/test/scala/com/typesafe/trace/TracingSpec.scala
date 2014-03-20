@@ -223,7 +223,7 @@ class Akka21TracingSpec extends EchoCollectSpec {
     }
 
     "record actor failed events" in {
-      eventCheck(expected = 48) {
+      eventCheck(expected = 51) {
         countTraces must be(1)
 
         countEventsOf[GroupStarted] must be(1)
@@ -257,9 +257,9 @@ class Akka21TracingSpec extends EchoCollectSpec {
 
         countEventsOf[FutureCreated] must be(1)
         countEventsOf[FutureSucceeded] must be(1)
-        countEventsOf[FutureCallbackAdded] must be(1)
-        countEventsOf[FutureCallbackStarted] must be(1)
-        countEventsOf[FutureCallbackCompleted] must be(1)
+        countEventsOf[FutureCallbackAdded] must be(2)
+        countEventsOf[FutureCallbackStarted] must be(2)
+        countEventsOf[FutureCallbackCompleted] must be(2)
         countEventsOf[FutureAwaited] must be(1)
 
         countEventsOf[ScheduledOnce] must be(1)
@@ -271,10 +271,25 @@ class Akka21TracingSpec extends EchoCollectSpec {
   }
 }
 
-class Akka22Scala210TracingSpec extends Akka22TracingSpec
-class Akka22Scala211TracingSpec extends Akka22TracingSpec
+class Akka22Scala210TracingSpec extends Akka22TracingSpec {
+  val failedEventsCount = 51
+  val failedFutureCallbackAddedCount = 2
+  val failedFutureCallbackStartedCount = 2
+  val failedFutureCallbackCompletedCount = 2
+}
+class Akka22Scala211TracingSpec extends Akka22TracingSpec {
+  val failedEventsCount = 48
+  val failedFutureCallbackAddedCount = 1
+  val failedFutureCallbackStartedCount = 1
+  val failedFutureCallbackCompletedCount = 1
+}
 
 abstract class Akka22TracingSpec extends EchoCollectSpec {
+
+  def failedEventsCount: Int
+  def failedFutureCallbackAddedCount: Int
+  def failedFutureCallbackStartedCount: Int
+  def failedFutureCallbackCompletedCount: Int
 
   "Tracing" must {
 
@@ -311,7 +326,7 @@ abstract class Akka22TracingSpec extends EchoCollectSpec {
     }
 
     "record actor failed events" in {
-      eventCheck(expected = 48) {
+      eventCheck(expected = failedEventsCount) {
         countTraces must be(1)
 
         countEventsOf[GroupStarted] must be(1)
@@ -346,9 +361,9 @@ abstract class Akka22TracingSpec extends EchoCollectSpec {
 
         countEventsOf[FutureCreated] must be(1)
         countEventsOf[FutureSucceeded] must be(1)
-        countEventsOf[FutureCallbackAdded] must be(1)
-        countEventsOf[FutureCallbackStarted] must be(1)
-        countEventsOf[FutureCallbackCompleted] must be(1)
+        countEventsOf[FutureCallbackAdded] must be(failedFutureCallbackAddedCount)
+        countEventsOf[FutureCallbackStarted] must be(failedFutureCallbackStartedCount)
+        countEventsOf[FutureCallbackCompleted] must be(failedFutureCallbackCompletedCount)
         countEventsOf[FutureAwaited] must be(1)
 
         countEventsOf[ScheduledOnce] must be(1)

@@ -370,7 +370,7 @@ object EchoBuild extends Build {
         "-Dactivator.trace.enabled=true",
         "-Dactivator.trace.futures=off",
         "-Dactivator.trace.iteratees=on",
-        "-Dactivator.trace.events.futures=on",
+        "-Dactivator.trace.events.futures=off",
         "-Dactivator.trace.events.iteratees=on",
         "-Dactivator.trace.play.traceable./get/filtered/*=off",
         "-Dactivator.trace.play.sampling./getSampled=3",
@@ -392,7 +392,7 @@ object EchoBuild extends Build {
         "-Dactivator.trace.enabled=true",
         "-Dactivator.trace.futures=off",
         "-Dactivator.trace.iteratees=on",
-        "-Dactivator.trace.events.futures=on",
+        "-Dactivator.trace.events.futures=off",
         "-Dactivator.trace.events.iteratees=on",
         "-Dactivator.trace.use-dispatcher-monitor=off",
         "-Dactivator.trace.play.traceable./get/filtered/*=off",
@@ -617,14 +617,14 @@ object Dependency {
   object V {
     val Akka20    = "2.0.5"
     val Akka21    = "2.1.4"
-    val Akka22    = "2.2.1"
+    val Akka22    = "2.2.4"
     val Config    = "1.0.2"
     val Logback   = "1.0.13"
-    val Play21    = "2.1.4"
-    val Play22    = "2.2.0"
+    val Play21    = "2.1.5"
+    val Play22    = "2.2.2"
     val Protobuf  = "2.4.1"
     val Scala29   = "2.9.2"
-    val Scala210  = "2.10.2"
+    val Scala210  = "2.10.3"
     val Scala211  = "2.11.0-M3"
     val Scalatest = "1.9.1"
     val Slf4j     = "1.7.5"
