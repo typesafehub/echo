@@ -37,6 +37,10 @@ object ActionTraceSpecConfig {
           use-dispatcher-monitor = off
           use-system-metrics-monitor = off
           buffer.size-limit = 0
+          events {
+            futures = off
+            iteratees = on
+          }
         }
 
         trace.test.time-factor = 1
