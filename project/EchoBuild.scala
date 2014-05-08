@@ -32,9 +32,10 @@ object EchoBuild extends Build {
       event29, event210, event211,
       trace29, trace210, trace211,
       traceAkka20,
-      traceScala210, traceAkka21, traceAkka22Scala210,
-      tracePlayCommon, tracePlay21, tracePlay22,
-      traceScala211, traceAkka22Scala211
+      traceScala210,
+      traceAkka21, traceAkka22, traceAkka23Scala210,
+      tracePlayCommon, tracePlay21, tracePlay22, tracePlay23Scala210,
+      traceScala211, traceAkka23Scala211, tracePlay23Scala211
     )
   )
 
@@ -85,7 +86,7 @@ object EchoBuild extends Build {
       scalaVersion := Dependency.V.Scala29,
       crossPaths := true,
       target <<= target / "29",
-      libraryDependencies ++= Dependencies.trace
+      libraryDependencies ++= Dependencies.trace29
     )
   )
 
@@ -154,8 +155,8 @@ object EchoBuild extends Build {
     )
   )
 
-  lazy val traceAkka22Scala210 = Project(
-    id = "trace-akka22-scala210",
+  lazy val traceAkka22 = Project(
+    id = "trace-akka22",
     base = file("trace/akka/2.2.x"),
     dependencies = Seq(traceScala210),
     settings = defaultSettings ++ aspectjSettings ++ Seq(
@@ -163,8 +164,39 @@ object EchoBuild extends Build {
       normalizedName <<= name,
       scalaVersion := Dependency.V.Scala210,
       crossPaths := true,
-      target <<= target / "210",
       libraryDependencies ++= Dependencies.traceAkka(Dependency.V.Akka22, CrossVersion.binary),
+      ivyXML := Dependencies.traceAkkaExcludes
+    )
+  )
+
+  lazy val traceAkka23Scala210 = Project(
+    id = "trace-akka23-scala210",
+    base = file("trace/akka/2.3.x"),
+    dependencies = Seq(traceScala210),
+    settings = defaultSettings ++ aspectjSettings ++ Seq(
+      name := "trace-akka-" + Dependency.V.Akka23,
+      normalizedName <<= name,
+      publishToPublicRepos,
+      scalaVersion := Dependency.V.Scala210,
+      crossPaths := true,
+      target <<= target / "210",
+      libraryDependencies ++= Dependencies.traceAkka(Dependency.V.Akka23, CrossVersion.binary),
+      ivyXML := Dependencies.traceAkkaExcludes
+    )
+  )
+
+  lazy val traceAkka23Scala211 = Project(
+    id = "trace-akka23-scala211",
+    base = file("trace/akka/2.3.x"),
+    dependencies = Seq(traceScala211),
+    settings = defaultSettings ++ aspectjSettings ++ Seq(
+      name := "trace-akka-" + Dependency.V.Akka23,
+      normalizedName <<= name,
+      publishToPublicRepos,
+      scalaVersion := Dependency.V.Scala211,
+      crossPaths := true,
+      target <<= target / "211",
+      libraryDependencies ++= Dependencies.traceAkka(Dependency.V.Akka23, CrossVersion.binary),
       ivyXML := Dependencies.traceAkkaExcludes
     )
   )
@@ -194,12 +226,44 @@ object EchoBuild extends Build {
   lazy val tracePlay22 = Project(
     id = "trace-play22",
     base = file("trace/play/2.2.x"),
-    dependencies = Seq(traceAkka22Scala210, tracePlayCommon),
+    dependencies = Seq(traceAkka22, tracePlayCommon),
     settings = defaultSettings ++ aspectjSettings ++ Seq(
       name := "trace-play-" + Dependency.V.Play22,
       normalizedName <<= name,
       scalaVersion := Dependency.V.Scala210,
       libraryDependencies ++= Dependencies.play22Trace,
+      ivyXML := Dependencies.traceAkkaExcludes
+    )
+  )
+
+  lazy val tracePlay23Scala210 = Project(
+    id = "trace-play23-scala210",
+    base = file("trace/play/2.3.x"),
+    dependencies = Seq(traceAkka23Scala210, tracePlayCommon),
+    settings = defaultSettings ++ aspectjSettings ++ Seq(
+      name := "trace-play-" + Dependency.V.Play23,
+      normalizedName <<= name,
+      publishToPublicRepos,
+      scalaVersion := Dependency.V.Scala210,
+      crossPaths := true,
+      target <<= target / "210",
+      libraryDependencies ++= Dependencies.play23Trace,
+      ivyXML := Dependencies.traceAkkaExcludes
+    )
+  )
+
+  lazy val tracePlay23Scala211 = Project(
+    id = "trace-play23-scala211",
+    base = file("trace/play/2.3.x"),
+    dependencies = Seq(traceAkka23Scala211, tracePlayCommon),
+    settings = defaultSettings ++ aspectjSettings ++ Seq(
+      name := "trace-play-" + Dependency.V.Play23,
+      normalizedName <<= name,
+      publishToPublicRepos,
+      crossPaths := true,
+      target <<= target / "211",
+      scalaVersion := Dependency.V.Scala211,
+      libraryDependencies ++= Dependencies.play23Trace,
       ivyXML := Dependencies.traceAkkaExcludes
     )
   )
@@ -212,21 +276,6 @@ object EchoBuild extends Build {
       name := "trace-scala-" + Dependency.V.Scala211,
       normalizedName <<= name,
       scalaVersion := Dependency.V.Scala211
-    )
-  )
-
-  lazy val traceAkka22Scala211 = Project(
-    id = "trace-akka22-scala211",
-    base = file("trace/akka/2.2.x"),
-    dependencies = Seq(traceScala211),
-    settings = defaultSettings ++ aspectjSettings ++ Seq(
-      name := "trace-akka-" + Dependency.V.Akka22Scala211,
-      normalizedName <<= name,
-      scalaVersion := Dependency.V.Scala211,
-      crossPaths := true,
-      target <<= target / "211",
-      libraryDependencies ++= Dependencies.traceAkka(Dependency.V.Akka22Scala211, CrossVersion.binary),
-      ivyXML := Dependencies.traceAkkaExcludes
     )
   )
 
@@ -245,9 +294,9 @@ object EchoBuild extends Build {
     base = file("cotests"),
     settings = defaultSettings ++ noPublish ++
       SbtCotest.cotestSettings(
-        cotestsTraceAkka20, cotestsTraceAkka21, cotestsTraceAkka22Scala210, cotestsTraceAkka22Scala211,
-        cotestsTracePlay21, cotestsTracePlay22,
-        cotestsTrace2Akka20, cotestsTrace2Akka21, cotestsTrace2Akka22Scala210, cotestsTrace2Akka22Scala211,
+        cotestsTraceAkka20, cotestsTraceAkka21, cotestsTraceAkka22, cotestsTraceAkka23Scala210, cotestsTraceAkka23Scala211,
+        cotestsTracePlay21, cotestsTracePlay22, cotestsTracePlay23Scala210, cotestsTracePlay23Scala211,
+        cotestsTrace2Akka20, cotestsTrace2Akka21, cotestsTrace2Akka22, cotestsTrace2Akka23Scala210, cotestsTrace2Akka23Scala211,
         cotestsCollect)
   )
 
@@ -259,7 +308,7 @@ object EchoBuild extends Build {
       scalaVersion := Dependency.V.Scala29,
       crossPaths := true,
       target <<= target / "29",
-      libraryDependencies ++= Dependencies.cotests
+      libraryDependencies ++= Dependencies.cotests29
     )
   )
 
@@ -310,10 +359,10 @@ object EchoBuild extends Build {
     )
   )
 
-  lazy val cotestsTraceAkka22Scala210 = Project(
-    id = "cotests-trace-akka22-scala210",
+  lazy val cotestsTraceAkka22 = Project(
+    id = "cotests-trace-akka22",
     base = file("cotests/trace/akka/2.2/2.10"),
-    dependencies = Seq(cotestsCommon210 % "test->test", traceAkka22Scala210),
+    dependencies = Seq(cotestsCommon210 % "test->test", traceAkka22),
     settings = defaultSettings ++ tracedTestSettings ++ Seq(
       name := "cotests-trace-akka-2.2-scala-2.10",
       scalaVersion := Dependency.V.Scala210,
@@ -322,12 +371,24 @@ object EchoBuild extends Build {
     )
   )
 
-  lazy val cotestsTraceAkka22Scala211 = Project(
-    id = "cotests-trace-akka22-scala211",
-    base = file("cotests/trace/akka/2.2/2.11"),
-    dependencies = Seq(cotestsCommon211 % "test->test", traceAkka22Scala211),
+  lazy val cotestsTraceAkka23Scala210 = Project(
+    id = "cotests-trace-akka23-scala210",
+    base = file("cotests/trace/akka/2.3/2.10"),
+    dependencies = Seq(cotestsCommon210 % "test->test", traceAkka23Scala210),
     settings = defaultSettings ++ tracedTestSettings ++ Seq(
-      name := "cotests-trace-akka-2.2-scala-2.11",
+      name := "cotests-trace-akka-2.3-scala-2.10",
+      scalaVersion := Dependency.V.Scala210,
+      cotestProjectName := "trace",
+      javaOptions in Test += "-Dactivator.trace.enabled=true"
+    )
+  )
+
+  lazy val cotestsTraceAkka23Scala211 = Project(
+    id = "cotests-trace-akka23-scala211",
+    base = file("cotests/trace/akka/2.3/2.11"),
+    dependencies = Seq(cotestsCommon211 % "test->test", traceAkka23Scala211),
+    settings = defaultSettings ++ tracedTestSettings ++ Seq(
+      name := "cotests-trace-akka-2.3-scala-2.11",
       scalaVersion := Dependency.V.Scala211,
       cotestProjectName := "trace",
       javaOptions in Test += "-Dactivator.trace.enabled=true"
@@ -358,6 +419,30 @@ object EchoBuild extends Build {
     )
   )
 
+  lazy val cotestsTracePlayCommon23Scala210 = Project(
+    id = "cotests-trace-play-common23-scala210",
+    base = file("cotests/trace/play/common"),
+    dependencies = Seq(cotestsCommon210 % "test->test", tracePlay23Scala210 % "test->test"),
+    settings = defaultSettings ++ tracedTestSettings ++ Seq(
+      name := "cotests-trace-play-common23-scala210",
+      scalaVersion := Dependency.V.Scala210,
+      crossPaths := true,
+      target <<= target / "play-23/scala-2.10"
+    )
+  )
+
+  lazy val cotestsTracePlayCommon23Scala211 = Project(
+    id = "cotests-trace-play-common23-scala211",
+    base = file("cotests/trace/play/common"),
+    dependencies = Seq(cotestsCommon211 % "test->test", tracePlay23Scala211 % "test->test"),
+    settings = defaultSettings ++ tracedTestSettings ++ Seq(
+      name := "cotests-trace-play-common23-scala211",
+      scalaVersion := Dependency.V.Scala211,
+      crossPaths := true,
+      target <<= target / "play-23/scala-2.11"
+    )
+  )
+
   lazy val cotestsTracePlay21 = Project(
     id = "cotests-trace-play21",
     base = file("cotests/trace/play/2.1.x"),
@@ -383,7 +468,7 @@ object EchoBuild extends Build {
   lazy val cotestsTracePlay22 = Project(
     id = "cotests-trace-play22",
     base = file("cotests/trace/play/2.2.x"),
-    dependencies = Seq(cotestsTraceAkka22Scala210 % "test->test", tracePlay22 % "test->test", cotestsTracePlayCommon22 % "test->test"),
+    dependencies = Seq(cotestsTraceAkka22 % "test->test", tracePlay22 % "test->test", cotestsTracePlayCommon22 % "test->test"),
     settings = defaultSettings ++ tracedTestSettings ++ Seq(
       name := "cotests-trace-play-2.2.x",
       scalaVersion := Dependency.V.Scala210,
@@ -404,7 +489,57 @@ object EchoBuild extends Build {
     )
   )
 
-  lazy val cotestsTrace2Akka20 = Project(
+  lazy val cotestsTracePlay23Scala210 = Project(
+    id = "cotests-trace-play23-scala210",
+    base = file("cotests/trace/play/2.3.x/2.10"),
+    dependencies = Seq(cotestsTraceAkka23Scala210 % "test->test", tracePlay23Scala210 % "test->test", cotestsTracePlayCommon23Scala210 % "test->test"),
+    settings = defaultSettings ++ tracedTestSettings ++ Seq(
+      name := "cotests-trace-play-2.3.x-scala-2.10",
+      scalaVersion := Dependency.V.Scala210,
+      cotestProjectName := "trace",
+      javaOptions in Test ++= Seq(
+        "-Datmos.trace.enabled=true",
+        "-Datmos.trace.futures=off",
+        "-Datmos.trace.iteratees=on",
+        "-Datmos.trace.events.futures=off",
+        "-Datmos.trace.events.iteratees=on",
+        "-Datmos.trace.use-dispatcher-monitor=off",
+        "-Datmos.trace.play.traceable./get/filtered/*=off",
+        "-Datmos.trace.play.sampling./getSampled=3",
+        "-Datmos.trace.use-system-metrics-monitor=off"
+      ),
+      javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off")),
+      // ignore deprecation warnings (intended usage of deprecated api)
+      scalacOptions ~= { _ diff Seq("-deprecation") }
+    )
+  )
+
+  lazy val cotestsTracePlay23Scala211 = Project(
+    id = "cotests-trace-play23-scala211",
+    base = file("cotests/trace/play/2.3.x/2.11"),
+    dependencies = Seq(cotestsTraceAkka23Scala211 % "test->test", tracePlay23Scala211 % "test->test", cotestsTracePlayCommon23Scala211 % "test->test"),
+    settings = defaultSettings ++ tracedTestSettings ++ Seq(
+      name := "cotests-trace-play-2.3.x-scala-2.11",
+      scalaVersion := Dependency.V.Scala211,
+      cotestProjectName := "trace",
+      javaOptions in Test ++= Seq(
+        "-Datmos.trace.enabled=true",
+        "-Datmos.trace.futures=off",
+        "-Datmos.trace.iteratees=on",
+        "-Datmos.trace.events.futures=off",
+        "-Datmos.trace.events.iteratees=on",
+        "-Datmos.trace.use-dispatcher-monitor=off",
+        "-Datmos.trace.play.traceable./get/filtered/*=off",
+        "-Datmos.trace.play.sampling./getSampled=3",
+        "-Datmos.trace.use-system-metrics-monitor=off"
+      ),
+      javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off")),
+      // ignore deprecation warnings (intended usage of deprecated api)
+      scalacOptions ~= { _ diff Seq("-deprecation") }
+    )
+  )
+
+ lazy val cotestsTrace2Akka20 = Project(
     id = "cotests-trace2-akka20",
     base = file("cotests/trace2/akka/2.0"),
     dependencies = Seq(cotestsTraceAkka20 % "test->test"),
@@ -427,24 +562,36 @@ object EchoBuild extends Build {
     )
   )
 
-  lazy val cotestsTrace2Akka22Scala210 = Project(
-    id = "cotests-trace2-akka22-scala210",
+  lazy val cotestsTrace2Akka22 = Project(
+    id = "cotests-trace2-akka22",
     base = file("cotests/trace2/akka/2.2/2.10"),
-    dependencies = Seq(cotestsTraceAkka22Scala210 % "test->test"),
+    dependencies = Seq(cotestsTraceAkka22 % "test->test"),
     settings = defaultSettings ++ tracedTestSettings ++ Seq(
-      name := "cotests-trace2-akka-2.2-scala-2.10",
+      name := "cotests-trace2-akka-2.2",
       scalaVersion := Dependency.V.Scala210,
       cotestProjectName := "trace2",
       javaOptions in Test += "-Dactivator.trace.enabled=true"
     )
   )
 
-  lazy val cotestsTrace2Akka22Scala211 = Project(
-    id = "cotests-trace2-akka22-scala211",
-    base = file("cotests/trace2/akka/2.2/2.11"),
-    dependencies = Seq(cotestsTraceAkka22Scala211 % "test->test"),
+  lazy val cotestsTrace2Akka23Scala210 = Project(
+    id = "cotests-trace2-akka23-scala211",
+    base = file("cotests/trace2/akka/2.3/2.10"),
+    dependencies = Seq(cotestsTraceAkka23Scala210 % "test->test"),
     settings = defaultSettings ++ tracedTestSettings ++ Seq(
-      name := "cotests-trace2-akka-2.2-scala-2.11",
+      name := "cotests-trace2-akka-2.3-scala-2.10",
+      scalaVersion := Dependency.V.Scala210,
+      cotestProjectName := "trace2",
+      javaOptions in Test += "-Dactivator.trace.enabled=true"
+    )
+  )
+
+  lazy val cotestsTrace2Akka23Scala211 = Project(
+    id = "cotests-trace2-akka23-scala211",
+    base = file("cotests/trace2/akka/2.3/2.11"),
+    dependencies = Seq(cotestsTraceAkka23Scala211 % "test->test"),
+    settings = defaultSettings ++ tracedTestSettings ++ Seq(
+      name := "cotests-trace2-akka-2.3-scala-2.11",
       scalaVersion := Dependency.V.Scala211,
       cotestProjectName := "trace2",
       javaOptions in Test += "-Dactivator.trace.enabled=true"
@@ -575,9 +722,11 @@ object Dependencies {
 
   val event = Seq(config, protobuf)
 
+  val trace29 = Seq(Test.scalatest29, Test.junit)
+
   val trace = Seq(Test.scalatest, Test.junit)
 
-  val trace211 = Seq(Test.scalatestB, Test.junit)
+  val trace211 = Seq(Test.scalatest, Test.junit)
 
   def play21Trace = Seq(
     play21, Test.playTest21
@@ -585,6 +734,10 @@ object Dependencies {
 
   def play22Trace = Seq(
     play22, Test.playTest22
+  )
+
+  def play23Trace = Seq(
+    play23, Test.playTest23
   )
 
   def traceAkka(version: String, crossVersion: CrossVersion) = Seq(
@@ -600,14 +753,21 @@ object Dependencies {
     </dependencies>
   }
 
+  val collect29 = Seq(
+    akkaSlf4j, slf4j, logback,
+    Test.akkaTestKit, Test.scalatest29, Test.junit
+  )
+
   val collect = Seq(
     akkaSlf4j, slf4j, logback,
     Test.akkaTestKit, Test.scalatest, Test.junit
   )
 
+  val cotests29 = Seq(Test.scalatest29, Test.junit, Test.logback)
+
   val cotests = Seq(Test.scalatest, Test.junit, Test.logback)
 
-  val cotests211 = Seq(Test.scalatestB, Test.junit, Test.logback)
+  val cotests211 = Seq(Test.scalatest, Test.junit, Test.logback)
 }
 
 object Dependency {
@@ -615,28 +775,29 @@ object Dependency {
   // Versions
 
   object V {
-    val Akka20    = "2.0.5"
-    val Akka21    = "2.1.4"
-    val Akka22    = "2.2.4"
-    val Config    = "1.0.2"
-    val Logback   = "1.0.13"
-    val Play21    = "2.1.5"
-    val Play22    = "2.2.2"
-    val Protobuf  = "2.4.1"
-    val Scala29   = "2.9.2"
-    val Scala210  = "2.10.3"
-    val Scala211  = "2.11.0-M3"
-    val Scalatest = "1.9.1"
-    val Slf4j     = "1.7.5"
-
-    // Only Akka 2.2.0 is on Scala 2.11
-    // And only akka-actor for Scala 2.11.0-M4
-    val Akka22Scala211 = "2.2.0"
+    val Akka20         = "2.0.5"
+    val Akka21         = "2.1.4"
+    val Akka22         = "2.2.4"
+    val Akka23         = "2.3.2"
+    val Config         = "1.0.2"
+    val Logback        = "1.0.13"
+    val Play21         = "2.1.5"
+    val Play22         = "2.2.2"
+    val Play23         = "2.3.0-RC1"
+    val Protobuf       = "2.4.1"
+    val Scala29        = "2.9.2"
+    val Scala210       = "2.10.3"
+    val Scala211       = "2.11.0"
+    val Scalatest      = "2.1.5"
+    val Scalatest29    = "1.9.1"
+    val Slf4j          = "1.7.5"
+    val Akka22Scala211 = Akka22
   }
 
   val akkaSlf4j         = "com.typesafe.akka"         %% "akka-slf4j"         % V.Akka22
   val play21            = "play"                      %% "play"               % V.Play21
   val play22            = "com.typesafe.play"         %% "play"               % V.Play22
+  val play23            = "com.typesafe.play"         %% "play"               % V.Play23
   val config            = "com.typesafe"              % "config"              % V.Config
   val logback           = "ch.qos.logback"            % "logback-classic"     % V.Logback
   val protobuf          = "com.google.protobuf"       % "protobuf-java"       % V.Protobuf
@@ -644,12 +805,13 @@ object Dependency {
   val slf4j             = "org.slf4j"                 % "slf4j-api"           % V.Slf4j
 
   object Test {
-    val akkaTestKit = "com.typesafe.akka"   %% "akka-testkit"            % V.Akka22    % "test"
-    val junit       = "junit"               % "junit"                    % "4.5"       % "test"
-    val logback     = "ch.qos.logback"      % "logback-classic"          % V.Logback   % "test"
-    val playTest21  = "play"                %% "play-test"               % V.Play21    % "test"
-    val playTest22  = "com.typesafe.play"   %% "play-test"               % V.Play22    % "test"
-    val scalatest   = "org.scalatest"       %% "scalatest"               % V.Scalatest % "test"
-    val scalatestB  = "org.scalatest"       %% "scalatest"               % "1.9.1b"    % "test"
+    val akkaTestKit   = "com.typesafe.akka"   %% "akka-testkit"            % V.Akka22      % "test"
+    val junit         = "junit"               % "junit"                    % "4.5"         % "test"
+    val logback       = "ch.qos.logback"      % "logback-classic"          % V.Logback     % "test"
+    val playTest21    = "play"                %% "play-test"               % V.Play21      % "test"
+    val playTest22    = "com.typesafe.play"   %% "play-test"               % V.Play22      % "test"
+    val playTest23    = "com.typesafe.play"   %% "play-test"               % V.Play23      % "test"
+    val scalatest29   = "org.scalatest"       %% "scalatest"               % V.Scalatest29 % "test"
+    val scalatest     = "org.scalatest"       %% "scalatest"               % V.Scalatest   % "test"
   }
 }
