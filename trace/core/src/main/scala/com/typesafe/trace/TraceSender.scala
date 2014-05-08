@@ -10,7 +10,9 @@ object TraceSender {
     try {
       new ProtobufTraceSender(port, capacity, retry, daemonic, warn)
     } catch {
-      case e: Exception ⇒ DisabledTraceSender
+      case e: Exception ⇒
+        println("exception: " + e)
+        DisabledTraceSender
     }
   }
 }

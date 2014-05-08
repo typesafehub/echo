@@ -14,10 +14,14 @@ class Akka21UnhandledMessageSpec extends UnhandledMessageSpec {
   val createCount = 10
 }
 
-class Akka22Scala210UnhandledMessageSpec extends Akka22UnhandledMessageSpec
-class Akka22Scala211UnhandledMessageSpec extends Akka22UnhandledMessageSpec
+class Akka22UnhandledMessageSpec extends UnhandledMessageSpec {
+  val createCount = 10
+}
 
-abstract class Akka22UnhandledMessageSpec extends UnhandledMessageSpec {
+class Akka23Scala210UnhandledMessageSpec extends Akka23UnhandledMessageSpec
+class Akka23Scala211UnhandledMessageSpec extends Akka23UnhandledMessageSpec
+
+abstract class Akka23UnhandledMessageSpec extends UnhandledMessageSpec {
   val createCount = 10
 }
 
@@ -30,7 +34,7 @@ abstract class UnhandledMessageSpec extends EchoCollectSpec {
       eventCheck(expected = createCount + 13) {
         // 4 events: ActorTold, ActorReceived, EventStreamUnhandledMessage, ActorCompleted
         // 9 events for poison pill
-        countEventsOf[EventStreamUnhandledMessage] must be(1)
+        countEventsOf[EventStreamUnhandledMessage] should be(1)
       }
     }
 

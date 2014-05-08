@@ -14,10 +14,14 @@ class Akka21ZeroContextCallbackSpec extends ZeroContextCallbackSpec {
   val createCount = 10
 }
 
-class Akka22Scala210ZeroContextCallbackSpec extends Akka22ZeroContextCallbackSpec
-class Akka22Scala211ZeroContextCallbackSpec extends Akka22ZeroContextCallbackSpec
+class Akka22ZeroContextCallbackSpec extends ZeroContextCallbackSpec {
+  val createCount = 10
+}
 
-abstract class Akka22ZeroContextCallbackSpec extends ZeroContextCallbackSpec {
+class Akka23Scala210ZeroContextCallbackSpec extends Akka23ZeroContextCallbackSpec
+class Akka23Scala211ZeroContextCallbackSpec extends Akka23ZeroContextCallbackSpec
+
+abstract class Akka23ZeroContextCallbackSpec extends ZeroContextCallbackSpec {
   val createCount = 10
 }
 
@@ -32,10 +36,10 @@ abstract class ZeroContextCallbackSpec extends EchoCollectSpec {
       }
 
       eventCheck("zero", expected = 12) {
-        countTraces must be(4)
-        countEventsOf[ActorTold] must be(4)
-        countEventsOf[ActorReceived] must be(4)
-        countEventsOf[ActorCompleted] must be(4)
+        countTraces should be(4)
+        countEventsOf[ActorTold] should be(4)
+        countEventsOf[ActorReceived] should be(4)
+        countEventsOf[ActorCompleted] should be(4)
       }
     }
 
