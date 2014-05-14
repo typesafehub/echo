@@ -4,19 +4,18 @@
 package com.typesafe.trace.util
 
 import java.util.TimeZone
-import org.scalatest.matchers.{ ShouldMatchers, MustMatchers }
-import org.scalatest.WordSpec
+import org.scalatest.{ WordSpec, MustMatchers }
 
 @org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class UtcDateFormatSpec extends WordSpec with MustMatchers with ShouldMatchers {
+class UtcDateFormatSpec extends WordSpec with MustMatchers {
   val utcDateFormat = new UtcDateFormat("yyyy-MM-dd'T'HH:mm")
 
   "UtcDateFormat parsing" must {
     "throw an exception for incorrect date format" in {
-      evaluating(utcDateFormat.parse("2011-12-30Tx7:22")) should produce[java.text.ParseException]
-      evaluating(utcDateFormat.parse("2011-12-30T77:22")) should produce[java.text.ParseException]
-      evaluating(utcDateFormat.parse("2011-12-38T14:22")) should produce[java.text.ParseException]
-      evaluating(utcDateFormat.parse("2011-16-27T14:22")) should produce[java.text.ParseException]
+      an[java.text.ParseException] must be thrownBy (utcDateFormat.parse("2011-12-30Tx7:22"))
+      an[java.text.ParseException] must be thrownBy (utcDateFormat.parse("2011-12-30T77:22"))
+      an[java.text.ParseException] must be thrownBy (utcDateFormat.parse("2011-12-38T14:22"))
+      an[java.text.ParseException] must be thrownBy (utcDateFormat.parse("2011-16-27T14:22"))
     }
   }
 

@@ -86,6 +86,7 @@ object EchoBuild extends Build {
       scalaVersion := Dependency.V.Scala29,
       crossPaths := true,
       target <<= target / "29",
+      scalaSource in Test := baseDirectory.value / "src" / "test" / "2.9" / "scala",
       libraryDependencies ++= Dependencies.trace29
     )
   )
@@ -99,6 +100,7 @@ object EchoBuild extends Build {
       scalaVersion := Dependency.V.Scala210,
       crossPaths := true,
       target <<= target / "210",
+      scalaSource in Test := baseDirectory.value / "src" / "test" / "2.10" / "scala",
       libraryDependencies ++= Dependencies.trace
     )
   )
@@ -112,6 +114,7 @@ object EchoBuild extends Build {
       scalaVersion := Dependency.V.Scala211,
       crossPaths := true,
       target <<= target / "211",
+      scalaSource in Test := baseDirectory.value / "src" / "test" / "2.11" / "scala",
       libraryDependencies ++= Dependencies.trace211
     )
   )
@@ -308,6 +311,7 @@ object EchoBuild extends Build {
       scalaVersion := Dependency.V.Scala29,
       crossPaths := true,
       target <<= target / "29",
+      scalaSource in Test := baseDirectory.value / "src" / "test" / "2.9" / "scala",
       libraryDependencies ++= Dependencies.cotests29
     )
   )
@@ -320,6 +324,7 @@ object EchoBuild extends Build {
       scalaVersion := Dependency.V.Scala210,
       crossPaths := true,
       target <<= target / "210",
+      scalaSource in Test := baseDirectory.value / "src" / "test" / "2.10" / "scala",
       libraryDependencies ++= Dependencies.cotests
     )
   )
@@ -332,6 +337,7 @@ object EchoBuild extends Build {
       scalaVersion := Dependency.V.Scala211,
       crossPaths := true,
       target <<= target / "211",
+      scalaSource in Test := baseDirectory.value / "src" / "test" / "2.11" / "scala",
       libraryDependencies ++= Dependencies.cotests211
     )
   )
@@ -402,6 +408,7 @@ object EchoBuild extends Build {
     settings = defaultSettings ++ tracedTestSettings ++ Seq(
       name := "cotests-trace-play-common21",
       scalaVersion := Dependency.V.Scala210,
+      scalaSource in Test := baseDirectory.value / "src" / "test" / "play-2.1" / "scala",
       crossPaths := true,
       target <<= target / "play-21"
     )
@@ -414,6 +421,7 @@ object EchoBuild extends Build {
     settings = defaultSettings ++ tracedTestSettings ++ Seq(
       name := "cotests-trace-play-common22",
       scalaVersion := Dependency.V.Scala210,
+      scalaSource in Test := baseDirectory.value / "src" / "test" / "play-2.2" / "scala",
       crossPaths := true,
       target <<= target / "play-22"
     )
@@ -426,6 +434,8 @@ object EchoBuild extends Build {
     settings = defaultSettings ++ tracedTestSettings ++ Seq(
       name := "cotests-trace-play-common23-scala210",
       scalaVersion := Dependency.V.Scala210,
+      libraryDependencies += Dependency.play23ws,
+      scalaSource in Test := baseDirectory.value / "src" / "test" / "play-2.3" / "scala",
       crossPaths := true,
       target <<= target / "play-23/scala-2.10"
     )
@@ -438,6 +448,8 @@ object EchoBuild extends Build {
     settings = defaultSettings ++ tracedTestSettings ++ Seq(
       name := "cotests-trace-play-common23-scala211",
       scalaVersion := Dependency.V.Scala211,
+      libraryDependencies += Dependency.play23ws,
+      scalaSource in Test := baseDirectory.value / "src" / "test" / "play-2.3" / "scala",
       crossPaths := true,
       target <<= target / "play-23/scala-2.11"
     )
@@ -798,6 +810,7 @@ object Dependency {
   val play21            = "play"                      %% "play"               % V.Play21
   val play22            = "com.typesafe.play"         %% "play"               % V.Play22
   val play23            = "com.typesafe.play"         %% "play"               % V.Play23
+  val play23ws          = "com.typesafe.play"         %% "play-ws"            % V.Play23
   val config            = "com.typesafe"              % "config"              % V.Config
   val logback           = "ch.qos.logback"            % "logback-classic"     % V.Logback
   val protobuf          = "com.google.protobuf"       % "protobuf-java"       % V.Protobuf

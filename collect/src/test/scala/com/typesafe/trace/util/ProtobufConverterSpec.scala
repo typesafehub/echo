@@ -5,12 +5,11 @@ package com.typesafe.trace.util
 
 import com.typesafe.trace._
 import com.typesafe.trace.uuid.UUID
-import org.scalatest.matchers.{ ShouldMatchers, MustMatchers }
-import org.scalatest.WordSpec
+import org.scalatest.{ WordSpec, MustMatchers }
 import scala.collection.JavaConverters._
 
 @org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class ProtobufConverterSpec extends WordSpec with MustMatchers with ShouldMatchers {
+class ProtobufConverterSpec extends WordSpec with MustMatchers {
   val actorSystemName = "ProtobufConverterSpec"
 
   "ProtobufConverter" must {

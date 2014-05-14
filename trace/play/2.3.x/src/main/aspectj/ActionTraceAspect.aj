@@ -10,14 +10,11 @@ import play.api.libs.iteratee.Enumeratee;
 import play.api.libs.iteratee.Iteratee;
 import play.api.mvc.Action;
 import play.api.mvc.ActionBuilder;
-import play.api.mvc.AsyncResult;
 import play.api.mvc.BodyParser;
-import play.api.mvc.ChunkedResult;
 import play.api.mvc.Handler;
 import play.api.mvc.Request;
 import play.api.mvc.RequestHeader;
 import play.api.mvc.Results;
-import play.api.mvc.SimpleResult;
 import play.core.Router.HandlerDef;
 import play.core.Router.HandlerInvoker;
 import play.core.Router;
@@ -62,15 +59,6 @@ privileged aspect ActionTraceAspect {
     if (tracing(tracer)) {
       Channel channel = ctx.getChannel();
       channel.echo$context(null);
-    }
-  }
-
-  before():
-    execution(public Future play.api.mvc.AsyncResult+.unflatten())
-  {
-    ActionTracer tracer = ActionTracer.global();
-    if (tracing(tracer)) {
-      tracer.action().asyncResult();
     }
   }
 

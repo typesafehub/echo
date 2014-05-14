@@ -7,7 +7,7 @@ import com.typesafe.trace._
 import com.typesafe.trace.util.EchoSpec
 import com.typesafe.trace.util.Uuid
 import com.typesafe.trace.uuid.UUID
-import org.scalatest.matchers.MustMatchers
+import org.scalatest.MustMatchers
 
 @org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
 class MemoryTraceRepositorySpec extends EchoSpec with MustMatchers {

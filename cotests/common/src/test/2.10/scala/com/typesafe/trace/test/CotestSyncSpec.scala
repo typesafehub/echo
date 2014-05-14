@@ -6,7 +6,7 @@ package com.typesafe.trace.test
 
 import java.io._
 import org.scalatest.BeforeAndAfterAll
-import org.scalatest.WordSpec
+import org.scalatest.WordSpecLike
 
 object CotestSyncSpec {
   import FileBasedBarrier.{ DefaultTimeout, DefaultSleep }
@@ -70,7 +70,7 @@ object CotestSyncSpec {
   }
 }
 
-trait CotestSyncSpec extends WordSpec with BeforeAndAfterAll {
+trait CotestSyncSpec extends WordSpecLike with BeforeAndAfterAll {
   import FileBasedBarrier.{ DefaultTimeout, DefaultSleep }
 
   def nodes: Int

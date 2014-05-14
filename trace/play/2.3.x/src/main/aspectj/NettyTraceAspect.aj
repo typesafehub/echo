@@ -18,11 +18,11 @@ import org.jboss.netty.handler.codec.http.HttpRequest;
 import org.jboss.netty.handler.codec.http.HttpRequestDecoder;
 import org.jboss.netty.handler.codec.http.HttpResponse;
 import org.jboss.netty.handler.codec.http.HttpResponseEncoder;
-import play.core.server.netty.NettyPromise$;
-import play.core.server.netty.NettyPromise;
 import play.core.server.netty.PlayDefaultUpstreamHandler;
 import play.core.server.netty.RequestBodyHandler;
 import scala.concurrent.Future;
+import play.core.server.netty.NettyFuture.ToScala;
+import play.core.server.netty.NettyFuture$;
 
 privileged aspect NettyTraceAspect {
 
@@ -196,16 +196,16 @@ privileged aspect NettyTraceAspect {
       proceed(handler,ctx,event);
   }
 
-  Object around(NettyPromise$ self, ChannelFuture channelPromise):
-    execution(public Future play.core.server.netty.NettyPromise$.apply(ChannelFuture)) &&
+  Object around(NettyFuture$ self, ChannelFuture channelFuture):
+    execution(play.core.server.netty.NettyFuture.ToScala.new(ChannelFuture)) &&
     this(self) &&
-    args(channelPromise)
+    args(channelFuture)
   {
+    System.out.println("in: play.core.server.netty.NettyFuture.ToScala.new");
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
-      return proceed(self,NettyTrace.proxyChannelFuture(channelPromise,tracer.trace()));
+      return proceed(self,NettyTrace.proxyChannelFuture(channelFuture,tracer.trace()));
     } else
-      return proceed(self,channelPromise);
+      return proceed(self,channelFuture);
   }
-
 }
