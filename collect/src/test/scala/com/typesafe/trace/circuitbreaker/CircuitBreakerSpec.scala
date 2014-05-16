@@ -17,14 +17,14 @@ package com.typesafe.trace.circuitbreaker
 
 import com.typesafe.trace.circuitbreaker._
 import com.typesafe.trace.circuitbreaker.CircuitBreaker._
-import org.scalatest.{ MustMatchers, WordSpec }
+import org.scalatest.{ Matchers, WordSpec }
 
 /**
  * the TEST
  */
 
 @org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class CircuitBreakerSpec extends WordSpec with MustMatchers {
+class CircuitBreakerSpec extends WordSpec with Matchers {
   "A CircuitBreaker" must {
 
     /**

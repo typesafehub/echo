@@ -14,10 +14,14 @@ class Akka21TraceTreeSpec extends TraceTreeSpec {
   val createCount = 10
 }
 
-class Akka22Scala210TraceTreeSpec extends Akka22TraceTreeSpec
-class Akka22Scala211TraceTreeSpec extends Akka22TraceTreeSpec
+class Akka22TraceTreeSpec extends TraceTreeSpec {
+  val createCount = 10
+}
 
-abstract class Akka22TraceTreeSpec extends TraceTreeSpec {
+class Akka23Scala210TraceTreeSpec extends Akka23TraceTreeSpec
+class Akka23Scala211TraceTreeSpec extends Akka23TraceTreeSpec
+
+abstract class Akka23TraceTreeSpec extends TraceTreeSpec {
   val createCount = 10
 }
 
@@ -29,9 +33,9 @@ abstract class TraceTreeSpec extends EchoCollectSpec {
     "build tree from single trace event" in {
       val event = TraceEvent(SystemStarted(System.currentTimeMillis), "system")
       val tree = TraceTree(Seq(event))
-      tree.root must not be (None)
-      tree.root.get.event must be(event)
-      tree.root.get.children.size must be(0)
+      tree.root should not be (None)
+      tree.root.get.event should be(event)
+      tree.root.get.children.size should be(0)
     }
 
     "build tree for simple tell trace" in {
@@ -44,12 +48,12 @@ abstract class TraceTreeSpec extends EchoCollectSpec {
         val trace = allEvents.filter(_.trace == traceId).toSeq
         val tree = TraceTree(trace)
 
-        tree.root must not be (None)
-        tree.root.get.event.annotation.getClass must be(classOf[ActorTold])
-        tree.root.get.children.head.event.annotation.getClass must be(classOf[ActorReceived])
-        tree.root.get.children.last.event.annotation.getClass must be(classOf[ActorCompleted])
-        tree.root.get.children.head.children.size must be(0)
-        tree.root.get.children.last.children.size must be(0)
+        tree.root should not be (None)
+        tree.root.get.event.annotation.getClass should be(classOf[ActorTold])
+        tree.root.get.children.head.event.annotation.getClass should be(classOf[ActorReceived])
+        tree.root.get.children.last.event.annotation.getClass should be(classOf[ActorCompleted])
+        tree.root.get.children.head.children.size should be(0)
+        tree.root.get.children.last.children.size should be(0)
       }
 
       eventCheck("poison", expected = 18) {
@@ -67,21 +71,21 @@ abstract class TraceTreeSpec extends EchoCollectSpec {
         val trace = allEvents.filter(_.trace == traceId).toSeq
         val tree = TraceTree(trace)
 
-        tree.root must not be (None)
-        tree.root.get.event.annotation.getClass must be(classOf[ActorTold])
-        tree.root.get.children.size must be(4)
-        tree.root.get.children.head.event.annotation.getClass must be(classOf[ActorReceived])
-        tree.root.get.children.last.event.annotation.getClass must be(classOf[ActorCompleted])
+        tree.root should not be (None)
+        tree.root.get.event.annotation.getClass should be(classOf[ActorTold])
+        tree.root.get.children.size should be(4)
+        tree.root.get.children.head.event.annotation.getClass should be(classOf[ActorReceived])
+        tree.root.get.children.last.event.annotation.getClass should be(classOf[ActorCompleted])
 
         val aToldB = tree.root.get.children(1)
-        aToldB.event.annotation.getClass must be(classOf[ActorTold])
-        aToldB.children.head.event.annotation.getClass must be(classOf[ActorReceived])
-        aToldB.children.last.event.annotation.getClass must be(classOf[ActorCompleted])
+        aToldB.event.annotation.getClass should be(classOf[ActorTold])
+        aToldB.children.head.event.annotation.getClass should be(classOf[ActorReceived])
+        aToldB.children.last.event.annotation.getClass should be(classOf[ActorCompleted])
 
         val aToldC = tree.root.get.children(2)
-        aToldC.event.annotation.getClass must be(classOf[ActorTold])
-        aToldC.children.head.event.annotation.getClass must be(classOf[ActorReceived])
-        aToldC.children.last.event.annotation.getClass must be(classOf[ActorCompleted])
+        aToldC.event.annotation.getClass should be(classOf[ActorTold])
+        aToldC.children.head.event.annotation.getClass should be(classOf[ActorReceived])
+        aToldC.children.last.event.annotation.getClass should be(classOf[ActorCompleted])
       }
 
       eventCheck("poison", expected = 27) {
@@ -106,16 +110,16 @@ abstract class TraceTreeSpec extends EchoCollectSpec {
 
         val tree = TraceTree(partialTrace)
 
-        tree.root must not be (None)
-        tree.root.get.event.annotation.getClass must be(classOf[ActorTold])
-        tree.root.get.children.size must be(3)
-        tree.root.get.children.head.event.annotation.getClass must be(classOf[ActorReceived])
-        tree.root.get.children.last.event.annotation.getClass must be(classOf[ActorCompleted])
+        tree.root should not be (None)
+        tree.root.get.event.annotation.getClass should be(classOf[ActorTold])
+        tree.root.get.children.size should be(3)
+        tree.root.get.children.head.event.annotation.getClass should be(classOf[ActorReceived])
+        tree.root.get.children.last.event.annotation.getClass should be(classOf[ActorCompleted])
 
         val aToldC = tree.root.get.children(1)
-        aToldC.event.annotation.getClass must be(classOf[ActorTold])
-        aToldC.children.head.event.annotation.getClass must be(classOf[ActorReceived])
-        aToldC.children.last.event.annotation.getClass must be(classOf[ActorCompleted])
+        aToldC.event.annotation.getClass should be(classOf[ActorTold])
+        aToldC.children.head.event.annotation.getClass should be(classOf[ActorReceived])
+        aToldC.children.last.event.annotation.getClass should be(classOf[ActorCompleted])
       }
 
       eventCheck("poison", expected = 27) {

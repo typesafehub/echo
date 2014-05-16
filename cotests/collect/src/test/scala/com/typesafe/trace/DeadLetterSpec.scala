@@ -20,10 +20,17 @@ class Akka21DeadLetterSpec extends DeadLetterSpec {
   val totalCount = 23
 }
 
-class Akka22Scala210DeadLetterSpec extends Akka22DeadLetterSpec
-class Akka22Scala211DeadLetterSpec extends Akka22DeadLetterSpec
+class Akka22DeadLetterSpec extends DeadLetterSpec {
+  // 10 events for system.actorOf
+  // 4 events: ActorTold, ActorReceived, EventStreamDeadLetter, ActorCompleted
+  // 9 events for poison pill
+  val totalCount = 23
+}
 
-abstract class Akka22DeadLetterSpec extends DeadLetterSpec {
+class Akka23Scala210DeadLetterSpec extends Akka23DeadLetterSpec
+class Akka23Scala211DeadLetterSpec extends Akka23DeadLetterSpec
+
+abstract class Akka23DeadLetterSpec extends DeadLetterSpec {
   // 10 events for system.actorOf
   // 4 events: ActorTold, ActorReceived, EventStreamDeadLetter, ActorCompleted
   // 9 events for poison pill
@@ -38,7 +45,7 @@ abstract class DeadLetterSpec extends EchoCollectSpec {
 
     "record dead letter events" in {
       eventCheck(expected = totalCount) {
-        countEventsOf[EventStreamDeadLetter] must be(1)
+        countEventsOf[EventStreamDeadLetter] should be(1)
       }
     }
 

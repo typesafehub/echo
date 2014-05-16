@@ -10,7 +10,7 @@ import akka.testkit.TestKit
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
 import java.util.concurrent.TimeoutException
-import org.scalatest.{ WordSpecLike, BeforeAndAfterAll, MustMatchers }
+import org.scalatest.{ WordSpecLike, BeforeAndAfterAll, Matchers }
 import scala.concurrent.duration._
 import java.util.concurrent.TimeUnit
 
@@ -58,7 +58,7 @@ object EchoSpec {
 
 }
 
-abstract class EchoSpec(_system: ActorSystem) extends TestKit(_system) with WordSpecLike with MustMatchers with BeforeAndAfterAll {
+abstract class EchoSpec(_system: ActorSystem) extends TestKit(_system) with WordSpecLike with Matchers with BeforeAndAfterAll {
 
   def this(config: Config) =
     this(ActorSystem(EchoSpec.getCallerName,

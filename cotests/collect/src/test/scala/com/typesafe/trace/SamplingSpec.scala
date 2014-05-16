@@ -17,10 +17,15 @@ class Akka21SamplingSpec extends AkkaSamplingSpec {
   val sampled1Count = 32
 }
 
-class Akka22Scala210SamplingSpec extends Akka22SamplingSpec
-class Akka22Scala211SamplingSpec extends Akka22SamplingSpec
+class Akka22SamplingSpec extends AkkaSamplingSpec {
+  val totalCount = 50
+  val sampled1Count = 32
+}
 
-abstract class Akka22SamplingSpec extends AkkaSamplingSpec {
+class Akka23Scala210SamplingSpec extends Akka23SamplingSpec
+class Akka23Scala211SamplingSpec extends Akka23SamplingSpec
+
+abstract class Akka23SamplingSpec extends AkkaSamplingSpec {
   val totalCount = 50
   val sampled1Count = 32
 }
@@ -37,10 +42,10 @@ abstract class AkkaSamplingSpec extends EchoCollectSpec {
         val expectedTraces = 7
         val expectedSampled1 = sampled1Count
         val expectedSampled3 = 18
-        countTraces must be(expectedTraces)
+        countTraces should be(expectedTraces)
         val sampled = allEvents.groupBy(_.sampled)
-        sampled.getOrElse(1, Nil).size must be(expectedSampled1)
-        sampled.getOrElse(3, Nil).size must be(expectedSampled3)
+        sampled.getOrElse(1, Nil).size should be(expectedSampled1)
+        sampled.getOrElse(3, Nil).size should be(expectedSampled3)
       }
     }
 

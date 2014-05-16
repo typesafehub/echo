@@ -94,93 +94,93 @@ class Akka20TracingSpec extends EchoCollectSpec {
 
     "store all trace events in memory" in {
       eventCheck(expected = 130) {
-        countTraces must be(1)
+        countTraces should be(1)
 
-        countEventsOf[GroupStarted] must be(2)
-        countEventsOf[GroupEnded] must be(2)
+        countEventsOf[GroupStarted] should be(2)
+        countEventsOf[GroupEnded] should be(2)
 
-        countEventsOf[Marker] must be(6)
+        countEventsOf[Marker] should be(6)
 
-        countEventsOf[TopLevelActorCreated] must be(3)
-        countEventsOf[TopLevelActorRequested] must be(3)
+        countEventsOf[TopLevelActorCreated] should be(3)
+        countEventsOf[TopLevelActorRequested] should be(3)
 
-        countEventsOf[SysMsgDispatched] must be(12)
-        countEventsOf[SysMsgReceived] must be(12)
-        countEventsOf[SysMsgCompleted] must be(12)
+        countEventsOf[SysMsgDispatched] should be(12)
+        countEventsOf[SysMsgReceived] should be(12)
+        countEventsOf[SysMsgCompleted] should be(12)
 
-        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) must be(3)
-        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) must be(3)
+        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) should be(3)
+        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) should be(3)
 
-        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] must be(3)
-        countSysMsgEventsOf[SysMsgCompleted, ChildTerminatedSysMsg] must be(3)
+        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] should be(3)
+        countSysMsgEventsOf[SysMsgCompleted, ChildTerminatedSysMsg] should be(3)
 
-        countEventsOf[ActorRequested] must be(3)
-        countEventsOf[ActorCreated] must be(3)
-        countEventsOf[ActorTold] must be(13)
-        countEventsOf[ActorAutoReceived] must be(3)
-        countEventsOf[ActorAutoCompleted] must be(3)
-        countEventsOf[ActorReceived] must be(10)
-        countEventsOf[ActorCompleted] must be(10)
-        countEventsOf[ActorAsked] must be(3)
-        countEventsOf[TempActorCreated] must be(3)
-        countEventsOf[TempActorStopped] must be(3)
+        countEventsOf[ActorRequested] should be(3)
+        countEventsOf[ActorCreated] should be(3)
+        countEventsOf[ActorTold] should be(13)
+        countEventsOf[ActorAutoReceived] should be(3)
+        countEventsOf[ActorAutoCompleted] should be(3)
+        countEventsOf[ActorReceived] should be(10)
+        countEventsOf[ActorCompleted] should be(10)
+        countEventsOf[ActorAsked] should be(3)
+        countEventsOf[TempActorCreated] should be(3)
+        countEventsOf[TempActorStopped] should be(3)
 
-        countEventsOf[FutureCreated] must be(3)
-        countEventsOf[FutureSucceeded] must be(3)
-        countEventsOf[FutureCallbackAdded] must be(3)
-        countEventsOf[FutureCallbackStarted] must be(3)
-        countEventsOf[FutureCallbackCompleted] must be(3)
-        countEventsOf[FutureAwaited] must be(3)
+        countEventsOf[FutureCreated] should be(3)
+        countEventsOf[FutureSucceeded] should be(3)
+        countEventsOf[FutureCallbackAdded] should be(3)
+        countEventsOf[FutureCallbackStarted] should be(3)
+        countEventsOf[FutureCallbackCompleted] should be(3)
+        countEventsOf[FutureAwaited] should be(3)
 
-        countEventsOf[ScheduledOnce] must be(3)
-        countEventsOf[ScheduledCancelled] must be(3)
+        countEventsOf[ScheduledOnce] should be(3)
+        countEventsOf[ScheduledCancelled] should be(3)
       }
     }
 
     "record actor failed events" in {
       eventCheck(expected = 65) {
-        countTraces must be(1)
+        countTraces should be(1)
 
-        countEventsOf[GroupStarted] must be(1)
-        countEventsOf[GroupEnded] must be(1)
+        countEventsOf[GroupStarted] should be(1)
+        countEventsOf[GroupEnded] should be(1)
 
-        countEventsOf[TopLevelActorCreated] must be(1)
-        countEventsOf[TopLevelActorRequested] must be(1)
+        countEventsOf[TopLevelActorCreated] should be(1)
+        countEventsOf[TopLevelActorRequested] should be(1)
 
-        countEventsOf[SysMsgDispatched] must be(5)
-        countEventsOf[SysMsgReceived] must be(5)
-        countEventsOf[SysMsgCompleted] must be(5)
+        countEventsOf[SysMsgDispatched] should be(5)
+        countEventsOf[SysMsgReceived] should be(5)
+        countEventsOf[SysMsgCompleted] should be(5)
 
-        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) must be(1)
-        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) must be(1)
+        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) should be(1)
+        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) should be(1)
 
-        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] must be(1)
-        countSysMsgEventsOf[SysMsgCompleted, RecreateSysMsg] must be(1)
-        countSysMsgEventsOf[SysMsgCompleted, ChildTerminatedSysMsg] must be(1)
+        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] should be(1)
+        countSysMsgEventsOf[SysMsgCompleted, RecreateSysMsg] should be(1)
+        countSysMsgEventsOf[SysMsgCompleted, ChildTerminatedSysMsg] should be(1)
 
-        countEventsOf[ActorRequested] must be(1)
-        countEventsOf[ActorCreated] must be(1)
-        countEventsOf[ActorTold] must be(6)
-        countEventsOf[ActorAutoReceived] must be(2)
-        countEventsOf[ActorAutoCompleted] must be(2)
-        countEventsOf[ActorReceived] must be(5)
-        countEventsOf[ActorCompleted] must be(5)
-        countEventsOf[ActorAsked] must be(2)
-        countEventsOf[ActorFailed] must be(1)
-        countEventsOf[TempActorCreated] must be(2)
-        countEventsOf[TempActorStopped] must be(2)
+        countEventsOf[ActorRequested] should be(1)
+        countEventsOf[ActorCreated] should be(1)
+        countEventsOf[ActorTold] should be(6)
+        countEventsOf[ActorAutoReceived] should be(2)
+        countEventsOf[ActorAutoCompleted] should be(2)
+        countEventsOf[ActorReceived] should be(5)
+        countEventsOf[ActorCompleted] should be(5)
+        countEventsOf[ActorAsked] should be(2)
+        countEventsOf[ActorFailed] should be(1)
+        countEventsOf[TempActorCreated] should be(2)
+        countEventsOf[TempActorStopped] should be(2)
 
-        countEventsOf[FutureCreated] must be(2)
-        countEventsOf[FutureSucceeded] must be(2)
-        countEventsOf[FutureCallbackAdded] must be(2)
-        countEventsOf[FutureCallbackStarted] must be(2)
-        countEventsOf[FutureCallbackCompleted] must be(2)
-        countEventsOf[FutureAwaited] must be(2)
+        countEventsOf[FutureCreated] should be(2)
+        countEventsOf[FutureSucceeded] should be(2)
+        countEventsOf[FutureCallbackAdded] should be(2)
+        countEventsOf[FutureCallbackStarted] should be(2)
+        countEventsOf[FutureCallbackCompleted] should be(2)
+        countEventsOf[FutureAwaited] should be(2)
 
-        countEventsOf[ScheduledOnce] must be(2)
-        countEventsOf[ScheduledCancelled] must be(2)
+        countEventsOf[ScheduledOnce] should be(2)
+        countEventsOf[ScheduledCancelled] should be(2)
 
-        countEventsOf[EventStreamError] must be(1)
+        countEventsOf[EventStreamError] should be(1)
       }
     }
   }
@@ -192,99 +192,190 @@ class Akka21TracingSpec extends EchoCollectSpec {
 
     "store all trace events in memory" in {
       eventCheck(expected = 79) {
-        countTraces must be(1)
+        countTraces should be(1)
 
-        countEventsOf[GroupStarted] must be(2)
-        countEventsOf[GroupEnded] must be(2)
+        countEventsOf[GroupStarted] should be(2)
+        countEventsOf[GroupEnded] should be(2)
 
-        countEventsOf[Marker] must be(6)
+        countEventsOf[Marker] should be(6)
 
-        countEventsOf[TopLevelActorCreated] must be(3)
-        countEventsOf[TopLevelActorRequested] must be(3)
+        countEventsOf[TopLevelActorCreated] should be(3)
+        countEventsOf[TopLevelActorRequested] should be(3)
 
-        countEventsOf[SysMsgDispatched] must be(12)
-        countEventsOf[SysMsgReceived] must be(12)
-        countEventsOf[SysMsgCompleted] must be(12)
+        countEventsOf[SysMsgDispatched] should be(12)
+        countEventsOf[SysMsgReceived] should be(12)
+        countEventsOf[SysMsgCompleted] should be(12)
 
-        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) must be(3)
-        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) must be(3)
+        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) should be(3)
+        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) should be(3)
 
-        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] must be(3)
-        countSysMsgEventsOf[SysMsgCompleted, ChildTerminatedSysMsg] must be(3)
+        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] should be(3)
+        countSysMsgEventsOf[SysMsgCompleted, ChildTerminatedSysMsg] should be(3)
 
-        countEventsOf[ActorRequested] must be(3)
-        countEventsOf[ActorCreated] must be(3)
-        countEventsOf[ActorTold] must be(7)
-        countEventsOf[ActorAutoReceived] must be(3)
-        countEventsOf[ActorAutoCompleted] must be(3)
-        countEventsOf[ActorReceived] must be(4)
-        countEventsOf[ActorCompleted] must be(4)
+        countEventsOf[ActorRequested] should be(3)
+        countEventsOf[ActorCreated] should be(3)
+        countEventsOf[ActorTold] should be(7)
+        countEventsOf[ActorAutoReceived] should be(3)
+        countEventsOf[ActorAutoCompleted] should be(3)
+        countEventsOf[ActorReceived] should be(4)
+        countEventsOf[ActorCompleted] should be(4)
       }
     }
 
     "record actor failed events" in {
       eventCheck(expected = 51) {
-        countTraces must be(1)
+        countTraces should be(1)
 
-        countEventsOf[GroupStarted] must be(1)
-        countEventsOf[GroupEnded] must be(1)
+        countEventsOf[GroupStarted] should be(1)
+        countEventsOf[GroupEnded] should be(1)
 
-        countEventsOf[TopLevelActorCreated] must be(1)
-        countEventsOf[TopLevelActorRequested] must be(1)
+        countEventsOf[TopLevelActorCreated] should be(1)
+        countEventsOf[TopLevelActorRequested] should be(1)
 
-        countEventsOf[SysMsgDispatched] must be(5)
-        countEventsOf[SysMsgReceived] must be(5)
-        countEventsOf[SysMsgCompleted] must be(5)
+        countEventsOf[SysMsgDispatched] should be(5)
+        countEventsOf[SysMsgReceived] should be(5)
+        countEventsOf[SysMsgCompleted] should be(5)
 
-        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) must be(1)
-        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) must be(1)
+        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) should be(1)
+        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) should be(1)
 
-        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] must be(1)
-        countSysMsgEventsOf[SysMsgCompleted, RecreateSysMsg] must be(1)
-        countSysMsgEventsOf[SysMsgCompleted, ChildTerminatedSysMsg] must be(1)
+        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] should be(1)
+        countSysMsgEventsOf[SysMsgCompleted, RecreateSysMsg] should be(1)
+        countSysMsgEventsOf[SysMsgCompleted, ChildTerminatedSysMsg] should be(1)
 
-        countEventsOf[ActorRequested] must be(1)
-        countEventsOf[ActorCreated] must be(1)
-        countEventsOf[ActorTold] must be(4)
-        countEventsOf[ActorAutoReceived] must be(2)
-        countEventsOf[ActorAutoCompleted] must be(2)
-        countEventsOf[ActorReceived] must be(3)
-        countEventsOf[ActorCompleted] must be(3)
-        countEventsOf[ActorAsked] must be(1)
-        countEventsOf[ActorFailed] must be(1)
-        countEventsOf[TempActorCreated] must be(1)
-        countEventsOf[TempActorStopped] must be(1)
+        countEventsOf[ActorRequested] should be(1)
+        countEventsOf[ActorCreated] should be(1)
+        countEventsOf[ActorTold] should be(4)
+        countEventsOf[ActorAutoReceived] should be(2)
+        countEventsOf[ActorAutoCompleted] should be(2)
+        countEventsOf[ActorReceived] should be(3)
+        countEventsOf[ActorCompleted] should be(3)
+        countEventsOf[ActorAsked] should be(1)
+        countEventsOf[ActorFailed] should be(1)
+        countEventsOf[TempActorCreated] should be(1)
+        countEventsOf[TempActorStopped] should be(1)
 
-        countEventsOf[FutureCreated] must be(1)
-        countEventsOf[FutureSucceeded] must be(1)
-        countEventsOf[FutureCallbackAdded] must be(2)
-        countEventsOf[FutureCallbackStarted] must be(2)
-        countEventsOf[FutureCallbackCompleted] must be(2)
-        countEventsOf[FutureAwaited] must be(1)
+        countEventsOf[FutureCreated] should be(1)
+        countEventsOf[FutureSucceeded] should be(1)
+        countEventsOf[FutureCallbackAdded] should be(2)
+        countEventsOf[FutureCallbackStarted] should be(2)
+        countEventsOf[FutureCallbackCompleted] should be(2)
+        countEventsOf[FutureAwaited] should be(1)
 
-        countEventsOf[ScheduledOnce] must be(1)
-        countEventsOf[ScheduledCancelled] must be(1)
+        countEventsOf[ScheduledOnce] should be(1)
+        countEventsOf[ScheduledCancelled] should be(1)
 
-        countEventsOf[EventStreamError] must be(1)
+        countEventsOf[EventStreamError] should be(1)
       }
     }
   }
 }
 
-class Akka22Scala210TracingSpec extends Akka22TracingSpec {
+class Akka22TracingSpec extends EchoCollectSpec {
+
+  val failedEventsCount = 51
+  val failedFutureCallbackAddedCount = 2
+  val failedFutureCallbackStartedCount = 2
+  val failedFutureCallbackCompletedCount = 2
+
+  "Tracing" must {
+
+    "store all trace events in memory" in {
+      eventCheck(expected = 79) {
+        countTraces should be(1)
+
+        countEventsOf[GroupStarted] should be(2)
+        countEventsOf[GroupEnded] should be(2)
+
+        countEventsOf[Marker] should be(6)
+
+        countEventsOf[TopLevelActorCreated] should be(3)
+        countEventsOf[TopLevelActorRequested] should be(3)
+
+        countEventsOf[SysMsgDispatched] should be(12)
+        countEventsOf[SysMsgReceived] should be(12)
+        countEventsOf[SysMsgCompleted] should be(12)
+
+        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) should be(3)
+        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) should be(3)
+
+        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] should be(3)
+        countSysMsgEventsOf[SysMsgCompleted, DeathWatchSysMsg] should be(3)
+
+        countEventsOf[ActorRequested] should be(3)
+        countEventsOf[ActorCreated] should be(3)
+        countEventsOf[ActorTold] should be(7)
+        countEventsOf[ActorAutoReceived] should be(3)
+        countEventsOf[ActorAutoCompleted] should be(3)
+        countEventsOf[ActorReceived] should be(4)
+        countEventsOf[ActorCompleted] should be(4)
+      }
+    }
+
+    "record actor failed events" in {
+      eventCheck(expected = failedEventsCount) {
+        countTraces should be(1)
+
+        countEventsOf[GroupStarted] should be(1)
+        countEventsOf[GroupEnded] should be(1)
+
+        countEventsOf[TopLevelActorCreated] should be(1)
+        countEventsOf[TopLevelActorRequested] should be(1)
+
+        countEventsOf[SysMsgDispatched] should be(5)
+        countEventsOf[SysMsgReceived] should be(6)
+        countEventsOf[SysMsgCompleted] should be(6)
+
+        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) should be(1)
+        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) should be(1)
+
+        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] should be(1)
+        countSysMsgEventsOf[SysMsgCompleted, FailedSysMsg] should be(1)
+        countSysMsgEventsOf[SysMsgCompleted, RecreateSysMsg] should be(1)
+        countSysMsgEventsOf[SysMsgCompleted, DeathWatchSysMsg] should be(1)
+
+        countEventsOf[ActorRequested] should be(1)
+        countEventsOf[ActorCreated] should be(1)
+        countEventsOf[ActorTold] should be(4)
+        countEventsOf[ActorAutoReceived] should be(1)
+        countEventsOf[ActorAutoCompleted] should be(1)
+        countEventsOf[ActorReceived] should be(3)
+        countEventsOf[ActorCompleted] should be(3)
+        countEventsOf[ActorAsked] should be(1)
+        countEventsOf[ActorFailed] should be(1)
+        countEventsOf[TempActorCreated] should be(1)
+        countEventsOf[TempActorStopped] should be(1)
+
+        countEventsOf[FutureCreated] should be(1)
+        countEventsOf[FutureSucceeded] should be(1)
+        countEventsOf[FutureCallbackAdded] should be(failedFutureCallbackAddedCount)
+        countEventsOf[FutureCallbackStarted] should be(failedFutureCallbackStartedCount)
+        countEventsOf[FutureCallbackCompleted] should be(failedFutureCallbackCompletedCount)
+        countEventsOf[FutureAwaited] should be(1)
+
+        countEventsOf[ScheduledOnce] should be(1)
+        countEventsOf[ScheduledCancelled] should be(1)
+
+        countEventsOf[EventStreamError] should be(1)
+      }
+    }
+  }
+}
+
+class Akka23Scala210TracingSpec extends Akka23TracingSpec {
   val failedEventsCount = 51
   val failedFutureCallbackAddedCount = 2
   val failedFutureCallbackStartedCount = 2
   val failedFutureCallbackCompletedCount = 2
 }
-class Akka22Scala211TracingSpec extends Akka22TracingSpec {
+class Akka23Scala211TracingSpec extends Akka23TracingSpec {
   val failedEventsCount = 48
   val failedFutureCallbackAddedCount = 1
   val failedFutureCallbackStartedCount = 1
   val failedFutureCallbackCompletedCount = 1
 }
 
-abstract class Akka22TracingSpec extends EchoCollectSpec {
+abstract class Akka23TracingSpec extends EchoCollectSpec {
 
   def failedEventsCount: Int
   def failedFutureCallbackAddedCount: Int
@@ -295,81 +386,81 @@ abstract class Akka22TracingSpec extends EchoCollectSpec {
 
     "store all trace events in memory" in {
       eventCheck(expected = 79) {
-        countTraces must be(1)
+        countTraces should be(1)
 
-        countEventsOf[GroupStarted] must be(2)
-        countEventsOf[GroupEnded] must be(2)
+        countEventsOf[GroupStarted] should be(2)
+        countEventsOf[GroupEnded] should be(2)
 
-        countEventsOf[Marker] must be(6)
+        countEventsOf[Marker] should be(6)
 
-        countEventsOf[TopLevelActorCreated] must be(3)
-        countEventsOf[TopLevelActorRequested] must be(3)
+        countEventsOf[TopLevelActorCreated] should be(3)
+        countEventsOf[TopLevelActorRequested] should be(3)
 
-        countEventsOf[SysMsgDispatched] must be(12)
-        countEventsOf[SysMsgReceived] must be(12)
-        countEventsOf[SysMsgCompleted] must be(12)
+        countEventsOf[SysMsgDispatched] should be(12)
+        countEventsOf[SysMsgReceived] should be(12)
+        countEventsOf[SysMsgCompleted] should be(12)
 
-        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) must be(3)
-        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) must be(3)
+        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) should be(3)
+        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) should be(3)
 
-        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] must be(3)
-        countSysMsgEventsOf[SysMsgCompleted, DeathWatchSysMsg] must be(3)
+        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] should be(3)
+        countSysMsgEventsOf[SysMsgCompleted, DeathWatchSysMsg] should be(3)
 
-        countEventsOf[ActorRequested] must be(3)
-        countEventsOf[ActorCreated] must be(3)
-        countEventsOf[ActorTold] must be(7)
-        countEventsOf[ActorAutoReceived] must be(3)
-        countEventsOf[ActorAutoCompleted] must be(3)
-        countEventsOf[ActorReceived] must be(4)
-        countEventsOf[ActorCompleted] must be(4)
+        countEventsOf[ActorRequested] should be(3)
+        countEventsOf[ActorCreated] should be(3)
+        countEventsOf[ActorTold] should be(7)
+        countEventsOf[ActorAutoReceived] should be(3)
+        countEventsOf[ActorAutoCompleted] should be(3)
+        countEventsOf[ActorReceived] should be(4)
+        countEventsOf[ActorCompleted] should be(4)
       }
     }
 
     "record actor failed events" in {
       eventCheck(expected = failedEventsCount) {
-        countTraces must be(1)
+        countTraces should be(1)
 
-        countEventsOf[GroupStarted] must be(1)
-        countEventsOf[GroupEnded] must be(1)
+        countEventsOf[GroupStarted] should be(1)
+        countEventsOf[GroupEnded] should be(1)
 
-        countEventsOf[TopLevelActorCreated] must be(1)
-        countEventsOf[TopLevelActorRequested] must be(1)
+        countEventsOf[TopLevelActorCreated] should be(1)
+        countEventsOf[TopLevelActorRequested] should be(1)
 
-        countEventsOf[SysMsgDispatched] must be(5)
-        countEventsOf[SysMsgReceived] must be(6)
-        countEventsOf[SysMsgCompleted] must be(6)
+        countEventsOf[SysMsgDispatched] should be(5)
+        countEventsOf[SysMsgReceived] should be(6)
+        countEventsOf[SysMsgCompleted] should be(6)
 
-        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) must be(1)
-        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) must be(1)
+        countSysMsgEventsOf[SysMsgCompleted](CreateSysMsg) should be(1)
+        countSysMsgEventsOf[SysMsgCompleted](TerminateSysMsg) should be(1)
 
-        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] must be(1)
-        countSysMsgEventsOf[SysMsgCompleted, FailedSysMsg] must be(1)
-        countSysMsgEventsOf[SysMsgCompleted, RecreateSysMsg] must be(1)
-        countSysMsgEventsOf[SysMsgCompleted, DeathWatchSysMsg] must be(1)
+        countSysMsgEventsOf[SysMsgCompleted, SuperviseSysMsg] should be(1)
+        countSysMsgEventsOf[SysMsgCompleted, FailedSysMsg] should be(1)
+        countSysMsgEventsOf[SysMsgCompleted, RecreateSysMsg] should be(1)
+        countSysMsgEventsOf[SysMsgCompleted, DeathWatchSysMsg] should be(1)
 
-        countEventsOf[ActorRequested] must be(1)
-        countEventsOf[ActorCreated] must be(1)
-        countEventsOf[ActorTold] must be(4)
-        countEventsOf[ActorAutoReceived] must be(1)
-        countEventsOf[ActorAutoCompleted] must be(1)
-        countEventsOf[ActorReceived] must be(3)
-        countEventsOf[ActorCompleted] must be(3)
-        countEventsOf[ActorAsked] must be(1)
-        countEventsOf[ActorFailed] must be(1)
-        countEventsOf[TempActorCreated] must be(1)
-        countEventsOf[TempActorStopped] must be(1)
+        countEventsOf[ActorRequested] should be(1)
+        countEventsOf[ActorCreated] should be(1)
+        countEventsOf[ActorTold] should be(4)
+        countEventsOf[ActorAutoReceived] should be(1)
+        countEventsOf[ActorAutoCompleted] should be(1)
+        countEventsOf[ActorReceived] should be(3)
+        countEventsOf[ActorCompleted] should be(3)
+        countEventsOf[ActorAsked] should be(1)
+        countEventsOf[ActorFailed] should be(1)
+        countEventsOf[TempActorCreated] should be(1)
+        countEventsOf[TempActorStopped] should be(1)
 
-        countEventsOf[FutureCreated] must be(1)
-        countEventsOf[FutureSucceeded] must be(1)
-        countEventsOf[FutureCallbackAdded] must be(failedFutureCallbackAddedCount)
-        countEventsOf[FutureCallbackStarted] must be(failedFutureCallbackStartedCount)
-        countEventsOf[FutureCallbackCompleted] must be(failedFutureCallbackCompletedCount)
-        countEventsOf[FutureAwaited] must be(1)
+        countEventsOf[FutureCreated] should be(1)
+        countEventsOf[FutureSucceeded] should be(1)
+        countEventsOf[FutureCallbackAdded] should be(failedFutureCallbackAddedCount)
+        countEventsOf[FutureCallbackStarted] should be(failedFutureCallbackStartedCount)
+        countEventsOf[FutureCallbackCompleted] should be(failedFutureCallbackCompletedCount)
+        countEventsOf[FutureAwaited] should be(1)
 
-        countEventsOf[ScheduledOnce] must be(1)
-        countEventsOf[ScheduledCancelled] must be(1)
+        countEventsOf[ScheduledOnce] should be(1)
+        countEventsOf[ScheduledCancelled] should be(1)
 
-        countEventsOf[EventStreamError] must be(1)
+        countEventsOf[EventStreamError] should be(1)
       }
     }
   }

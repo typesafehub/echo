@@ -367,10 +367,10 @@ object EchoBuild extends Build {
 
   lazy val cotestsTraceAkka22 = Project(
     id = "cotests-trace-akka22",
-    base = file("cotests/trace/akka/2.2/2.10"),
+    base = file("cotests/trace/akka/2.2"),
     dependencies = Seq(cotestsCommon210 % "test->test", traceAkka22),
     settings = defaultSettings ++ tracedTestSettings ++ Seq(
-      name := "cotests-trace-akka-2.2-scala-2.10",
+      name := "cotests-trace-akka-2.2",
       scalaVersion := Dependency.V.Scala210,
       cotestProjectName := "trace",
       javaOptions in Test += "-Dactivator.trace.enabled=true"
@@ -576,7 +576,7 @@ object EchoBuild extends Build {
 
   lazy val cotestsTrace2Akka22 = Project(
     id = "cotests-trace2-akka22",
-    base = file("cotests/trace2/akka/2.2/2.10"),
+    base = file("cotests/trace2/akka/2.2"),
     dependencies = Seq(cotestsTraceAkka22 % "test->test"),
     settings = defaultSettings ++ tracedTestSettings ++ Seq(
       name := "cotests-trace2-akka-2.2",
