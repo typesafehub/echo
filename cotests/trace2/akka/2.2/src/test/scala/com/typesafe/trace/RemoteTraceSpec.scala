@@ -11,7 +11,7 @@ import com.typesafe.trace.test.EchoTraceSpec
 import com.typesafe.trace.uuid.UUID
 import scala.concurrent.Await
 
-class Akka22Scala210RemoteTraceSpec extends EchoTraceSpec(RemoteTraceTest.config2) {
+class Akka22RemoteTraceSpec extends EchoTraceSpec(RemoteTraceTest.config2) {
   import RemoteTraceTest._
 
   override def cotestNodes = 3

@@ -32,6 +32,7 @@ class ProtobufTraceReceiver(val eventHandler: TraceEventHandler, port: Int, maxC
 
   private def addConnection(socket: Socket): Unit = {
     val added = synchronized {
+      println("addConnection(" + socket + ")")
       val addable = sockets.size < maxConnections
       if (addable) sockets += socket
       addable
@@ -43,7 +44,7 @@ class ProtobufTraceReceiver(val eventHandler: TraceEventHandler, port: Int, maxC
     } else {
       socket.close()
       InternalSystem.enabled { system ⇒
-        system.log.warning("Couldn't accept new trace receiver connection - already at max connections")
+        system.log.warning(s"Couldn't accept new trace receiver connection - already at max connections: $maxConnections")
       }
     }
   }

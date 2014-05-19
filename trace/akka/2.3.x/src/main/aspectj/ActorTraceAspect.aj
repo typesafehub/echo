@@ -73,10 +73,10 @@ privileged aspect ActorTraceAspect {
 
   // attach new tracer to system
 
-  before(ActorSystemImpl system, String name, Config config, ClassLoader classLoader):
+  before(ActorSystemImpl system, String name, Config config, ClassLoader classLoader, Option defaultExecutionContext):
     execution(akka.actor.ActorSystemImpl.new(..)) &&
     this(system) &&
-    args(name, config, classLoader)
+    args(name, config, classLoader, defaultExecutionContext)
   {
     ActorSystemTracer tracer = ActorSystemTracer.create(name, config, classLoader);
     system.echo$tracer(tracer);
