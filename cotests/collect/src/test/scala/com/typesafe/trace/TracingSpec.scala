@@ -369,10 +369,10 @@ class Akka23Scala210TracingSpec extends Akka23TracingSpec {
   val failedFutureCallbackCompletedCount = 2
 }
 class Akka23Scala211TracingSpec extends Akka23TracingSpec {
-  val failedEventsCount = 48
-  val failedFutureCallbackAddedCount = 1
-  val failedFutureCallbackStartedCount = 1
-  val failedFutureCallbackCompletedCount = 1
+  val failedEventsCount = 51
+  val failedFutureCallbackAddedCount = 2
+  val failedFutureCallbackStartedCount = 2
+  val failedFutureCallbackCompletedCount = 2
 }
 
 abstract class Akka23TracingSpec extends EchoCollectSpec {

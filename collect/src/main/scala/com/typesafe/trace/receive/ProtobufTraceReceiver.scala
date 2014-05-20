@@ -32,7 +32,6 @@ class ProtobufTraceReceiver(val eventHandler: TraceEventHandler, port: Int, maxC
 
   private def addConnection(socket: Socket): Unit = {
     val added = synchronized {
-      println("addConnection(" + socket + ")")
       val addable = sockets.size < maxConnections
       if (addable) sockets += socket
       addable

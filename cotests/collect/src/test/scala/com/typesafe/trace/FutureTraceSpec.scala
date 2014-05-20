@@ -54,12 +54,12 @@ class Akka23Scala210FutureTraceSpec extends Akka23FutureTraceSpec {
 }
 
 class Akka23Scala211FutureTraceSpec extends Akka23FutureTraceSpec {
-  val awaitedEventCount = 20
-  val awaitedFutureCallbackAddedCount = 1
-  val awaitedFutureCallbackStartedCount = 1
-  val awaitedFutureCallbackCompletedCount = 1
-  val outsideActorsFutureEventCount = 6
-  val insideActorsFutureEventCount = 12
+  val awaitedEventCount = 23
+  val awaitedFutureCallbackAddedCount = 2
+  val awaitedFutureCallbackStartedCount = 2
+  val awaitedFutureCallbackCompletedCount = 2
+  val outsideActorsFutureEventCount = 9
+  val insideActorsFutureEventCount = 15
 }
 
 abstract class FutureTraceSpec extends EchoCollectSpec {

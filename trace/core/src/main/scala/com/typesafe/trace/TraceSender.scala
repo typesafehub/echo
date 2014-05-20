@@ -7,7 +7,6 @@ import com.typesafe.trace.send.{ ProtobufTraceSender }
 
 object TraceSender {
   def apply(port: Int, capacity: Int, retry: Boolean, daemonic: Boolean, warn: Boolean): TraceSender = {
-    println("apply(" + port + ", " + capacity + ", " + retry + ", " + daemonic + ", " + warn + ")")
     try {
       new ProtobufTraceSender(port, capacity, retry, daemonic, warn)
     } catch {
