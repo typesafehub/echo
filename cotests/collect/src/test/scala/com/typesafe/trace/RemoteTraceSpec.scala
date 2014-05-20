@@ -302,7 +302,7 @@ class Akka22RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.config22) {
 }
 
 class Akka23Scala210RemoteTraceSpec extends Akka23RemoteTraceSpec {
-  val traceAcrossNodesEventCount = 57
+  val traceAcrossNodesEventCount = 51
   val traceAcrossNodesTestEventCount = 110
   val traceAcrossNodesTracesCount = 7
   val traceAcrossNodesFutureCallbackAddedCount = 2
@@ -311,18 +311,22 @@ class Akka23Scala210RemoteTraceSpec extends Akka23RemoteTraceSpec {
   val traceAcrossNodesTestFutureCallbackAddedCount = 6
   val traceAcrossNodesTestFutureCallbackStartedCount = 6
   val traceAcrossNodesTestFutureCallbackCompletedCount = 6
+  val traceAcrossNodesActorToldCount = 4
+  val traceAcrossNodesActorAutoReceivedCount = 1
 }
 
 class Akka23Scala211RemoteTraceSpec extends Akka23RemoteTraceSpec {
-  val traceAcrossNodesEventCount = 54
-  val traceAcrossNodesTestEventCount = 101
-  val traceAcrossNodesTracesCount = 6
-  val traceAcrossNodesFutureCallbackAddedCount = 1
-  val traceAcrossNodesFutureCallbackStartedCount = 1
-  val traceAcrossNodesFutureCallbackCompletedCount = 1
-  val traceAcrossNodesTestFutureCallbackAddedCount = 3
-  val traceAcrossNodesTestFutureCallbackStartedCount = 3
-  val traceAcrossNodesTestFutureCallbackCompletedCount = 3
+  val traceAcrossNodesEventCount = 51
+  val traceAcrossNodesTestEventCount = 110
+  val traceAcrossNodesTracesCount = 7
+  val traceAcrossNodesFutureCallbackAddedCount = 2
+  val traceAcrossNodesFutureCallbackStartedCount = 2
+  val traceAcrossNodesFutureCallbackCompletedCount = 2
+  val traceAcrossNodesTestFutureCallbackAddedCount = 6
+  val traceAcrossNodesTestFutureCallbackStartedCount = 6
+  val traceAcrossNodesTestFutureCallbackCompletedCount = 6
+  val traceAcrossNodesActorToldCount = 4
+  val traceAcrossNodesActorAutoReceivedCount = 1
 }
 
 abstract class Akka23RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.config23) {
@@ -338,13 +342,16 @@ abstract class Akka23RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.con
   def traceAcrossNodesTestFutureCallbackAddedCount: Int
   def traceAcrossNodesTestFutureCallbackStartedCount: Int
   def traceAcrossNodesTestFutureCallbackCompletedCount: Int
+  def traceAcrossNodesActorToldCount: Int
+  def traceAcrossNodesActorAutoReceivedCount: Int
+  def traceAcrossNodesActorAutoCompletedCount: Int = traceAcrossNodesActorAutoReceivedCount
 
   "Remote tracing" must {
 
     "trace across nodes" in {
       barrier("setup")
 
-      eventCheck("create-and-identify", expected = traceAcrossNodesEventCount) {
+      eventCheck("create-and-identify", expected = traceAcrossNodesEventCount, timeout = timeoutHandler.timeoutify(10.seconds)) {
         countTraces should be(traceAcrossNodesTracesCount)
 
         countEventsOf[SystemStarted] should be(2)
@@ -358,9 +365,9 @@ abstract class Akka23RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.con
 
         countEventsOf[ActorRequested] should be(2)
         countEventsOf[ActorCreated] should be(2)
-        countEventsOf[ActorTold] should be(6)
-        countEventsOf[ActorAutoReceived] should be(3)
-        countEventsOf[ActorAutoCompleted] should be(3)
+        countEventsOf[ActorTold] should be(traceAcrossNodesActorToldCount)
+        countEventsOf[ActorAutoReceived] should be(traceAcrossNodesActorAutoReceivedCount)
+        countEventsOf[ActorAutoCompleted] should be(traceAcrossNodesActorAutoCompletedCount)
         countEventsOf[ActorReceived] should be(1)
         countEventsOf[ActorCompleted] should be(1)
 
@@ -389,7 +396,7 @@ abstract class Akka23RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.con
 
       barrier("check-trace")
 
-      eventCheck("test", expected = traceAcrossNodesTestEventCount) {
+      eventCheck("test", expected = traceAcrossNodesTestEventCount, timeout = timeoutHandler.timeoutify(10.seconds)) {
         countEventsOf[GroupStarted] should be(1)
         countEventsOf[GroupEnded] should be(1)
 
@@ -428,7 +435,7 @@ abstract class Akka23RemoteTraceSpec extends EchoCollectSpec(RemoteTraceSpec.con
 
       barrier("stop")
 
-      eventCheck("stopped", expected = 12) {
+      eventCheck("stopped", expected = 12, timeout = timeoutHandler.timeoutify(10.seconds)) {
         countEventsOf[GroupStarted] should be(1)
         countEventsOf[GroupEnded] should be(1)
 

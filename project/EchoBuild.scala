@@ -693,7 +693,7 @@ object EchoBuild extends Build {
   )
 
   lazy val cotestsTrace2Akka23Scala210 = Project(
-    id = "cotests-trace2-akka23-scala211",
+    id = "cotests-trace2-akka23-scala210",
     base = file("cotests/trace2/akka/2.3/2.10"),
     dependencies = Seq(cotestsTraceAkka23Scala210 % "test->test"),
     settings = defaultSettings ++ tracedTestSettingsScala210Protobuf25 ++ Seq(
