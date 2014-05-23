@@ -181,9 +181,6 @@ object TestApplication {
         }
       }
 
-      // Deliberately using deprecated interface.
-      // In Play 2.2 all action results are automatically 'async'
-      // because results are wrapped in a Future
       def showAsync(duration: Int) = Action.async {
         scala.concurrent.Future {
           if (duration > 0) Thread.sleep(duration)
@@ -191,9 +188,6 @@ object TestApplication {
         }
       }
 
-      // Deliberately using deprecated interface.
-      // In Play 2.2 all action results are automatically 'async'
-      // because results are wrapped in a Future
       def showAsyncImmediate = Action.async {
         scala.concurrent.Future(Ok("Async with immediate return"))
       }

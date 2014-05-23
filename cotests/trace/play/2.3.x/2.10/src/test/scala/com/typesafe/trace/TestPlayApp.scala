@@ -181,9 +181,6 @@ object TestApplication {
         }
       }
 
-      // Deliberately using deprecated interface.
-      // In Play 2.2 all action results are automatically 'async'
-      // because results are wrapped in a Future
       def showAsync(duration: Int) = Action.async {
         scala.concurrent.Future {
           if (duration > 0) Thread.sleep(duration)
@@ -191,16 +188,17 @@ object TestApplication {
         }
       }
 
-      // Deliberately using deprecated interface.
-      // In Play 2.2 all action results are automatically 'async'
-      // because results are wrapped in a Future
       def showAsyncImmediate = Action.async {
         scala.concurrent.Future(Ok("Async with immediate return"))
       }
 
       def showChunked(id: Int) = Action {
         Ok.chunked(
-          Enumerator((1 to 10).map("chunk_" + _): _*).andThen(Enumerator.eof))
+          Enumerator((1 to 10).map({ i ⇒
+            val r = "chunk_" + i
+            println(r)
+            r
+          }): _*).andThen(Enumerator.eof))
       }
 
       def showLarge = Action {

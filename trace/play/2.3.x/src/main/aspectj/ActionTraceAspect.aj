@@ -17,6 +17,7 @@ import play.api.mvc.RequestHeader;
 import play.api.mvc.Results;
 import play.core.Router.HandlerDef;
 import play.core.Router.HandlerInvoker;
+import play.core.Router.Routes.TaggingInvoker;
 import play.core.Router;
 import scala.concurrent.ExecutionContext;
 import scala.concurrent.Future;
@@ -37,6 +38,16 @@ privileged aspect ActionTraceAspect {
 
   public void RequestHeader.echo$generationStartSent(boolean generationStartSent) {
     _echo$generationStartSent = generationStartSent;
+  }
+
+  private volatile HandlerDef TaggingInvoker._echo$handlerDef = null;
+
+  public HandlerDef TaggingInvoker.echo$handlerDef() {
+    return _echo$handlerDef;
+  }
+
+  public void TaggingInvoker.echo$handlerDef(HandlerDef handlerDef) {
+    _echo$handlerDef = handlerDef;
   }
 
   public boolean enabled(ActionTracer tracer) {
@@ -92,6 +103,7 @@ privileged aspect ActionTraceAspect {
     execution(public Future play.api.GlobalSettings+.onError(RequestHeader,Throwable)) &&
     args(request, exception)
   {
+    System.out.println("ERROR!!! -- "+exception);
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
       tracer.action().error(request,exception);
@@ -132,11 +144,25 @@ privileged aspect ActionTraceAspect {
     }
   }
 
-  before(Function0 func0, HandlerDef handlerDef):
-    execution(public Handler play.core.Router$Routes+.invokeHandler(Function0, HandlerDef, ..)) &&
-    args(func0, handlerDef, ..)
+  before(play.core.Router.Routes.TaggingInvoker self, HandlerInvoker underlyingInvoker, HandlerDef handlerDef):
+    execution(play.core.Router.Routes.TaggingInvoker.new(..)) &&
+    this(self) &&
+    args(.., underlyingInvoker, handlerDef)
   {
     ActionTracer tracer = ActionTracer.global();
+    if (tracing(tracer)) {
+      self.echo$handlerDef(handlerDef);
+    }
+  }
+
+
+  before(play.core.Router.Routes.TaggingInvoker self, Function0 func0): //, HandlerDef handlerDef):
+    execution(public Handler play.core.Router$Routes$TaggingInvoker.call(Function0, ..)) &&
+    this(self) &&
+    args(func0, ..)
+  {
+    ActionTracer tracer = ActionTracer.global();
+    HandlerDef handlerDef = self.echo$handlerDef();
     if (tracing(tracer)) {
       tracer.action().resolved(handlerDef.controller, handlerDef.method, handlerDef.parameterTypes, handlerDef.verb, handlerDef.comments, handlerDef.path);
     }
@@ -157,7 +183,9 @@ privileged aspect ActionTraceAspect {
   {
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
+      System.out.println("-- Setting chunking");
       r.echo$setChunking();
+      System.out.println("-- Setting chunking: SET!!");
     }
   }
 

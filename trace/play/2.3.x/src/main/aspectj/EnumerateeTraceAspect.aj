@@ -60,7 +60,11 @@ privileged aspect EnumerateeTraceAspect {
   {
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
-      if (enumeratee.echo$chunking()) inner.echo$setChunking();
+      if (enumeratee.echo$chunking()) {
+        System.out.println("-- play.api.libs.iteratee.Enumeratee+.applyOn: chunking");
+        inner.echo$setChunking();
+        System.out.println("-- set on inner");
+      }
       return proceed(enumeratee, inner);
     } else {
       return proceed(enumeratee, inner);

@@ -88,7 +88,13 @@ class Play23Scala210NettyGetTracingSpec extends ActionTraceNettySpec {
       eventCheck()
     }
     "GET /get/chunked/10" in { // Unable to get stable data out of this
-      val r = await(WS.url("http://localhost:9876/get/chunked/10").get)
+      println(s"HERE!!!!")
+      // Thread.sleep(60000)
+      val f = WS.url("http://localhost:9876/get/chunked/10").get
+      println(s"HERE-1!!!!")
+      val r = await(f)
+      println(s"HERE-2!!!!")
+      println(s"body: ${r.body}")
       r.status must be(OK)
       // println("********** BODY:" + r.body)
       eventCheck()

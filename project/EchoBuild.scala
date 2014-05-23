@@ -616,15 +616,15 @@ object EchoBuild extends Build {
       scalaVersion := Dependency.V.Scala210,
       cotestProjectName := "trace",
       javaOptions in Test ++= Seq(
-        "-Datmos.trace.enabled=true",
-        "-Datmos.trace.futures=off",
-        "-Datmos.trace.iteratees=on",
-        "-Datmos.trace.events.futures=off",
-        "-Datmos.trace.events.iteratees=on",
-        "-Datmos.trace.use-dispatcher-monitor=off",
-        "-Datmos.trace.play.traceable./get/filtered/*=off",
-        "-Datmos.trace.play.sampling./getSampled=3",
-        "-Datmos.trace.use-system-metrics-monitor=off"
+        "-Dactivator.trace.enabled=true",
+        "-Dactivator.trace.futures=off",
+        "-Dactivator.trace.iteratees=on",
+        "-Dactivator.trace.events.futures=off",
+        "-Dactivator.trace.events.iteratees=on",
+        "-Dactivator.trace.use-dispatcher-monitor=off",
+        "-Dactivator.trace.play.traceable./get/filtered/*=off",
+        "-Dactivator.trace.play.sampling./getSampled=3",
+        "-Dactivator.trace.use-system-metrics-monitor=off"
       ),
       javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off")),
       // ignore deprecation warnings (intended usage of deprecated api)
@@ -641,15 +641,15 @@ object EchoBuild extends Build {
       scalaVersion := Dependency.V.Scala211,
       cotestProjectName := "trace",
       javaOptions in Test ++= Seq(
-        "-Datmos.trace.enabled=true",
-        "-Datmos.trace.futures=off",
-        "-Datmos.trace.iteratees=on",
-        "-Datmos.trace.events.futures=off",
-        "-Datmos.trace.events.iteratees=on",
-        "-Datmos.trace.use-dispatcher-monitor=off",
-        "-Datmos.trace.play.traceable./get/filtered/*=off",
-        "-Datmos.trace.play.sampling./getSampled=3",
-        "-Datmos.trace.use-system-metrics-monitor=off"
+        "-Dactivator.trace.enabled=true",
+        "-Dactivator.trace.futures=off",
+        "-Dactivator.trace.iteratees=on",
+        "-Dactivator.trace.events.futures=off",
+        "-Dactivator.trace.events.iteratees=on",
+        "-Dactivator.trace.use-dispatcher-monitor=off",
+        "-Dactivator.trace.play.traceable./get/filtered/*=off",
+        "-Dactivator.trace.play.sampling./getSampled=3",
+        "-Dactivator.trace.use-system-metrics-monitor=off"
       ),
       javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off")),
       // ignore deprecation warnings (intended usage of deprecated api)
@@ -926,12 +926,12 @@ object Dependency {
     val Logback        = "1.0.13"
     val Play21         = "2.1.5"
     val Play22         = "2.2.2"
-    val Play23         = "2.3.0-RC1"
+    val Play23         = "2.3.0-RC2"
     val Protobuf24     = "2.4.1"
     val Protobuf25     = "2.5.0"
     val Scala29        = "2.9.2"
     val Scala210       = "2.10.3"
-    val Scala211       = "2.11.0"
+    val Scala211       = "2.11.1"
     val Scalatest      = "2.1.5"
     val Scalatest29    = "1.9.1"
     val Slf4j          = "1.7.5"
