@@ -7,8 +7,7 @@ import akka.actor.ActorSystem
 import com.typesafe.trace.{ DefaultActorSystemTracer, ExecutionContextTracer, Tracer }
 import com.typesafe.config.{ Config, ConfigFactory }
 import java.util.concurrent.{ TimeUnit, TimeoutException }
-import org.scalatest.matchers.MustMatchers
-import org.scalatest.{ BeforeAndAfterAll, BeforeAndAfterEach }
+import org.scalatest.{ Matchers, BeforeAndAfterAll, BeforeAndAfterEach }
 import scala.concurrent.duration._
 import scala.concurrent.duration.Duration
 import scala.concurrent.duration.TimeUnit
@@ -52,7 +51,7 @@ object EchoTraceSpec {
       }""")
 }
 
-abstract class EchoTraceSpec(val config: Config = EchoTraceSpec.config) extends CotestSyncSpec with MustMatchers with BeforeAndAfterAll with BeforeAndAfterEach {
+abstract class EchoTraceSpec(val config: Config = EchoTraceSpec.config) extends CotestSyncSpec with Matchers with BeforeAndAfterAll with BeforeAndAfterEach {
 
   def this(conf: String) = this(ConfigFactory.parseString(conf).withFallback(EchoTraceSpec.config))
 

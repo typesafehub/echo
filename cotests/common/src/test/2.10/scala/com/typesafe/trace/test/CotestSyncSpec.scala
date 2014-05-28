@@ -5,8 +5,7 @@
 package com.typesafe.trace.test
 
 import java.io._
-import org.scalatest.BeforeAndAfterAll
-import org.scalatest.WordSpecLike
+import org.scalatest.{ WordSpecLike, BeforeAndAfterAll }
 
 object CotestSyncSpec {
   import FileBasedBarrier.{ DefaultTimeout, DefaultSleep }

@@ -137,8 +137,8 @@ class Akka23Scala210RemoteTraceSpec extends EchoTraceSpec(RemoteTraceTest.config
 
       val traces = Await.result(actorA ? GetTraces, timeout.duration).asInstanceOf[Set[UUID]]
 
-      traces.size must be(1)
-      trace foreach { _ must be(traces.head) }
+      traces.size should be(1)
+      trace foreach { _ should be(traces.head) }
 
       eventCheck("test")
 

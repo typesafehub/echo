@@ -45,7 +45,7 @@ class Akka22SchedulerSpec extends EchoTraceSpec {
       eventCheck("setup")
 
       delayer ! "hello"
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
       eventCheck("main")
 

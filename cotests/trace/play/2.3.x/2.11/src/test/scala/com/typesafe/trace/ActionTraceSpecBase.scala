@@ -4,13 +4,12 @@
 package com.typesafe.trace
 
 import com.typesafe.config.{ Config, ConfigFactory }
-import org.scalatest.matchers.MustMatchers
-import org.scalatest.{ BeforeAndAfterAll, BeforeAndAfterEach }
+import org.scalatest.{ Matchers, BeforeAndAfterAll, BeforeAndAfterEach }
 import play.api.test.FakeApplication
 import play.api.Play
 import com.typesafe.trace.test.CotestSyncSpec
 
-abstract class ActionTraceSpecBase(val config: Config = ActionTraceSpecConfig.config) extends CotestSyncSpec with MustMatchers with BeforeAndAfterAll with BeforeAndAfterEach {
+abstract class ActionTraceSpecBase(val config: Config = ActionTraceSpecConfig.config) extends CotestSyncSpec with Matchers with BeforeAndAfterAll with BeforeAndAfterEach {
 
   def this(conf: String) = this(ConfigFactory.parseString(conf).withFallback(ActionTraceSpecConfig.config))
 

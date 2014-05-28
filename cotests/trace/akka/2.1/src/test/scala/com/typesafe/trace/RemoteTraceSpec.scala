@@ -122,8 +122,8 @@ class Akka21RemoteTraceSpec extends EchoTraceSpec(RemoteTraceTest.config1) {
       implicit val timeout = Timeout(timeoutHandler.time, timeoutHandler.unit)
       val traces = Await.result(actorA ? GetTraces, timeout.duration).asInstanceOf[Set[UUID]]
 
-      traces.size must be(1)
-      trace foreach { _ must be(traces.head) }
+      traces.size should be(1)
+      trace foreach { _ should be(traces.head) }
 
       eventCheck("1")
 

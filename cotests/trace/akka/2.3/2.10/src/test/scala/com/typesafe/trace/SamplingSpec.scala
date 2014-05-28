@@ -55,7 +55,7 @@ class Akka23Scala210SamplingSpec extends EchoTraceSpec(SamplingSpec.config) {
       actor1 ! Forward("6", actor2) // not sampled
 
       actor1 ! Forward(CountDown, actor2) // sampled = 3 (6 events, 1 trace)
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
       actor1 ! PoisonPill // not sampled
       actor2 ! PoisonPill // sampled = 1 (9 events, 1 trace)

@@ -48,7 +48,7 @@ class Akka23Scala211TagsSpec extends EchoTraceSpec(TagsSpec.config) {
       actor2 ! latch // 3 events
       actor1 ! Forward(CountDown, actor2) // 6 events
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
       actor1 ! PoisonPill // 9 events
       actor2 ! PoisonPill // 9 events
 

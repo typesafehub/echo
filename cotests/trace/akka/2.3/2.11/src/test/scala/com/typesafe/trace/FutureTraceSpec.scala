@@ -135,7 +135,7 @@ class Akka23Scala211FutureTraceSpec extends EchoTraceSpec {
       val payload = Payload(latch)
       actor1 ! AskBlocking(payload, actor2)
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
       eventCheck()
     }
@@ -145,7 +145,7 @@ class Akka23Scala211FutureTraceSpec extends EchoTraceSpec {
       val payload = Payload(latch, replyBefore = true)
       actor1 ! AskBlocking(payload, actor2)
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
       eventCheck()
     }
@@ -155,7 +155,7 @@ class Akka23Scala211FutureTraceSpec extends EchoTraceSpec {
       val payload = Payload(latch, timeout = true)
       actor1 ! AskBlocking(payload, actor2)
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
       eventCheck()
     }
@@ -165,7 +165,7 @@ class Akka23Scala211FutureTraceSpec extends EchoTraceSpec {
       val payload = Payload(latch, sendException = true)
       actor1 ! AskBlocking(payload, actor2)
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
       eventCheck()
     }
@@ -175,7 +175,7 @@ class Akka23Scala211FutureTraceSpec extends EchoTraceSpec {
       val payload = Payload(latch)
       actor1 ! AskWithCallback(payload, actor2)
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
       eventCheck()
     }
@@ -185,7 +185,7 @@ class Akka23Scala211FutureTraceSpec extends EchoTraceSpec {
       val payload = Payload(latch, replyBefore = true)
       actor1 ! AskWithCallback(payload, actor2)
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
       eventCheck()
     }
@@ -195,7 +195,7 @@ class Akka23Scala211FutureTraceSpec extends EchoTraceSpec {
       val payload = Payload(latch, sendException = true)
       actor1 ! AskWithCallback(payload, actor2)
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
       eventCheck()
     }
@@ -205,7 +205,7 @@ class Akka23Scala211FutureTraceSpec extends EchoTraceSpec {
       val payload = Payload(latch, sendException = true, replyBefore = true)
       actor1 ! AskWithCallback(payload, actor2)
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
       eventCheck()
     }
@@ -215,7 +215,7 @@ class Akka23Scala211FutureTraceSpec extends EchoTraceSpec {
       val payload = Payload(latch, timeout = true)
       actor1 ! AskWithCallback(payload, actor2)
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
       eventCheck()
     }
@@ -237,7 +237,7 @@ class Akka23Scala211FutureTraceSpec extends EchoTraceSpec {
       val payload = Payload(latch)
       actor1 ! UseFuturesInsideActor(payload)
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
       eventCheck()
     }

@@ -59,7 +59,7 @@ class Akka21TraceableSpec extends EchoTraceSpec(TraceableSpec.config) {
       actor ! latch
       actor ! CountDown
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
       // 9 events: poison pill
       actor ! PoisonPill
@@ -75,7 +75,7 @@ class Akka21TraceableSpec extends EchoTraceSpec(TraceableSpec.config) {
       actor ! latch
       actor ! CountDown
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
       actor ! PoisonPill
 
       eventCheck()
@@ -87,7 +87,7 @@ class Akka21TraceableSpec extends EchoTraceSpec(TraceableSpec.config) {
       val actor1 = system.actorOf(Props[MyActor], "untraceable")
       actor1 ! latch
 
-      latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+      latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
       actor1 ! PoisonPill
 
       eventCheck()
@@ -110,7 +110,7 @@ class Akka21TraceableSpec extends EchoTraceSpec(TraceableSpec.config) {
         // 6 events: 2 x told, received, completed (untraceable not recorded)
         traceable1 ! Forward(Forward(CountDown, traceable2), untraceable)
 
-        latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+        latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
 
         // 18 events: 2 x poison pill (untraceable not recorded)
         traceable1 ! PoisonPill

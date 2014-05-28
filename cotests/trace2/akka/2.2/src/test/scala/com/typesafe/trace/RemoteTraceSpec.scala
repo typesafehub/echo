@@ -33,7 +33,7 @@ class Akka22RemoteTraceSpec extends EchoTraceSpec(RemoteTraceTest.config2) {
       implicit val timeout = Timeout(timeoutHandler.time, timeoutHandler.unit)
       val traces = Await.result(actorB ? GetTraces, timeout.duration).asInstanceOf[Set[UUID]]
 
-      traces.size must be(1)
+      traces.size should be(1)
 
       eventCheck("test")
 

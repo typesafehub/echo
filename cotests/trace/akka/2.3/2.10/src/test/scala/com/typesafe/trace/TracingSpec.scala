@@ -66,7 +66,7 @@ class Akka23Scala210TracingSpec extends EchoTraceSpec {
       Tracer(system).group("messages") {
         receiver ! latch
         forwarder2 ! "hi"
-        latch.await(timeoutHandler.time, timeoutHandler.unit) must be(true)
+        latch.await(timeoutHandler.time, timeoutHandler.unit) should be(true)
       }
 
       // 28 events: 1 marker, 3 poison pills
