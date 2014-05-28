@@ -123,28 +123,19 @@ privileged aspect NettyTraceAspect {
     args(lines)
   {
     ActionTracer tracer = ActionTracer.global();
-    System.out.println("tracer: "+tracer);
     if (tracing(tracer)) {
       HttpRequest req = (HttpRequest) message;
       NettyTrace.DeferredData deferred = decoder.echo$deferredData();
-      System.out.println("deferred: "+deferred);
       String reqUri = req.getUri();
-      System.out.println("reqUri: "+reqUri);
       TraceContext context = tracer.netty().traceUriContext(reqUri);
-      System.out.println("context: "+context);
       if (context == null) {
         context = tracer.netty().httpReceivedStart();
         deferred.channel().echo$context(context);
       } else {
         deferred.channel().echo$context(null);
       }
-      System.out.println("context+1: "+context);
-      System.out.println("before: tracer.trace().local().start(context)");
       tracer.trace().local().start(context);
-      System.out.println("after: tracer.trace().local().start(context)");
-      System.out.println("before: tracer.netty().readBytes(deferred.readBytes)");
       tracer.netty().readBytes(deferred.readBytes);
-      System.out.println("after: tracer.netty().readBytes(deferred.readBytes)");
     }
   }
 
@@ -210,7 +201,6 @@ privileged aspect NettyTraceAspect {
     this(self) &&
     args(channelFuture)
   {
-    System.out.println("in: play.core.server.netty.NettyFuture.ToScala.new");
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
       return proceed(self,NettyTrace.proxyChannelFuture(channelFuture,tracer.trace()));

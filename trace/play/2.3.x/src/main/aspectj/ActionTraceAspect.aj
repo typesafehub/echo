@@ -103,7 +103,6 @@ privileged aspect ActionTraceAspect {
     execution(public Future play.api.GlobalSettings+.onError(RequestHeader,Throwable)) &&
     args(request, exception)
   {
-    System.out.println("ERROR!!! -- "+exception);
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
       tracer.action().error(request,exception);
@@ -114,7 +113,6 @@ privileged aspect ActionTraceAspect {
     execution(public Future play.api.GlobalSettings+.onHandlerNotFound(RequestHeader)) &&
     args(request)
   {
-    System.out.println("onHandlerNotFound!!! -- " + request);
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
       tracer.action().handlerNotFound(request);
@@ -125,7 +123,6 @@ privileged aspect ActionTraceAspect {
     execution(public Future play.api.GlobalSettings+.onBadRequest(RequestHeader, String)) &&
     args(request, error)
   {
-    System.out.println("onBadRequest!!! -- "+error);
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
       if (!request.echo$generationStartSent()) {
@@ -140,7 +137,6 @@ privileged aspect ActionTraceAspect {
     execution(public Option play.api.GlobalSettings+.onRouteRequest(RequestHeader)) &&
     args(request)
   {
-    System.out.println("onRouteRequest: -- "+handler);
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
       tracer.action().routeRequest(request,handler);
@@ -186,9 +182,7 @@ privileged aspect ActionTraceAspect {
   {
     ActionTracer tracer = ActionTracer.global();
     if (tracing(tracer)) {
-      System.out.println("-- Setting chunking");
       r.echo$setChunking();
-      System.out.println("-- Setting chunking: SET!!");
     }
   }
 

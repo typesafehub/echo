@@ -88,15 +88,9 @@ class Play23Scala210NettyGetTracingSpec extends ActionTraceNettySpec {
       eventCheck()
     }
     "GET /get/chunked/10" in { // Unable to get stable data out of this
-      println(s"HERE!!!!")
-      // Thread.sleep(60000)
       val f = WS.url("http://localhost:9876/get/chunked/10").get
-      println(s"HERE-1!!!!")
       val r = await(f)
-      println(s"HERE-2!!!!")
-      println(s"body: ${r.body}")
       r.status should be(OK)
-      // println("********** BODY:" + r.body)
       eventCheck()
     }
     "GET /get/large" in {
@@ -169,7 +163,7 @@ class Play23Scala210NettyPostTracingSpec extends ActionTraceNettySpec {
       val dir = System.getProperty("user.dir")
       val request = requestBuilder("POST", "http://localhost:9876/uploadFile")
       val part = new FilePart("picture.txt",
-        new File(dir + "/../common/src/test/sampleData/picture.txt"),
+        new File(dir + "/../../common/src/test/sampleData/picture.txt"),
         "text/plain",
         "UTF-8")
       request.addBodyPart(part)
@@ -183,7 +177,7 @@ class Play23Scala210NettyPostTracingSpec extends ActionTraceNettySpec {
     }
     "BAD (file upload) POST /uploadFile" in {
       val dir = System.getProperty("user.dir")
-      val r = await(WS.url("http://localhost:9876/uploadFile").post(new File(dir + "/../common/src/test/sampleData/picture.txt")))
+      val r = await(WS.url("http://localhost:9876/uploadFile").post(new File(dir + "/../../common/src/test/sampleData/picture.txt")))
       // println("********** BODY:" + r.body)
       r.status should be(BAD_REQUEST)
       eventCheck()

@@ -55,7 +55,6 @@ class TraceLocal(settings: Trace.Settings, sendOff: Batch ⇒ Unit) {
    * a trace context on to the TraceLocal.stack.
    */
   def start(context: TraceContext): Unit = {
-    println(">>> start(" + context + ")")
     stack.get.push(new ActiveTrace(context))
   }
 
@@ -66,22 +65,17 @@ class TraceLocal(settings: Trace.Settings, sendOff: Batch ⇒ Unit) {
    * node span to the trace buffer immediately.
    */
   def store(event: TraceEvent): Unit = {
-    var local = true
     if (within) {
       val current = stack.get.head
       val events = current.events
       events += event
       if (events.size > localLimit) {
-        local = false
         buffer(events.toSeq)
         current.events = ListBuffer.empty[TraceEvent]
       }
     } else {
-      local = false
       buffer(Seq(event))
     }
-    if (local) println("LOCAL++")
-    else println("SHARED++")
   }
 
   /**

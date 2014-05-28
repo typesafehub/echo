@@ -624,13 +624,7 @@ object EchoBuild extends Build {
         "-Dactivator.trace.use-dispatcher-monitor=off",
         "-Dactivator.trace.play.traceable./get/filtered/*=off",
         "-Dactivator.trace.play.sampling./getSampled=3",
-        "-Dactivator.trace.use-system-metrics-monitor=off",
-        "-Dactivator.trace.buffer.local-limit=1",
-        "-Dactivator.trace.buffer.size-limit=1",
-        "-Daj.weaving.verbose=true",
-        "-Daj.weaving.debug=true",
-        "-Daj.weaver.debug=true",
-        "-Daj.weaver.showWeaveInfo=true"
+        "-Dactivator.trace.use-system-metrics-monitor=off"
       ),
       javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off")),
       // ignore deprecation warnings (intended usage of deprecated api)
@@ -655,9 +649,7 @@ object EchoBuild extends Build {
         "-Dactivator.trace.use-dispatcher-monitor=off",
         "-Dactivator.trace.play.traceable./get/filtered/*=off",
         "-Dactivator.trace.play.sampling./getSampled=3",
-        "-Dactivator.trace.use-system-metrics-monitor=off",
-        "-Dactivator.trace.buffer.local-limit=1",
-        "-Dactivator.trace.buffer.size-limit=1"
+        "-Dactivator.trace.use-system-metrics-monitor=off"
       ),
       javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off")),
       // ignore deprecation warnings (intended usage of deprecated api)

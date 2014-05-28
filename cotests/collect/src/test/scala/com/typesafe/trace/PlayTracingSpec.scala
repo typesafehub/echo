@@ -924,7 +924,7 @@ class Play23Scala210NettyGetTracingSpec extends EchoCollectSpec {
 class Play23Scala210NettyPostTracingSpec extends EchoCollectSpec {
   "Play Netty (POSTs only)" must {
     "POST /post" in {
-      eventCheck(expected = 214) {
+      eventCheck(expected = 213) {
         // printTraces
         countTraces should be(1)
         countEventsOf[NettyHttpReceivedStart.type] should be(1)
@@ -943,7 +943,7 @@ class Play23Scala210NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "POST /post (BIG - should be converted by Netty to a chunked POST)" in {
-      eventCheck(expected = 771, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
+      eventCheck(expected = 769, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
         // printTraces
         countTraces should be(1)
         countEventsOf[NettyHttpReceivedStart.type] should be(1)
@@ -962,7 +962,7 @@ class Play23Scala210NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "(chunked) POST /post" in {
-      eventOneOfCheck[Int](expectedOptions = Map(229 -> 2, 230 -> 3, 231 -> 4), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
+      eventOneOfCheck[Int](expectedOptions = Map(227 -> 2, 228 -> 3, 229 -> 4, 230 -> 5, 231 -> 6), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
         // printTraces
         countTraces should be(1)
         countEventsOf[NettyHttpReceivedStart.type] should be(1)
@@ -981,7 +981,7 @@ class Play23Scala210NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "(file upload) POST /uploadFile" in {
-      eventOneOfCheck[Int](expectedOptions = Map(864 -> 4, 865 -> 5, 866 -> 6, 867 -> 7), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
+      eventOneOfCheck[Int](expectedOptions = Map(864 -> 5, 865 -> 6, 866 -> 7, 867 -> 8), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
         // printTraces
         countTraces should be(1)
         countEventsOf[NettyHttpReceivedStart.type] should be(1)
@@ -1000,7 +1000,7 @@ class Play23Scala210NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "BAD (file upload) POST /uploadFile" in {
-      eventOneOfCheck[Int](expectedOptions = Map(78 -> 1, 79 -> 2, 80 -> 3, 81 -> 4, 82 -> 5), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
+      eventOneOfCheck[Int](expectedOptions = Map(78 -> 2, 79 -> 3, 80 -> 4, 81 -> 5, 82 -> 6), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
         // printTraces
         countTraces should be(1)
         countEventsOf[NettyHttpReceivedStart.type] should be(1)
@@ -1279,7 +1279,7 @@ class Play23Scala211NettyGetTracingSpec extends EchoCollectSpec {
 class Play23Scala211NettyPostTracingSpec extends EchoCollectSpec {
   "Play Netty (POSTs only)" must {
     "POST /post" in {
-      eventCheck(expected = 214) {
+      eventCheck(expected = 213) {
         // printTraces
         countTraces should be(1)
         countEventsOf[NettyHttpReceivedStart.type] should be(1)
@@ -1298,7 +1298,7 @@ class Play23Scala211NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "POST /post (BIG - should be converted by Netty to a chunked POST)" in {
-      eventCheck(expected = 771, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
+      eventCheck(expected = 769, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
         // printTraces
         countTraces should be(1)
         countEventsOf[NettyHttpReceivedStart.type] should be(1)
@@ -1317,7 +1317,7 @@ class Play23Scala211NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "(chunked) POST /post" in {
-      eventOneOfCheck[Int](expectedOptions = Map(229 -> 2, 230 -> 3, 231 -> 4), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
+      eventOneOfCheck[Int](expectedOptions = Map(227 -> 2, 228 -> 3, 229 -> 4, 230 -> 5, 231 -> 6), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
         // printTraces
         countTraces should be(1)
         countEventsOf[NettyHttpReceivedStart.type] should be(1)
@@ -1336,7 +1336,7 @@ class Play23Scala211NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "(file upload) POST /uploadFile" in {
-      eventOneOfCheck[Int](expectedOptions = Map(864 -> 4, 865 -> 5, 866 -> 6, 867 -> 7), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
+      eventOneOfCheck[Int](expectedOptions = Map(864 -> 5, 865 -> 6, 866 -> 7, 867 -> 8), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
         // printTraces
         countTraces should be(1)
         countEventsOf[NettyHttpReceivedStart.type] should be(1)
@@ -1355,7 +1355,7 @@ class Play23Scala211NettyPostTracingSpec extends EchoCollectSpec {
       }
     }
     "BAD (file upload) POST /uploadFile" in {
-      eventOneOfCheck[Int](expectedOptions = Map(78 -> 1, 79 -> 2, 80 -> 3, 81 -> 4, 82 -> 5), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
+      eventOneOfCheck[Int](expectedOptions = Map(78 -> 2, 79 -> 3, 80 -> 4, 81 -> 5, 82 -> 6), timeout = timeoutHandler.finiteTimeoutify(10.seconds)) { readBytesCount ⇒
         // printTraces
         countTraces should be(1)
         countEventsOf[NettyHttpReceivedStart.type] should be(1)

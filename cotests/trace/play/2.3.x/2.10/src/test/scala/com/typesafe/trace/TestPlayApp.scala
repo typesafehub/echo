@@ -194,11 +194,7 @@ object TestApplication {
 
       def showChunked(id: Int) = Action {
         Ok.chunked(
-          Enumerator((1 to 10).map({ i ⇒
-            val r = "chunk_" + i
-            println(r)
-            r
-          }): _*).andThen(Enumerator.eof))
+          Enumerator((1 to 10).map("chunk_" + _): _*).andThen(Enumerator.eof))
       }
 
       def showLarge = Action {

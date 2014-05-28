@@ -163,7 +163,7 @@ class Play23Scala211NettyPostTracingSpec extends ActionTraceNettySpec {
       val dir = System.getProperty("user.dir")
       val request = requestBuilder("POST", "http://localhost:9876/uploadFile")
       val part = new FilePart("picture.txt",
-        new File(dir + "/../common/src/test/sampleData/picture.txt"),
+        new File(dir + "/../../common/src/test/sampleData/picture.txt"),
         "text/plain",
         "UTF-8")
       request.addBodyPart(part)
@@ -177,7 +177,7 @@ class Play23Scala211NettyPostTracingSpec extends ActionTraceNettySpec {
     }
     "BAD (file upload) POST /uploadFile" in {
       val dir = System.getProperty("user.dir")
-      val r = await(WS.url("http://localhost:9876/uploadFile").post(new File(dir + "/../common/src/test/sampleData/picture.txt")))
+      val r = await(WS.url("http://localhost:9876/uploadFile").post(new File(dir + "/../../common/src/test/sampleData/picture.txt")))
       // println("********** BODY:" + r.body)
       r.status should be(BAD_REQUEST)
       eventCheck()
