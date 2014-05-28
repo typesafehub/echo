@@ -627,6 +627,7 @@ object EchoBuild extends Build {
         "-Dactivator.trace.use-system-metrics-monitor=off"
       ),
       javaOptions in Test += ("-Datmos.integrationtest=" + System.getProperty("atmos.integrationtest", "off")),
+      // javaOptions in Test ++= Seq("-verbose","-Xms768M","-Xmx2048M", "-Xss1500K"),
       // ignore deprecation warnings (intended usage of deprecated api)
       scalacOptions ~= { _ diff Seq("-deprecation") }
     )
