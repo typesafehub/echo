@@ -94,7 +94,7 @@ privileged aspect NettyTraceAspect {
       } else if (msg instanceof HttpResponse) {
         tracer.action().resultGenerationEnd();
         HttpResponse response = (HttpResponse) msg;
-        long length = HttpHeaders.getContentLength(response);
+        long length = HttpHeaders.getContentLength(response, 0L);
         Object r = proceed(encoder,ctx,channel,msg);
         if (r instanceof ChannelBuffer) {
           ChannelBuffer cb = (ChannelBuffer) r;

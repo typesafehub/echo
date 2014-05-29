@@ -818,7 +818,7 @@ class Play23Scala210NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /get/chunked/10" in {
-      eventCheck(expected = 759, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
+      eventCheck(expected = 746, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
         // printTraces
         // Unable to get stable data out of this
         countTraces should be(1)
@@ -830,7 +830,7 @@ class Play23Scala210NettyGetTracingSpec extends EchoCollectSpec {
         countEventsOf[ActionRouteRequest] should be(1)
         countEventsOf[ActionInvoked] should be(1)
         countEventsOf[ActionChunkedResult] should be(1)
-        countEventsOf[IterateeFolded] should be(245)
+        countEventsOf[IterateeFolded] should be(241)
         countEventsOf[NettyResponseHeader] should be(1)
         countEventsOf[NettyWriteChunk] should be(11)
         countEventsOf[NettyReadBytes] should be(1)
@@ -1173,7 +1173,7 @@ class Play23Scala211NettyGetTracingSpec extends EchoCollectSpec {
       }
     }
     "GET /get/chunked/10" in {
-      eventCheck(expected = 759, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
+      eventCheck(expected = 746, timeout = timeoutHandler.finiteTimeoutify(10.seconds)) {
         // printTraces
         // Unable to get stable data out of this
         countTraces should be(1)
@@ -1185,7 +1185,7 @@ class Play23Scala211NettyGetTracingSpec extends EchoCollectSpec {
         countEventsOf[ActionRouteRequest] should be(1)
         countEventsOf[ActionInvoked] should be(1)
         countEventsOf[ActionChunkedResult] should be(1)
-        countEventsOf[IterateeFolded] should be(245)
+        countEventsOf[IterateeFolded] should be(241)
         countEventsOf[NettyResponseHeader] should be(1)
         countEventsOf[NettyWriteChunk] should be(11)
         countEventsOf[NettyReadBytes] should be(1)
