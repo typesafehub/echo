@@ -121,7 +121,7 @@ object EchoBuild extends Build {
     base = file("trace/event"),
     dependencies = Seq(protocolProtobuf25),
     settings = defaultSettings ++ Seq(
-      name := "trace-event",
+      name := "trace-event-protobuf25",
       scalaVersion := Dependency.V.Scala211,
       crossPaths := true,
       target <<= target / "211-protobuf25",
