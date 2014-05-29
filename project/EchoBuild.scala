@@ -922,7 +922,7 @@ object Dependency {
     val Akka20         = "2.0.5"
     val Akka21         = "2.1.4"
     val Akka22         = "2.2.4"
-    val Akka23         = "2.3.2"
+    val Akka23         = "2.3.3"
     val Config         = "1.0.2"
     val Logback        = "1.0.13"
     val Play21         = "2.1.5"
