@@ -18,7 +18,7 @@ object EchoBuild extends Build {
       parallelExecution in GlobalScope := false
     ),
     aggregate = Seq(
-      trace, collect, cotests, sigarLibs
+      trace, collect, collect211, cotests, sigarLibs
     )
   )
 
@@ -397,6 +397,22 @@ object EchoBuild extends Build {
       libraryDependencies ++= Dependencies.collect
     )
   )
+
+  /**
+  NOTE: This is an exact copy of the collect code from the project above.
+  The only difference is that this project pulls in another version of Protobuf and Scala.
+  Since we want to do both, Protobuf and Scala, we can't simply cross compile the project above.
+  */
+  lazy val collect211 = Project(
+    id = "collect211",
+    base = file("collect211"),
+    dependencies = Seq(event211Protobuf25),
+    settings = defaultSettings ++ Seq(
+      name := "trace-collect211",
+      scalaVersion := Dependency.V.Scala211,    
+      libraryDependencies ++= Dependencies.collect211
+    )
+  )  
 
   lazy val cotests = Project(
     id = "cotests",
@@ -907,6 +923,11 @@ object Dependencies {
     Test.akkaTestKit, Test.scalatest, Test.junit
   )
 
+  val collect211 = Seq(
+    akkaSlf4j23, slf4j, logback,
+    Test.akkaTestKit23, Test.scalatest, Test.junit
+  )  
+
   val cotests29 = Seq(Test.scalatest29, Test.junit, Test.logback)
 
   val cotests = Seq(Test.scalatest, Test.junit, Test.logback)
@@ -938,6 +959,7 @@ object Dependency {
     val Slf4j          = "1.7.5"
   }
 
+  val akkaSlf4j23       = "com.typesafe.akka"         %% "akka-slf4j"         % V.Akka23
   val akkaSlf4j         = "com.typesafe.akka"         %% "akka-slf4j"         % V.Akka22
   val play21            = "play"                      %% "play"               % V.Play21
   val play22            = "com.typesafe.play"         %% "play"               % V.Play22
@@ -951,6 +973,7 @@ object Dependency {
   val slf4j             = "org.slf4j"                 % "slf4j-api"           % V.Slf4j
 
   object Test {
+    val akkaTestKit23 = "com.typesafe.akka"   %% "akka-testkit"            % V.Akka23      % "test"    
     val akkaTestKit   = "com.typesafe.akka"   %% "akka-testkit"            % V.Akka22      % "test"
     val junit         = "junit"               % "junit"                    % "4.5"         % "test"
     val logback       = "ch.qos.logback"      % "logback-classic"          % V.Logback     % "test"
