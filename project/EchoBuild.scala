@@ -757,7 +757,7 @@ object EchoBuild extends Build {
 
   // Settings
   lazy val versionSettings = SbtGit.versionWithGit ++ Seq(
-    SbtGit.git.baseVersion := "0.1.3"
+    SbtGit.git.baseVersion := "0.1.4"
   )
 
   lazy val buildSettings = versionSettings ++ Seq(
