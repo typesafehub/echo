@@ -409,10 +409,10 @@ object EchoBuild extends Build {
     dependencies = Seq(event211Protobuf25),
     settings = defaultSettings ++ Seq(
       name := "trace-collect211",
-      scalaVersion := Dependency.V.Scala211,    
+      scalaVersion := Dependency.V.Scala211,
       libraryDependencies ++= Dependencies.collect211
     )
-  )  
+  )
 
   lazy val cotests = Project(
     id = "cotests",
@@ -926,7 +926,7 @@ object Dependencies {
   val collect211 = Seq(
     akkaSlf4j23, slf4j, logback,
     Test.akkaTestKit23, Test.scalatest, Test.junit
-  )  
+  )
 
   val cotests29 = Seq(Test.scalatest29, Test.junit, Test.logback)
 
@@ -947,7 +947,7 @@ object Dependency {
     val Config         = "1.0.2"
     val Logback        = "1.0.13"
     val Play21         = "2.1.5"
-    val Play22         = "2.2.2"
+    val Play22         = "2.2.3"
     val Play23         = "2.3.0-RC2"
     val Protobuf24     = "2.4.1"
     val Protobuf25     = "2.5.0"
@@ -973,7 +973,7 @@ object Dependency {
   val slf4j             = "org.slf4j"                 % "slf4j-api"           % V.Slf4j
 
   object Test {
-    val akkaTestKit23 = "com.typesafe.akka"   %% "akka-testkit"            % V.Akka23      % "test"    
+    val akkaTestKit23 = "com.typesafe.akka"   %% "akka-testkit"            % V.Akka23      % "test"
     val akkaTestKit   = "com.typesafe.akka"   %% "akka-testkit"            % V.Akka22      % "test"
     val junit         = "junit"               % "junit"                    % "4.5"         % "test"
     val logback       = "ch.qos.logback"      % "logback-classic"          % V.Logback     % "test"

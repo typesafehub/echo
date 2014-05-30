@@ -190,23 +190,21 @@ privileged public aspect RemoteTraceAspect {
   // Remote send tracing
   // ----------------------------------------------------
 
-  ByteString around(AkkaPduCodec codec, Address localAddress, ActorRef recipient, SerializedMessage serializedMessage, Event fsmEvent):
+  ByteString around(AkkaPduCodec codec, Address localAddress, ActorRef recipient, SerializedMessage serializedMessage, Send send):
     execution(* akka.remote.transport.AkkaPduCodec+.constructMessage(..)) &&
     this(codec) &&
     args(localAddress, recipient, serializedMessage, ..) &&
-    cflow(execution (* akka.remote.EndpointWriter.processEvent(..)) && args(fsmEvent, ..))
+    cflow(execution (* akka.remote.EndpointWriter.writeSend(..)) && args(send))
   {
     ActorSystemTracer tracer = recipient.echo$tracer();
-    Object event = fsmEvent.event();
-    if (enabled(tracer) && recipient.echo$traceable() && event instanceof Send) {
-      Send send = (Send) event;
+    if (enabled(tracer) && recipient.echo$traceable()) {
       tracer.trace().local().start(send.echo$trace());
       TraceContext context = tracer.remote().sent(recipient.echo$info(), send.message(), serializedMessage.getSerializedSize());
       tracer.trace().local().end();
-      ByteString bytes = proceed(codec, localAddress, recipient, serializedMessage, fsmEvent);
+      ByteString bytes = proceed(codec, localAddress, recipient, serializedMessage, send);
       return RemoteTrace.attachTraceContext(bytes, context);
     } else {
-      return proceed(codec, localAddress, recipient, serializedMessage, fsmEvent);
+      return proceed(codec, localAddress, recipient, serializedMessage, send);
     }
   }
 
