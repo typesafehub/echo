@@ -20,10 +20,17 @@ class Akka21SchedulerSpec extends SchedulerSpec {
   val runnableCount = 2
 }
 
-class Akka22Scala210SchedulerSpec extends Akka22SchedulerSpec
-class Akka22Scala211SchedulerSpec extends Akka22SchedulerSpec
+class Akka22SchedulerSpec extends SchedulerSpec {
+  val setupCount = 20
+  val mainCount = 17
+  val scheduledCount = 0
+  val runnableCount = 2
+}
 
-abstract class Akka22SchedulerSpec extends SchedulerSpec {
+class Akka23Scala210SchedulerSpec extends Akka23SchedulerSpec
+class Akka23Scala211SchedulerSpec extends Akka23SchedulerSpec
+
+abstract class Akka23SchedulerSpec extends SchedulerSpec {
   val setupCount = 20
   val mainCount = 17
   val scheduledCount = 0
@@ -44,21 +51,21 @@ abstract class SchedulerSpec extends EchoCollectSpec {
       }
 
       eventCheck("main", expected = mainCount) {
-        countEventsOf[ActorTold] must be(3)
-        countEventsOf[ActorReceived] must be(3)
-        countEventsOf[ActorCompleted] must be(3)
-        countEventsOf[ScheduledOnce] must be(2)
-        countEventsOf[ScheduledStarted] must be(scheduledCount)
-        countEventsOf[ScheduledCompleted] must be(scheduledCount)
-        countEventsOf[RunnableScheduled] must be(runnableCount)
-        countEventsOf[RunnableStarted] must be(runnableCount)
-        countEventsOf[RunnableCompleted] must be(runnableCount)
+        countEventsOf[ActorTold] should be(3)
+        countEventsOf[ActorReceived] should be(3)
+        countEventsOf[ActorCompleted] should be(3)
+        countEventsOf[ScheduledOnce] should be(2)
+        countEventsOf[ScheduledStarted] should be(scheduledCount)
+        countEventsOf[ScheduledCompleted] should be(scheduledCount)
+        countEventsOf[RunnableScheduled] should be(runnableCount)
+        countEventsOf[RunnableStarted] should be(runnableCount)
+        countEventsOf[RunnableCompleted] should be(runnableCount)
 
         val completedEvents = eventsOf[ActorCompleted]
-        completedEvents.size must be(3)
+        completedEvents.size should be(3)
         // all same trace id
         val traceIds = completedEvents.map(_.trace).toSet
-        traceIds.size must be(1)
+        traceIds.size should be(1)
       }
 
       eventCheck("poison", expected = 18) {

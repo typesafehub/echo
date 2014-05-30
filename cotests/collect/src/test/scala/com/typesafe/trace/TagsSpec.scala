@@ -14,10 +14,14 @@ class Akka21TagsSpec extends TagsSpec {
   val eventCount = 47
 }
 
-class Akka22Scala210TagsSpec extends Akka22TagsSpec
-class Akka22Scala211TagsSpec extends Akka22TagsSpec
+class Akka22TagsSpec extends TagsSpec {
+  val eventCount = 47
+}
 
-abstract class Akka22TagsSpec extends TagsSpec {
+class Akka23Scala210TagsSpec extends Akka23TagsSpec
+class Akka23Scala211TagsSpec extends Akka23TagsSpec
+
+abstract class Akka23TagsSpec extends TagsSpec {
   val eventCount = 47
 }
 
@@ -30,9 +34,9 @@ abstract class TagsSpec extends EchoCollectSpec {
       eventCheck(expected = eventCount) {
         for (created ← annotationsOf[ActorCreated]) {
           if (created.info.path contains "tags1") {
-            created.info.tags must be(Set("all", "default", "tags", "1"))
+            created.info.tags should be(Set("all", "default", "tags", "1"))
           } else if (created.info.path contains "tags2") {
-            created.info.tags must be(Set("all", "default", "tags", "2"))
+            created.info.tags should be(Set("all", "default", "tags", "2"))
           }
         }
       }

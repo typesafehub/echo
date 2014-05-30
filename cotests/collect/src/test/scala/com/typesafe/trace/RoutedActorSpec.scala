@@ -6,10 +6,12 @@ package com.typesafe.trace
 
 import com.typesafe.trace.test.EchoCollectSpec
 
-class Akka22Scala210RoutedActorSpec extends Akka22RoutedActorSpec
-class Akka22Scala211RoutedActorSpec extends Akka22RoutedActorSpec
+class Akka22RoutedActorSpec extends AkkaRoutedActorSpec
 
-abstract class Akka22RoutedActorSpec extends EchoCollectSpec {
+class Akka23Scala210RoutedActorSpec extends AkkaRoutedActorSpec
+class Akka23Scala211RoutedActorSpec extends AkkaRoutedActorSpec
+
+abstract class AkkaRoutedActorSpec extends EchoCollectSpec {
 
   "Tracing" must {
     "trace routed actors" in {
@@ -18,14 +20,14 @@ abstract class Akka22RoutedActorSpec extends EchoCollectSpec {
       }
 
       eventCheck(expected = 4) {
-        countTraces must be(1)
+        countTraces should be(1)
 
-        countEventsOf[ActorTold] must be(2)
-        countEventsOf[ActorReceived] must be(1)
-        countEventsOf[ActorCompleted] must be(1)
+        countEventsOf[ActorTold] should be(2)
+        countEventsOf[ActorReceived] should be(1)
+        countEventsOf[ActorCompleted] should be(1)
 
         annotationsOf[ActorTold] foreach { a ⇒
-          a.info.router must be(a.info.path endsWith "user/pool")
+          a.info.router should be(a.info.path endsWith "user/pool")
         }
       }
     }

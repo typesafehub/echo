@@ -5,12 +5,11 @@ package com.typesafe.trace.util
 
 import com.typesafe.trace._
 import com.typesafe.trace.uuid.UUID
-import org.scalatest.matchers.{ ShouldMatchers, MustMatchers }
-import org.scalatest.WordSpec
+import org.scalatest.{ WordSpec, Matchers }
 import scala.collection.JavaConverters._
 
 @org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class ProtobufConverterSpec extends WordSpec with MustMatchers with ShouldMatchers {
+class ProtobufConverterSpec extends WordSpec with Matchers {
   val actorSystemName = "ProtobufConverterSpec"
 
   "ProtobufConverter" must {
@@ -21,8 +20,8 @@ class ProtobufConverterSpec extends WordSpec with MustMatchers with ShouldMatche
       val protoUuid2 = ProtobufConverter.toProtoUuid(uuid2)
       val result1 = ProtobufConverter.fromProtoUuid(protoUuid1)
       val result2 = ProtobufConverter.fromProtoUuid(protoUuid2)
-      result1 must equal(uuid1)
-      result2 must equal(uuid2)
+      result1 should equal(uuid1)
+      result2 should equal(uuid2)
     }
 
     "convert to protobuf for all annotation types" in {
@@ -218,22 +217,22 @@ class ProtobufConverterSpec extends WordSpec with MustMatchers with ShouldMatche
       // check event-by-event for better indication of what went wrong
       val eventPairs = deserialized.payload.flatMap(_.events).zip(batch.payload.flatMap(_.events))
       for (pair ← eventPairs)
-        pair._1 must equal(pair._2)
+        pair._1 should equal(pair._2)
       // check the whole thing for paranoia
-      deserialized must equal(batch)
+      deserialized should equal(batch)
     }
 
     "convert empty batch" in {
       val batch = Batch(Seq[TraceEvents]())
       val result = ProtobufConverter.fromProto(ProtobufConverter.toProto(batch))
-      result.payload.size must equal(0)
+      result.payload.size should equal(0)
     }
 
     "convert batch containing 1 empty trace events" in {
       val batch = Batch(Seq[TraceEvents](TraceEvents(Seq[TraceEvent]())))
       val result = ProtobufConverter.fromProto(ProtobufConverter.toProto(batch))
-      result.payload.size must equal(1)
-      result.payload.head.events.size must equal(0)
+      result.payload.size should equal(1)
+      result.payload.head.events.size should equal(0)
     }
 
     "convert batch containing 1 non-empty trace events" in {
@@ -256,52 +255,52 @@ class ProtobufConverterSpec extends WordSpec with MustMatchers with ShouldMatche
       val batch = Batch(Seq[TraceEvents](TraceEvents(Seq[TraceEvent](traceEventCreated, traceEventAsked))))
       val result = ProtobufConverter.fromProto(ProtobufConverter.toProto(batch))
 
-      result.payload.size must equal(1)
-      result.payload.head.events.size must equal(2)
+      result.payload.size should equal(1)
+      result.payload.head.events.size should equal(2)
 
       val created = result.payload.head.events.head
-      created.id must equal(te1UuidId)
-      created.trace must equal(te1UuidTrace)
-      created.local must equal(te1UuidLocal)
-      created.parent must equal(te1UuidParent)
-      created.node must equal("n1")
-      created.host must equal("h1")
-      created.timestamp must equal(te1Now)
-      created.nanoTime must equal(te1Now)
-      created.annotation.getClass must equal(classOf[ActorCreated])
+      created.id should equal(te1UuidId)
+      created.trace should equal(te1UuidTrace)
+      created.local should equal(te1UuidLocal)
+      created.parent should equal(te1UuidParent)
+      created.node should equal("n1")
+      created.host should equal("h1")
+      created.timestamp should equal(te1Now)
+      created.nanoTime should equal(te1Now)
+      created.annotation.getClass should equal(classOf[ActorCreated])
       val resultAC = created.annotation.asInstanceOf[ActorCreated]
-      resultAC.info.path must equal("a1")
-      resultAC.info.dispatcher.get must equal("d1")
-      resultAC.info.remote must be(true)
-      resultAC.info.router must be(false)
-      resultAC.info.tags.size must equal(0)
+      resultAC.info.path should equal("a1")
+      resultAC.info.dispatcher.get should equal("d1")
+      resultAC.info.remote should be(true)
+      resultAC.info.router should be(false)
+      resultAC.info.tags.size should equal(0)
 
       val asked = result.payload.head.events.tail.head
-      asked.id must equal(te2UuidId)
-      asked.trace must equal(te2UuidTrace)
-      asked.local must equal(te2UuidLocal)
-      asked.parent must equal(te2UuidParent)
-      asked.node must equal("n2")
-      asked.host must equal("h2")
-      asked.timestamp must equal(te2Now)
-      asked.nanoTime must equal(te2Now)
-      asked.annotation.getClass must equal(classOf[ActorAsked])
+      asked.id should equal(te2UuidId)
+      asked.trace should equal(te2UuidTrace)
+      asked.local should equal(te2UuidLocal)
+      asked.parent should equal(te2UuidParent)
+      asked.node should equal("n2")
+      asked.host should equal("h2")
+      asked.timestamp should equal(te2Now)
+      asked.nanoTime should equal(te2Now)
+      asked.annotation.getClass should equal(classOf[ActorAsked])
       val resultAA = asked.annotation.asInstanceOf[ActorAsked]
-      resultAA.info.path must equal("a2")
-      resultAA.info.dispatcher must be(None)
-      resultAA.info.remote must be(false)
-      resultAA.info.router must be(true)
-      resultAA.info.tags.size must equal(2)
-      resultAA.info.tags.contains("t1") must be(true)
-      resultAA.info.tags.contains("t2") must be(true)
+      resultAA.info.path should equal("a2")
+      resultAA.info.dispatcher should be(None)
+      resultAA.info.remote should be(false)
+      resultAA.info.router should be(true)
+      resultAA.info.tags.size should equal(2)
+      resultAA.info.tags.contains("t1") should be(true)
+      resultAA.info.tags.contains("t2") should be(true)
     }
 
     "convert batch containing 2 trace events" in {
       val batch = Batch(Seq[TraceEvents](TraceEvents(Seq[TraceEvent]()), TraceEvents(Seq[TraceEvent]())))
       val result = ProtobufConverter.fromProto(ProtobufConverter.toProto(batch))
-      result.payload.size must equal(2)
-      result.payload.head.events.size must equal(0)
-      result.payload.tail.head.events.size must equal(0)
+      result.payload.size should equal(2)
+      result.payload.head.events.size should equal(0)
+      result.payload.tail.head.events.size should equal(0)
     }
   }
 }

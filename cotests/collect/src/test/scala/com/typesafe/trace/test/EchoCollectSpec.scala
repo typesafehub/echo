@@ -8,7 +8,7 @@ import com.typesafe.trace._
 import com.typesafe.trace.store.{ MemoryTraceEventListener, MemoryTraceRepository }
 import com.typesafe.trace.util.EchoSpec
 import com.typesafe.config.{ Config, ConfigFactory }
-import org.scalatest.BeforeAndAfterEach
+import org.scalatest.{ BeforeAndAfterEach, Matchers }
 import java.util.concurrent.TimeUnit
 import scala.concurrent.duration._
 import scala.reflect.ClassTag
@@ -66,13 +66,13 @@ abstract class EchoCollectSpec(_config: Config = EchoCollectSpec.config) extends
     waitForEvents(expected, timeout = timeoutHandler.timeoutify(timeout), printAfterWait = printAfterWait)
     Thread.sleep(delay.toMillis)
     if (printOnError) {
-      try { countEvents must be(expected) }
+      try { countEvents should be(expected) }
       catch {
         case e: Exception ⇒
           printTraces
           throw e
       }
-    } else countEvents must be(expected)
+    } else countEvents should be(expected)
     checkEventTypes
     clearEvents()
     barrier(name + "-check-end")
@@ -84,13 +84,13 @@ abstract class EchoCollectSpec(_config: Config = EchoCollectSpec.config) extends
     waitForOneOfEvents(options, timeout = timeoutHandler.timeoutify(timeout), printAfterWait = printAfterWait)
     Thread.sleep(delay.toMillis)
     if (printOnError) {
-      try { options(countEvents) must be(true) }
+      try { options(countEvents) should be(true) }
       catch {
         case e: Exception ⇒
           printTraces
           throw e
       }
-    } else options(countEvents) must be(true)
+    } else options(countEvents) should be(true)
     checkEventTypes(expectedOptions(countEvents))
     clearEvents()
     barrier(name + "-check-end")

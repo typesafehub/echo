@@ -8,8 +8,9 @@ import com.typesafe.trace.test.EchoCollectSpec
 
 class Akka20EventStreamSpec extends EventStreamSpec
 class Akka21EventStreamSpec extends EventStreamSpec
-class Akka22Scala210EventStreamSpec extends EventStreamSpec
-class Akka22Scala211EventStreamSpec extends EventStreamSpec
+class Akka22EventStreamSpec extends EventStreamSpec
+class Akka23Scala210EventStreamSpec extends EventStreamSpec
+class Akka23Scala211EventStreamSpec extends EventStreamSpec
 
 abstract class EventStreamSpec extends EchoCollectSpec {
 
@@ -17,8 +18,8 @@ abstract class EventStreamSpec extends EchoCollectSpec {
 
     "capture all errors and warnings" in {
       eventCheck(expected = 8) {
-        countEventsOf[EventStreamError] must be(4)
-        countEventsOf[EventStreamWarning] must be(4)
+        countEventsOf[EventStreamError] should be(4)
+        countEventsOf[EventStreamWarning] should be(4)
       }
     }
 

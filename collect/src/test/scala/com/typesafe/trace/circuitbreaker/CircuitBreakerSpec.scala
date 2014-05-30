@@ -17,15 +17,14 @@ package com.typesafe.trace.circuitbreaker
 
 import com.typesafe.trace.circuitbreaker._
 import com.typesafe.trace.circuitbreaker.CircuitBreaker._
-import org.scalatest.matchers.MustMatchers
-import org.scalatest.WordSpec
+import org.scalatest.{ Matchers, WordSpec }
 
 /**
  * the TEST
  */
 
 @org.junit.runner.RunWith(classOf[org.scalatest.junit.JUnitRunner])
-class CircuitBreakerSpec extends WordSpec with MustMatchers {
+class CircuitBreakerSpec extends WordSpec with Matchers {
   "A CircuitBreaker" must {
 
     /**
@@ -46,7 +45,7 @@ class CircuitBreakerSpec extends WordSpec with MustMatchers {
        * 10 failures throwing IllegalArgumentException
        */
       for (i ← 1 to 10) {
-        evaluating { (new MyClass().my2Method) } must produce[java.lang.IllegalArgumentException]
+        an[java.lang.IllegalArgumentException] must be thrownBy { (new MyClass().my2Method) }
       }
 
       /**
@@ -54,7 +53,7 @@ class CircuitBreakerSpec extends WordSpec with MustMatchers {
        * 100ms (this is configured for CircuitBreaker "test")
        */
       for (i ← 1 to 10) {
-        evaluating { (new MyClass().my2Method) } must produce[CircuitBreakerOpenException]
+        an[CircuitBreakerOpenException] must be thrownBy { (new MyClass().my2Method) }
       }
 
       /**
@@ -65,13 +64,13 @@ class CircuitBreakerSpec extends WordSpec with MustMatchers {
       /**
        * CircuitBreaker should be half open then (after 100ms timeout)
        */
-      evaluating { (new MyClass().my2Method) } must produce[CircuitBreakerHalfOpenException]
+      an[CircuitBreakerHalfOpenException] must be thrownBy { (new MyClass().my2Method) }
 
       /**
        * still failing? then CircuitBreaker should be open again
        */
       for (i ← 1 to 10) {
-        evaluating { (new MyClass().my2Method) } must produce[CircuitBreakerOpenException]
+        an[CircuitBreakerOpenException] must be thrownBy { (new MyClass().my2Method) }
       }
     }
 

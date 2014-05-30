@@ -15,10 +15,14 @@ class Akka21TraceableSpec extends TraceableSpec {
   val createCount = 10
 }
 
-class Akka22Scala210TraceableSpec extends Akka22TraceableSpec
-class Akka22Scala211TraceableSpec extends Akka22TraceableSpec
+class Akka22TraceableSpec extends TraceableSpec {
+  val createCount = 10
+}
 
-abstract class Akka22TraceableSpec extends TraceableSpec {
+class Akka23Scala210TraceableSpec extends Akka23TraceableSpec
+class Akka23Scala211TraceableSpec extends Akka23TraceableSpec
+
+abstract class Akka23TraceableSpec extends TraceableSpec {
   val createCount = 10
 }
 
@@ -50,7 +54,7 @@ abstract class TraceableSpec extends EchoCollectSpec {
     "treat untraceable actors as the empty context" in {
       eventCheck(expected = 2 * createCount + 29) {
         val expectedTraces = 2
-        countTraces must be(expectedTraces)
+        countTraces should be(expectedTraces)
 
         // no events for untraceable actor
 
@@ -59,7 +63,7 @@ abstract class TraceableSpec extends EchoCollectSpec {
           case _                   ⇒ false
         })
 
-        untraceableEvents.size must be(0)
+        untraceableEvents.size should be(0)
       }
     }
 
