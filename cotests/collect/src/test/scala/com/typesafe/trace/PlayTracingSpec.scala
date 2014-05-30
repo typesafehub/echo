@@ -1043,7 +1043,7 @@ class Play23Scala210IterateeTracingSpec extends EchoCollectSpec {
 class Play23Scala210NettySamplingTracingSpec extends EchoCollectSpec {
   "Play trace sampling" must {
     "produce a sample in-line with sampling rate" in {
-      eventCheck(expected = 345) {
+      eventCheck(expected = 280) {
         // printTraces
         countTraces should be(5)
         countEventsOf[NettyPlayReceivedStart.type] should be(5)
@@ -1398,7 +1398,7 @@ class Play23Scala211IterateeTracingSpec extends EchoCollectSpec {
 class Play23Scala211NettySamplingTracingSpec extends EchoCollectSpec {
   "Play trace sampling" must {
     "produce a sample in-line with sampling rate" in {
-      eventCheck(expected = 345) {
+      eventCheck(expected = 280) {
         // printTraces
         countTraces should be(5)
         countEventsOf[NettyPlayReceivedStart.type] should be(5)
