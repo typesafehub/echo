@@ -952,7 +952,7 @@ object Dependency {
     val Protobuf24     = "2.4.1"
     val Protobuf25     = "2.5.0"
     val Scala29        = "2.9.2"
-    val Scala210       = "2.10.3"
+    val Scala210       = "2.10.4"
     val Scala211       = "2.11.1"
     val Scalatest      = "2.1.5"
     val Scalatest29    = "1.9.1"
