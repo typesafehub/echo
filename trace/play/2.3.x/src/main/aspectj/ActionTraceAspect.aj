@@ -133,8 +133,27 @@ privileged aspect ActionTraceAspect {
     }
   }
 
+ /*  Changed execution->call on trace of onRouteRequest
+  *
+  *  Seems to be a cause of trouble for some Play applications that use
+  *  javax.* classes.  Not exactly sure why, but followed suggestion found
+  *  here: http://www.eclipse.org/forums/index.php/t/206028/
+  *
+  *  Converting the 'execution' to a 'call' does not seem to have affected
+  *  the tests - all pass.  But it does now cause echo to weave properly into
+  *  this test application: https://github.com/andyczerwonka/tyrion
+  *
+  *  Without this change the aspectj weaver would issue a warning:
+  *
+  *  "warning javax.* types are not being woven because the weaver option '-Xset:weaveJavaxPackages=true' has not been specified"
+  *
+  *  Would be displayed and a single cutpoint:
+  *  public Option play.api.GlobalSettings+.onRouteRequest(RequestHeader)
+  *
+  *  Would fail.
+  */
   after(RequestHeader request) returning(Option handler):
-    execution(public Option play.api.GlobalSettings+.onRouteRequest(RequestHeader)) &&
+    call(public Option play.api.GlobalSettings+.onRouteRequest(RequestHeader)) &&
     args(request)
   {
     ActionTracer tracer = ActionTracer.global();
