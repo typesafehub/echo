@@ -787,7 +787,7 @@ object EchoBuild extends Build {
     publishTo <<= (version) { v => if (v endsWith "SNAPSHOT") typesafeRepo(snapshots) else typesafeRepo(releases) }
   }
 
-  def typesafeRepo(name: String) = Some(name at "https://private-repo.typesafe.com/typesafe/" + name)
+  def typesafeRepo(name: String) = Some(name at "http://private-repo.typesafe.com/typesafe/" + name)
 
   def noPublish = Seq(
     publish := {},
